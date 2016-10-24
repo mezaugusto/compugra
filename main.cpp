@@ -12,7 +12,6 @@
 #include "texture.h"
 #include "figuras.h"
 #include "Camera.h"
-
 #include "cmodel/CModel.h"
 
 //Solo para Visual Studio 2015
@@ -36,7 +35,6 @@ GLfloat m_amb1[] = { 0.0, 0.0, 0.0, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
 CTexture t_cielo;
-
 CFiguras mi;
 
 
@@ -66,7 +64,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	/* setup blending */
 	glEnable(GL_BLEND);			// Turn Blending On
     
-    t_cielo.LoadBMP("textures/sky.bmp");
+	t_cielo.LoadBMP("textures/sky.bmp");
 	t_cielo.BuildGLTexture();
 	t_cielo.ReleaseImage();
 
@@ -87,6 +85,34 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
   }
 }
 
+void uno() {}
+void dos() {}
+void tres(){}
+void cuatro(){}
+void cinco(){}
+void seis(){}
+void siete(){}
+void ocho(){}
+void nuevediez(){}
+void once(){}
+void doce(){}
+void trece(){}
+void catorce(){}
+void quince(){}
+void uno_ventanas(){}
+void dos_ventanas(){}
+void tres_ventanas(){}
+void cuatro_ventanas(){}
+void cinco_ventanas(){}
+void seis_ventanas(){}
+void siete_ventanas(){}
+void ocho_ventanas(){}
+void nuevediez_ventanas(){}
+void once_ventanas(){}
+void doce_ventanas(){}
+void trece_ventanas(){}
+void catorce_ventanas(){}
+void quince_ventanas(){}
 
 
 void display ( void )   // Creamos la funcion donde se dibuja
@@ -112,6 +138,38 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 		glPopMatrix();
+
+		glPushMatrix();
+			uno();
+			dos();
+			tres();
+			cuatro();
+			cinco();
+			seis();
+			siete();
+			ocho();
+			nuevediez();
+			once();
+			doce();
+			trece();
+			catorce();
+			quince();
+			uno_ventanas();
+			dos_ventanas();
+			tres_ventanas();
+			cuatro_ventanas();
+			cinco_ventanas();
+			seis_ventanas();
+			siete_ventanas();
+			ocho_ventanas();
+			nuevediez_ventanas();
+			once_ventanas();
+			doce_ventanas();
+			trece_ventanas();
+			catorce_ventanas();
+			quince_ventanas();
+		glPopMatrix();
+
 
 	glPopMatrix();
 
