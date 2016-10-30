@@ -24,17 +24,17 @@ GLfloat g_lookupdown = 0.0f;    // Look Position In The Z-Axis (NEW)
 
 int font=(int)GLUT_BITMAP_HELVETICA_18;
 
-GLfloat Diffuse[]= { 0.5f, 0.5f, 0.5f, 1.0f };				// Diffuse Light Values
+GLfloat Diffuse[]= { 0.7f, 0.7f, 0.7f, 1.0f };				// Diffuse Light Values
 GLfloat Specular[] = { 1.0, 1.0, 1.0, 1.0 };				// Specular Light Values
-GLfloat Position[]= { 0.0f, 27.0f, -5.0f, 0.0f };			// Light Position
+GLfloat Position[]= { 0.0f, 10.0f, -10.0f, 0.0f };			// Light Position
 GLfloat Position2[]= { 0.0f, 0.0f, -5.0f, 1.0f };			// Light Position
 
 GLfloat m_dif1[] = { 0.0f, 0.2f, 1.0f, 1.0f };				// Diffuse Light Values
 GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
-GLfloat m_amb1[] = { 0.0, 0.0, 0.0, 1.0 };				// Ambiental Light Values
+GLfloat m_amb1[] = {0.2, 0.2, 0.2, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
-CTexture t_cielo;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso;
 CFiguras mi;
 
 
@@ -48,7 +48,9 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	glShadeModel (GL_SMOOTH);
 	glLightfv(GL_LIGHT1, GL_POSITION, Position);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, Diffuse);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, m_amb1);
 	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT1);
 	glEnable(GL_LIGHT0);
 
 	glEnable ( GL_COLOR_MATERIAL );
@@ -62,14 +64,30 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	glEnable(GL_NORMALIZE);
 
 	/* setup blending */
-	glEnable(GL_BLEND);			// Turn Blending On
+	//glEnable(GL_BLEND);			// Turn Blending On
     
 	t_cielo.LoadBMP("textures/sky.bmp");
 	t_cielo.BuildGLTexture();
 	t_cielo.ReleaseImage();
 
+	whitebrick.LoadBMP("textures/white.bmp");
+	whitebrick.BuildGLTexture();
+	whitebrick.ReleaseImage();
 
-	objCamera.Position_Camera(10,2.5f,13, 10,2.5f,10, 0, 1, 0);
+	whitewall.LoadBMP("textures/whitewall.bmp");
+	whitewall.BuildGLTexture();
+	whitewall.ReleaseImage();
+
+	greyroof.LoadBMP("textures/greyroof.bmp");
+	greyroof.BuildGLTexture();
+	greyroof.ReleaseImage();
+
+	piso.LoadBMP("textures/floor.bmp");
+	piso.BuildGLTexture();
+	piso.ReleaseImage();
+
+
+	objCamera.Position_Camera(0,1.70,0, 0.5,1.70,0, 0, 1, 0);
 
 }
 
@@ -85,8 +103,43 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
   }
 }
 
-void uno() {}
-void dos() {}
+void uno() {
+	glPushMatrix();
+		glTranslatef(0.15+4.53+0.9+1.69+0.6+1.11+0.26,1.45+.04,0);
+		mi.pared(0.52, 2.9, 0.15, 0.2, 0.1, 2, whitebrick.GLindex);
+		glTranslatef(-0.26+0.075,0,0.285+0.075);
+		mi.pared(0.15, 2.9, 0.57, 0.1, 0.2, 2, whitebrick.GLindex);
+		glTranslatef(0, 0, 0.665+0.285);
+		mi.pared(0.15, 2.9, 1.33, 0.1, 2, 2, whitewall.GLindex);
+		glTranslatef(0.26,0,0.665-0.075);
+		mi.pared(0.37, 2.9, 0.15, 0.2, 0.1, 2, whitewall.GLindex);
+		glTranslatef(0.11+0.075, 0, -0.95);
+		mi.pared(0.01, 2.9, 2.05, 0.1, 1.3, 2, whitebrick.GLindex);
+		glTranslatef(-2.395+0.87, 0, -0.26-0.0375+0.025);
+		mi.pared(2.01, 2.9, 0.075, 2.5, 0.1, 2, 0,whitewall.GLindex,whitewall.GLindex,whitebrick.GLindex);
+		glTranslatef(1.875 - 1.11 - 0.075-0.87, 0, -0.26-0.137);
+		mi.pared(0.15, 2.9, 0.57+0.15, 0.1, 0.2, 2, whitebrick.GLindex);
+		glTranslatef(-0.60-0.25,0,0);
+		mi.pared(0.15, 2.9, 0.57 + 0.15, 0.1, 0.2, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitebrick.GLindex);
+		glTranslatef(-0.07 - 0.845, 0, -0.4+0.075);
+		mi.pared(1.69, 2.9, 0.075, 0.1, 0.2, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitebrick.GLindex);
+		glTranslatef(0.0375+0.01, 0, 0.7225);
+		mi.pared(1.69+0.075+0.02, 2.9, 0.075, 0.1, 0.2, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
+		glTranslatef(-0.8925+0.0375, 0, -0.0375-0.0375);
+		mi.pared(0.075, 2.9, 0.075, 0.2, 0.1, 2, whitewall.GLindex);
+		glTranslatef(0,0,0);
+	glPopMatrix();
+}
+void dos() {
+	glPushMatrix();
+		glTranslatef(0.15+4.53+2.825, 1.45,-6.0-.16);
+			mi.pared(5.65, 2.9,0.15, 4, 0.1, 2, whitebrick.GLindex);//pared exterior
+		glTranslatef(0,1.45+0.15,3);
+			mi.techo(5.65, 0.30, 6.15, greyroof.GLindex);//techo
+		glTranslatef(0, -3.2+0.15,0);
+			mi.techo(5.65, 0.075, 6.15, piso.GLindex);
+	glPopMatrix();
+}
 void tres(){}
 void cuatro(){}
 void cinco(){}
@@ -139,6 +192,24 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPopMatrix();
 		glPopMatrix();
 
+		glBegin(GL_LINES);
+		glColor3f(0, 0, 0);
+		glVertex3d(0,0,0);
+		glVertex3d(100, 0, 0);
+		glEnd();
+
+		glBegin(GL_LINES);
+		glColor3f(1, 1, 1);
+		glVertex3d(0, 0, 0);
+		glVertex3d(0, 100, 0);
+		glEnd();
+
+		glBegin(GL_LINES);
+		glColor3f(0.4, 0.4, 0.4);
+		glVertex3d(0, 0, 0);
+		glVertex3d(0, 0, 100);
+		glEnd();
+		
 		glPushMatrix();
 			uno();
 			dos();
@@ -169,7 +240,6 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			catorce_ventanas();
 			quince_ventanas();
 		glPopMatrix();
-
 
 	glPopMatrix();
 
