@@ -162,6 +162,7 @@ void ocho(){}
 //void techo(float largo, float altura, float profundidad, GLuint text);//Funcion creacion prisma
 
 void nuevediez(){
+	glTranslatef(0, 0, 0.085+0.15);
 	glPushMatrix();
 		glTranslatef(0.075, 2.90/2, 1.90 + 2.95 + (9.93 / 2));
 		mi.pared(0.15, 2.90, 9.93, 0, 4, 2,whitewall.GLindex, whitebrick.GLindex, 0,0);
@@ -178,8 +179,8 @@ void nuevediez(){
 	glPopMatrix();	
 
 	glPushMatrix();
-		glTranslatef(5.865, 2.90 + .15 +.40, 4.85+.075);
-		mi.techo(8.07, .80, 0.15, greyroof.GLindex);
+		glTranslatef(5.925, 2.90 + .30 +.40, 4.85+.075);
+		mi.techo(9.85+2, .80, 0.15, greyroof.GLindex);
 
 		glTranslatef(-3.96, 0, 5.715);
 		mi.techo(0.15, .80, 11.43+0.075, greyroof.GLindex);
