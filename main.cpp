@@ -105,7 +105,7 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
 
 void uno() {
 	glPushMatrix();
-		glTranslatef(9.85-0.26,1.45,0);
+		glTranslatef(9.85-0.26,1.45,0.009375);
 		mi.pared(0.52, 2.9, 0.15, 0.2, 0.1, 2, whitebrick.GLindex);
 		glTranslatef(-0.26+0.075,0,0.285+0.075);
 		mi.pared(0.15, 2.9, 0.57, 0.1, 0.2, 2, whitebrick.GLindex);
@@ -143,7 +143,7 @@ void uno() {
 }
 void dos() {
 	glPushMatrix();
-		glTranslatef(9.85-2.825, 1.45,-6.0-.16);
+		glTranslatef(9.85-2.825, 1.45,-6.0-.16+0.009375);
 			mi.pared(5.65, 2.9,0.15, 4, 0.1, 2, whitebrick.GLindex);//pared exterior
 		glTranslatef(0,1.45+0.15,3);
 			mi.techo(5.65, 0.30, 6.15, greyroof.GLindex);//techo
@@ -162,7 +162,8 @@ void ocho(){}
 //void techo(float largo, float altura, float profundidad, GLuint text);//Funcion creacion prisma
 
 void nuevediez(){
-	glTranslatef(0, 0, 0.085+0.15);
+	glPushMatrix();
+	glTranslatef(0, 0, 0.37);
 	glPushMatrix();
 		glTranslatef(0.075, 2.90/2, 1.90 + 2.95 + (9.93 / 2));
 		mi.pared(0.15, 2.90, 9.93, 0, 4, 2,whitewall.GLindex, whitebrick.GLindex, 0,0);
@@ -198,7 +199,7 @@ void nuevediez(){
 		glTranslatef(2.715, -.0375, 9.815);
 		mi.techo(5.43, 0.075, 9.93, piso.GLindex);
 	glPopMatrix();
-
+	glPopMatrix();
 
 }
 
@@ -207,8 +208,12 @@ void once(){}
 void doce(){}
 void trece(){
 	glPushMatrix();
-	glTranslatef(2.34, 1.45, -0.009375);
+	glTranslatef(2.34, 1.45, 0);
 	mi.pared(4.68, 2.9, 0.15, 2, 0.1, 2, whitebrick.GLindex);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(0.075, 1.45, 2.5+0.075);
+	mi.pared(0.15, 2.9, 5, 2, 0.1, 2, whitebrick.GLindex);
 	glPopMatrix();
 }
 void catorce(){}
@@ -216,7 +221,10 @@ void quince(){
 	glPushMatrix();
 	glTranslatef(11.85, 2.9 + 0.15, 7.5375);
 	mi.techo(4, 0.30, 15.225, greyroof.GLindex);
+	glTranslatef(0, 0.15 + 0.4, 1.1625);
+	mi.techo(0.15, .80, 12.9, greyroof.GLindex);
 	glPopMatrix();
+
 }
 void uno_ventanas(){}
 void dos_ventanas(){}
