@@ -31,7 +31,7 @@ GLfloat Position2[]= { 0.0f, 0.0f, -5.0f, 1.0f };			// Light Position
 
 GLfloat m_dif1[] = { 0.0f, 0.2f, 1.0f, 1.0f };				// Diffuse Light Values
 GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
-GLfloat m_amb1[] = {0.2, 0.2, 0.2, 1.0 };				// Ambiental Light Values
+GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
 CTexture t_cielo,whitebrick,whitewall,greyroof,piso;
@@ -146,7 +146,51 @@ void cinco(){}
 void seis(){}
 void siete(){}
 void ocho(){}
-void nuevediez(){}
+
+//void pared(float largo, float altura, float profundidad, float frontback (hacia la casa), float rightleft, float vertical, GLuint right, GLuint left=0, GLuint front=0, GLuint back=0);//Funcíon creacion prisma
+//void techo(float largo, float altura, float profundidad, GLuint text);//Funcion creacion prisma
+
+void nuevediez(){
+	glPushMatrix();
+		glTranslatef(0.075, 2.90/2, 1.90 + 2.95 + (9.93 / 2));
+		mi.pared(0.15, 2.90, 9.93, 0, 4, 2,whitewall.GLindex, whitebrick.GLindex, 0,0);
+	glPopMatrix();	
+
+	glPushMatrix();
+		glTranslatef(4.53/2, 2.90 / 2, 1.90 + 2.95 + 9.93-0.075);
+		mi.pared(4.53, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(2.715, 2.90 + .15, 9.815);
+		mi.techo(5.43, 0.30, 9.93, greyroof.GLindex);
+	glPopMatrix();	
+
+	glPushMatrix();
+		glTranslatef(5.865, 2.90 + .15 +.40, 4.85+.075);
+		mi.techo(8.07, .80, 0.15, greyroof.GLindex);
+
+		glTranslatef(-3.96, 0, 5.715);
+		mi.techo(0.15, .80, 11.43+0.075, greyroof.GLindex);
+
+		glTranslatef(1.25, 0, 0);
+		mi.techo(0.15, .80, 11.43 + 0.075, greyroof.GLindex);
+	glPopMatrix();
+
+	/*glPushMatrix();
+		glTranslatef((9.63-1.83)/2, 2.90 + .15 + .40, 10.73);
+		mi.techo(7.8, .80, .15, greyroof.GLindex);
+	glPopMatrix();*/
+
+	glPushMatrix();
+		glTranslatef(2.715, -.0375, 9.815);
+		mi.techo(5.43, 0.075, 9.93, piso.GLindex);
+	glPopMatrix();
+
+
+}
+
+
 void once(){}
 void doce(){}
 void trece(){}
