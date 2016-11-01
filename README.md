@@ -11,9 +11,9 @@ Checklist del proyecto
 	- [X] Alberca(Tecla o)
 	- [X] Isometrica(Tecla i)
 - [ ] Cuartos
-- [ ] Alberca
+- [X] Alberca
 - [ ] Techos
-- [ ] Alrededores c/pasto
+- [X] Alrededores c/pasto y carretera
 - [ ] Muebles
     - [ ] Estar-comedor (9-10)
         - [ ] mesa del comedor
@@ -49,14 +49,12 @@ Checklist del proyecto
         - [ ] laptop
         - [ ] plantas
         
-    - [ ] Domirtorio (5)
+    - [ ] Dormitorio (5)
         - [ ] cama con colcha y almohadas
         - [ ] sofá
         - [ ] 2 burós y lamparas
         - [ ] mueble con espejo
         - [ ] vestidor(6)
-         
-        
     - [ ] Garage (2) 
         - [ ] lavadora
         - [ ] medio baño
@@ -64,6 +62,7 @@ Checklist del proyecto
             - [ ] mueble de lava manos y espejo
 - [ ] Jardines
 - [ ] Animaciones
-	- [ ] 4 Animaciones normales
+	- [X] 1 Animación normal
+	- [ ] 3 Animaciones normales
 	- [ ] 1 Animación por keyframe
 - [ ] Manual de Uso
