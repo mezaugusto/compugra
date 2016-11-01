@@ -34,7 +34,7 @@ GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
-CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass;
 CFiguras mi;
 
 
@@ -89,6 +89,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	pool.LoadBMP("textures/pool.bmp");
 	pool.BuildGLTexture();
 	pool.ReleaseImage();
+
+	grass.LoadBMP("textures/grass.bmp");
+	grass.BuildGLTexture();
+	grass.ReleaseImage();
 
 
 	objCamera.Position_Camera(10,1.70,10, 10.5,1.70,10, 0, 1, 0);
@@ -216,18 +220,22 @@ void nuevediez(){
 void once(){
 	glPushMatrix();
 		glTranslatef(11.85+4, -0.0375-2, 7.5375 + 0.009375);
-		mi.techo(4, 0.075, 15.225, 5, 5, 1, pool.GLindex);
+		mi.techo(4, 0.075, 15.225, 2, 5, 1, pool.GLindex);
 	glPopMatrix();
 }
 void doce(){}
 void trece(){
 	glPushMatrix();
-	glTranslatef(2.34, 1.45, 0);
-	mi.pared(4.68, 2.9, 0.15, 3, 0.1, 2, whitebrick.GLindex);
+		glTranslatef(2.34, 1.45, 0);
+		mi.pared(4.68, 2.9, 0.15, 3, 0.1, 2, whitebrick.GLindex);
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(0.075, 1.45, 2.5+0.075);
-	mi.pared(0.15, 2.9, 5, 0.1, 3, 2, whitebrick.GLindex);
+		glTranslatef(0.075, 1.45, 2.5+0.075);
+		mi.pared(0.15, 2.9, 5, 0.1, 3, 2, whitebrick.GLindex);
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(2.34, -0.0375, 2.5);
+		mi.techo(4.68, 0.075, 5.15, 3, 3, 2, grass.GLindex);
 	glPopMatrix();
 }
 void catorce(){}
