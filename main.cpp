@@ -39,10 +39,10 @@ GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
-CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water;
 CFiguras mi;
-bool hatemusic = true;
-
+bool hatemusic = true,backwards=false;
+float movX = 0, movZ = 0,x=0;
 			
 void InitGL ( GLvoid )     // Inicializamos parametros
 {
@@ -102,6 +102,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	blue.LoadBMP("textures/blue.bmp");
 	blue.BuildGLTexture();
 	blue.ReleaseImage();
+
+	water.LoadTGA("textures/water.tga");
+	water.BuildGLTexture();
+	water.ReleaseImage();
 
 	grass.LoadBMP("textures/grass.bmp");
 	grass.BuildGLTexture();
@@ -241,9 +245,17 @@ void nuevediez(){
 
 
 void once(){
-	glPushMatrix();
+	glPushMatrix();//Alberca
 		glTranslatef(11.85+4, -0.0375-2, 7.5375 + 0.009375);
-		mi.techo(4, 0.075, 15.225, 2, 5, 1, pool.GLindex);
+		mi.techo(4, 0.075, 15.225, 2, 10, 1, pool.GLindex);
+		glTranslatef(2 - 0.0375, 1, 0);
+		mi.pared(0.075,2-0.075, 15.225-0.15,2,10,1,pool.GLindex);
+		glTranslatef(-4+0.075, 0, 0);
+		mi.pared(0.075, 2 - 0.075, 15.225 - 0.15, 2, 10, 1, pool.GLindex);
+		glTranslatef(2-0.0375,0, 7.6125-0.0375);
+		mi.pared(4, 2 - 0.075,0.075, 5, 2, 1, pool.GLindex);
+		glTranslatef(0, 0, -15.225+0.075);
+		mi.pared(4, 2 - 0.075, 0.075, 5, 2, 1, pool.GLindex);
 	glPopMatrix();
 	glPushMatrix();//Central grande
 		glTranslatef(9.85 + 4, -0.0375, -3.15);
@@ -319,7 +331,17 @@ void seis_ventanas(){}
 void siete_ventanas(){}
 void ocho_ventanas(){}
 void nuevediez_ventanas(){}
-void once_ventanas(){}
+void once_ventanas(){
+	glDisable(GL_LIGHTING);
+	glEnable(GL_BLEND);     // Turn Blending On
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_COLOR);
+		glPushMatrix();//Alberca
+			glTranslatef(11.85 + 4, -0.15+0.0375, 7.5375 + 0.009375);
+			mi.techomueve(4-0.15, 0.075, 15.225-0.15, 4,movX, 15,movZ, 1, water.GLindex);
+		glPopMatrix();
+	glDisable(GL_BLEND);        // Turn Blending Off
+	glEnable(GL_LIGHTING);
+}
 void doce_ventanas(){}
 void trece_ventanas(){}
 void catorce_ventanas(){}
@@ -415,6 +437,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 void animacion()
 {
+	if (x > 1000) x = 0;
+	x += 0.005;
+	movX = sin(x*2);
+	movZ = sin(x*2);
+	
+	//printf("%.2f %.2f\n", movX, movZ);
 	glutPostRedisplay();
 }
 
