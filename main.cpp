@@ -11,9 +11,14 @@
 
 #include "texture.h"
 #include "figuras.h"
+#include <iostream>
+#include <irrKlang.h>
 #include "Camera.h"
 #include "cmodel/CModel.h"
 
+#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
+irrklang::ISoundEngine* engine;
+irrklang::ISound* music;
 //Solo para Visual Studio 2015
 #if (_MSC_VER == 1900)
 #   pragma comment( lib, "legacy_stdio_definitions.lib" )
@@ -36,7 +41,7 @@ GLfloat m_s1[] = {18};
 
 CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass;
 CFiguras mi;
-
+bool hatemusic = false;
 
 			
 void InitGL ( GLvoid )     // Inicializamos parametros
@@ -94,7 +99,17 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	grass.BuildGLTexture();
 	grass.ReleaseImage();
 
-
+	/* Setup Sound*/
+	engine = irrklang::createIrrKlangDevice();
+	if (!engine) printf("No se pudo crear sonido");
+	if(!hatemusic) music = engine->play3D("sounds/lostinthought.flac",
+		irrklang::vec3df(10, 1.7, 10), true, false, true);
+	if (music) {
+		music->setMinDistance(3.0f);
+		music->setIsPaused(false); // unpause the sound
+	}
+	engine->setListenerPosition(irrklang::vec3df(10, 1.7, 10),irrklang::vec3df(10.5, 1.7, 10));
+	/*Camera initial position*/
 	objCamera.Position_Camera(10,1.70,10, 10.5,1.70,10, 0, 1, 0);
 
 }
@@ -381,6 +396,22 @@ void reshape ( int width , int height )   // Creamos funcion Reshape
 void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 {
 	switch ( key ) {
+		case 'f':   //Movimientos de camara
+		case 'F':
+			objCamera.Position_Camera(-6.39, 1.70, -4.8, -5.97, 1.7, -4.54, 0, 1, 0);
+			break;
+		case 'c':   //Movimientos de camara
+		case 'C':
+			objCamera.Position_Camera(1.5, 1.70, 11.89, 1.76, 1.7, 11.46, 0, 1, 0);
+			break;
+		case 'o':   //Movimientos de camara
+		case 'O':
+			objCamera.Position_Camera(13.74, 1.70, 17.27, 13.83, 1.7, 16.78, 0, 1, 0);
+			break;
+		case 'i':   //Movimientos de camara
+		case 'I':
+			objCamera.Position_Camera(20.55, 10.10, 18.83, 20.20, 10.10, 18.48, 0, 1, 0);
+			break;
 		case 'w':   //Movimientos de camara
 		case 'W':
 			objCamera.Move_Camera( CAMERASPEED+0.2 );
@@ -401,17 +432,25 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			objCamera.Strafe_Camera( CAMERASPEED+0.4 );
 			break;
 
+		case 'p':
+		case 'P':
+			printf("Pos x:%.2f\tPos y:%.2f\tPos z:%.2f\tView x:%.2f\tView y:%.2f\tView z:%.2f\t\n",
+				objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z, objCamera.mView.x, objCamera.mView.y, objCamera.mView.z);
+			break;
+
 		case ' ':		//Poner algo en movimiento
 					//Activamos/desactivamos la animacíon
 			break;
 
 		case 27:        // Cuando Esc es presionado...
+			if(!hatemusic) music->drop(); // release music stream.
+			engine->drop(); // delete engine
 			exit ( 0 );   // Salimos del programa
 			break;        
 		default:        // Cualquier otra
 			break;
   }
-
+  engine->setListenerPosition(irrklang::vec3df(objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z), irrklang::vec3df(objCamera.mView.x, objCamera.mView.y, objCamera.mView.z));
   glutPostRedisplay();
 }
 
