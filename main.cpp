@@ -34,7 +34,7 @@ GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
-CTexture t_cielo,whitebrick,whitewall,greyroof,piso;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool;
 CFiguras mi;
 
 
@@ -85,6 +85,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	piso.LoadBMP("textures/floor.bmp");
 	piso.BuildGLTexture();
 	piso.ReleaseImage();
+
+	pool.LoadBMP("textures/pool.bmp");
+	pool.BuildGLTexture();
+	pool.ReleaseImage();
 
 
 	objCamera.Position_Camera(0,1.70,0, 0.5,1.70,0, 0, 1, 0);
@@ -138,9 +142,9 @@ void uno() {
 	glPopMatrix();
 	glPushMatrix();
 	glTranslatef(7.265-0.24, 2.9+0.15, 2.575-0.075);
-	mi.techo(5.65, 0.3, 5.17, greyroof.GLindex);
+	mi.techo(5.65, 0.3, 5.17,5,5,1, greyroof.GLindex);
 	glTranslatef(0.24, -2.9 - 0.15 - 0.0375, 0);
-	mi.techo(5.17, 0.075, 5.17, piso.GLindex);
+	mi.techo(5.17, 0.075, 5.17, 5, 5, 1, piso.GLindex);
 	glPopMatrix();
 }
 void dos() {
@@ -148,9 +152,9 @@ void dos() {
 		glTranslatef(9.85-2.825, 1.45,-6.0-.16+0.009375);
 			mi.pared(5.65, 2.9,0.15, 4, 0.1, 2, whitebrick.GLindex);//pared exterior
 		glTranslatef(0,1.45+0.15,3);
-			mi.techo(5.65, 0.30, 6.15, greyroof.GLindex);//techo
+			mi.techo(5.65, 0.30, 6.15, 5, 5, 1, greyroof.GLindex);//techo
 		glTranslatef(-2.175+0.075, -2.9-0.15-0.0375,0);
-			mi.techo(9.85, 0.075, 6.15, piso.GLindex);
+			mi.techo(9.85, 0.075, 6.15, 5, 5, 1, piso.GLindex);
 	glPopMatrix();
 }
 void tres(){}
@@ -197,7 +201,7 @@ void nuevediez(){
 		glTranslatef((9.63-1.83)/2, 2.90 + .15 + .40, 10.73);
 		mi.techo(7.8, .80, .15, greyroof.GLindex);
 	glPopMatrix();*/
-
+	
 	glPushMatrix();
 		glTranslatef(2.715, -.0375, 9.815-0.075);
 		mi.techo(5.43, 0.075, 9.93+0.15, piso.GLindex);
@@ -207,7 +211,12 @@ void nuevediez(){
 }
 
 
-void once(){}
+void once(){
+	glPushMatrix();
+		glTranslatef(11.85+4, -0.0375-2, 7.5375 + 0.009375);
+		mi.techo(4, 0.075, 15.225, 5, 5, 1, pool.GLindex);
+	glPopMatrix();
+}
 void doce(){}
 void trece(){
 	glPushMatrix();
@@ -223,11 +232,11 @@ void catorce(){}
 void quince(){
 	glPushMatrix();
 	glTranslatef(11.85, 2.9 + 0.15, 7.5375+0.009375);
-	mi.techo(4, 0.30, 15.225, greyroof.GLindex);
+	mi.techo(4, 0.30, 15.225, 5, 5, 1, greyroof.GLindex);
 	glTranslatef(0, -2.9-0.15-.0375, 0);
-	mi.techo(4, 0.075, 15.225, piso.GLindex);
+	mi.techo(4, 0.075, 15.225, 5, 5, 1, piso.GLindex);
 	glTranslatef(0, +2.9 + 0.15 + .0375 + 0.15 + 0.4, 1.1625);
-	mi.techo(0.15, .80, 12.9, greyroof.GLindex);
+	mi.techo(0.15, .80, 12.9, 5, 5, 1, greyroof.GLindex);
 	glPopMatrix();
 
 }
