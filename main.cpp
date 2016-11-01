@@ -87,7 +87,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	piso.ReleaseImage();
 
 
-	objCamera.Position_Camera(0,1.70,0, 0.5,1.70,0, 0, 1, 0);
+	objCamera.Position_Camera(10,1.70,10, 10.5,1.70,10, 0, 1, 0);
 
 }
 
@@ -182,8 +182,9 @@ void nuevediez(){
 	glPopMatrix();	
 
 	glPushMatrix();
+		glTranslatef(0, 0, 0.009375);
 		glTranslatef(0,0,-0.15-0.15);
-		glTranslatef(5.925, 2.90 + .30 +.40, 4.85+.075);
+		glTranslatef(5.925- 0.009375, 2.90 + .30 +.40, 4.85+.075);
 		mi.techo(9.85+2, .80, 0.15, greyroof.GLindex);
 
 		glTranslatef(-3.96, 0, 5.715);
@@ -193,10 +194,11 @@ void nuevediez(){
 		mi.techo(0.15, .80, 11.43 + 0.075, greyroof.GLindex);
 	glPopMatrix();
 
-	/*glPushMatrix();
-		glTranslatef((9.63-1.83)/2, 2.90 + .15 + .40, 10.73);
-		mi.techo(7.8, .80, .15, greyroof.GLindex);
-	glPopMatrix();*/
+	glPushMatrix();
+		glTranslatef(0, 0, 0.009375);
+		glTranslatef(7.975-(0.0375/4), 2.90 + .30 + .40, 14.855-0.15);
+		mi.techo(11.8-(0.0375/2), .80, .15, greyroof.GLindex);
+	glPopMatrix();
 
 	glPushMatrix();
 		glTranslatef(2.715, -.0375, 9.815-0.075);
