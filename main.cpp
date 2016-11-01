@@ -182,7 +182,7 @@ void nuevediez(){
 
 	glPushMatrix();
 		glTranslatef(2.715, 2.90 + .15, 9.815-0.15);
-		mi.techo(5.43, 0.30, 9.93+0.30,5,5,1, greyroof.GLindex);
+		mi.techo(5.43+2.10+.075+0.075 + 0.075, 0.30, 9.93+0.30,5,5,1, greyroof.GLindex);
 	glPopMatrix();	
 
 	glPushMatrix();
@@ -206,7 +206,7 @@ void nuevediez(){
 
 	glPushMatrix();
 		glTranslatef(2.715, -.0375, 9.815-0.075);
-		mi.techo(5.43, 0.075, 9.93+0.15, 5, 5, 1, piso.GLindex);
+		mi.techo(5.43+2.325, 0.075, 9.93+0.15, 5, 5, 1, piso.GLindex);
 	glPopMatrix();
 	glPopMatrix();
 
@@ -219,7 +219,20 @@ void once(){
 		mi.techo(4, 0.075, 15.225, 5, 5, 1, pool.GLindex);
 	glPopMatrix();
 }
-void doce(){}
+void doce(){
+	glPushMatrix();
+	glTranslatef(11.85, 2.9 + 0.15, 7.5375 + 0.009375);
+	
+
+	glTranslatef((-2 - 4.27 + 0.075) / 2, 0, 7.6125 - 1);
+	mi.techo(4.27 + 0.075, 0.30, 2, 5, 5, 1, greyroof.GLindex);
+
+	glTranslatef(0, -2.90 -.075 - .075 - .0375, 0);
+	mi.techo(4.27 + 0.075, 0.075, 2, 5, 5, 1, piso.GLindex);
+
+	glPopMatrix();
+
+}
 void trece(){
 	glPushMatrix();
 	glTranslatef(2.34, 1.45, 0);
@@ -233,12 +246,16 @@ void trece(){
 void catorce(){}
 void quince(){
 	glPushMatrix();
-	glTranslatef(11.85, 2.9 + 0.15, 7.5375+0.009375);
+	glTranslatef(11.85, 2.9 + 0.15, 7.5375+0.009375);//techo
 	mi.techo(4, 0.30, 15.225, 5, 5, 1, greyroof.GLindex);
-	glTranslatef(0, -2.9-0.15-.0375, 0);
+
+	glTranslatef(0, -2.9-0.15-.0375, 0);//piso
 	mi.techo(4, 0.075, 15.225, 5, 5, 1, piso.GLindex);
-	glTranslatef(0, +2.9 + 0.15 + .0375 + 0.15 + 0.4, 1.1625);
+
+	glTranslatef(0, +2.9 + 0.15 + .0375 + 0.15 + 0.4, 1.1625);//viga
 	mi.techo(0.15, .80, 12.9, 5, 5, 1, greyroof.GLindex);
+
+
 	glPopMatrix();
 
 }
