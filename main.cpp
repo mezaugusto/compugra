@@ -41,7 +41,7 @@ GLfloat m_s1[] = {18};
 
 CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass;
 CFiguras mi;
-bool hatemusic = false;
+bool hatemusic = true;
 
 			
 void InitGL ( GLvoid )     // Inicializamos parametros
@@ -71,7 +71,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	/* setup blending */
 	//glEnable(GL_BLEND);			// Turn Blending On
     
-	t_cielo.LoadBMP("textures/sky.bmp");
+	t_cielo.LoadBMP("textures/sky2.bmp");
 	t_cielo.BuildGLTexture();
 	t_cielo.ReleaseImage();
 
@@ -201,7 +201,7 @@ void nuevediez(){
 
 	glPushMatrix();
 		glTranslatef(2.715, 2.90 + .15, 9.815-0.15);
-		mi.techo(5.43+2.10+.075+0.075 + 0.075, 0.30, 9.93+0.30,5,5,1, greyroof.GLindex);
+		mi.techo(5.43, 0.30, 9.93+0.30,5,5,1, greyroof.GLindex);
 	glPopMatrix();	
 
 	glPushMatrix();
@@ -225,7 +225,7 @@ void nuevediez(){
 
 	glPushMatrix();
 		glTranslatef(2.715, -.0375, 9.815-0.075);
-		mi.techo(5.43+2.325, 0.075, 9.93+0.15, 5, 5, 1, piso.GLindex);
+		mi.techo(5.43, 0.075, 9.93+0.15, 5, 5, 1, piso.GLindex);
 	glPopMatrix();
 	glPopMatrix();
 
@@ -237,21 +237,22 @@ void once(){
 		glTranslatef(11.85+4, -0.0375-2, 7.5375 + 0.009375);
 		mi.techo(4, 0.075, 15.225, 2, 5, 1, pool.GLindex);
 	glPopMatrix();
-}
-void doce(){
 	glPushMatrix();
-	glTranslatef(11.85, 2.9 + 0.15, 7.5375 + 0.009375);
-	
-
-	glTranslatef((-2 - 4.27 + 0.075) / 2, 0, 7.6125 - 1);
-	mi.techo(4.27 + 0.075, 0.30, 2, 5, 5, 1, greyroof.GLindex);
-
-	glTranslatef(0, -2.90 -.075 - .075 - .0375, 0);
-	mi.techo(4.27 + 0.075, 0.075, 2, 5, 5, 1, piso.GLindex);
-
+		glTranslatef(9.85 + 4, -0.0375, -3.15);
+		mi.techo(8, 0.075, 6.15, 3, 3, 2, grass.GLindex);
+		glTranslatef(0, 0, 24.4875+0.009375+0.0375);
+		mi.techo(8, 0.075, 12.45, 3, 3, 2, grass.GLindex);
+		glTranslatef(4+6.075,0,-10.6875);
+		mi.techo(12.15, 0.075, 33.825, 3, 3, 2, grass.GLindex);
 	glPopMatrix();
-
+	glPushMatrix();
+		glTranslatef(15, -0.0375, -6.225-1.19375-.15-.0375);
+		mi.techo(30, 0.075, 2.3875+.3+.075, 3, 3, 2, grass.GLindex);
+		glTranslatef(0, 0, 30+5+2-0.15+0.0375);
+		mi.techo(30, 0.075, 2.3875 + .3 + .15+0.5, 3, 3, 2, grass.GLindex);
+	glPopMatrix();
 }
+void doce(){}
 void trece(){
 	glPushMatrix();
 		glTranslatef(2.34, 1.45, 0);
@@ -269,16 +270,12 @@ void trece(){
 void catorce(){}
 void quince(){
 	glPushMatrix();
-	glTranslatef(11.85, 2.9 + 0.15, 7.5375+0.009375);//techo
+	glTranslatef(11.85, 2.9 + 0.15, 7.5375+0.009375);
 	mi.techo(4, 0.30, 15.225, 5, 5, 1, greyroof.GLindex);
-
-	glTranslatef(0, -2.9-0.15-.0375, 0);//piso
+	glTranslatef(0, -2.9-0.15-.0375, 0);
 	mi.techo(4, 0.075, 15.225, 5, 5, 1, piso.GLindex);
-
-	glTranslatef(0, +2.9 + 0.15 + .0375 + 0.15 + 0.4, 1.1625);//viga
+	glTranslatef(0, +2.9 + 0.15 + .0375 + 0.15 + 0.4, 1.1625);
 	mi.techo(0.15, .80, 12.9, 5, 5, 1, greyroof.GLindex);
-
-
 	glPopMatrix();
 
 }
@@ -316,8 +313,8 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		glPushMatrix();		
 			glPushMatrix(); //Creamos cielo
 				glDisable(GL_LIGHTING);
-				glTranslatef(0,60,0);
-				mi.skybox(130.0, 130.0, 130.0,t_cielo.GLindex);
+				glTranslatef(10,30-0.075-2,11);
+				mi.skybox(40.0, 60.0, 40.0,t_cielo.GLindex);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 		glPopMatrix();
@@ -467,6 +464,7 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 		default:        // Cualquier otra
 			break;
   }
+  if(!hatemusic)
   engine->setListenerPosition(irrklang::vec3df(objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z), irrklang::vec3df(objCamera.mView.x, objCamera.mView.y, objCamera.mView.z));
   glutPostRedisplay();
 }
