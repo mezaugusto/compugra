@@ -39,7 +39,7 @@ GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
-CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue;
 CFiguras mi;
 bool hatemusic = true;
 
@@ -94,6 +94,14 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	pool.LoadBMP("textures/pool.bmp");
 	pool.BuildGLTexture();
 	pool.ReleaseImage();
+
+	road.LoadBMP("textures/road.bmp");
+	road.BuildGLTexture();
+	road.ReleaseImage();
+
+	blue.LoadBMP("textures/blue.bmp");
+	blue.BuildGLTexture();
+	blue.ReleaseImage();
 
 	grass.LoadBMP("textures/grass.bmp");
 	grass.BuildGLTexture();
@@ -237,7 +245,7 @@ void once(){
 		glTranslatef(11.85+4, -0.0375-2, 7.5375 + 0.009375);
 		mi.techo(4, 0.075, 15.225, 2, 5, 1, pool.GLindex);
 	glPopMatrix();
-	glPushMatrix();
+	glPushMatrix();//Central grande
 		glTranslatef(9.85 + 4, -0.0375, -3.15);
 		mi.techo(8, 0.075, 6.15, 3, 3, 2, grass.GLindex);
 		glTranslatef(0, 0, 24.4875+0.009375+0.0375);
@@ -245,11 +253,15 @@ void once(){
 		glTranslatef(4+6.075,0,-10.6875);
 		mi.techo(12.15, 0.075, 33.825, 3, 3, 2, grass.GLindex);
 	glPopMatrix();
-	glPushMatrix();
+	glPushMatrix();//Laterales
 		glTranslatef(15, -0.0375, -6.225-1.19375-.15-.0375);
 		mi.techo(30, 0.075, 2.3875+.3+.075, 3, 3, 2, grass.GLindex);
 		glTranslatef(0, 0, 30+5+2-0.15+0.0375);
 		mi.techo(30, 0.075, 2.3875 + .3 + .15+0.5, 3, 3, 2, grass.GLindex);
+	glPopMatrix();
+	glPushMatrix();//Road
+		glTranslatef(-5,0,11);
+		mi.techo(10, 0.075, 40, 1, 2, 0.1, road.GLindex);
 	glPopMatrix();
 }
 void doce(){}
@@ -314,7 +326,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPushMatrix(); //Creamos cielo
 				glDisable(GL_LIGHTING);
 				glTranslatef(10,30-0.075-2,11);
-				mi.skybox(40.0, 60.0, 40.0,t_cielo.GLindex);
+				mi.skybox(40.0, 60.0, 40.0,t_cielo.GLindex,blue.GLindex);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 		glPopMatrix();
