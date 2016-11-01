@@ -15,6 +15,53 @@ Checklist del proyecto
 - [ ] Techos
 - [ ] Alrededores c/pasto
 - [ ] Muebles
+    - [ ] Estar-comedor (9-10)
+        - [ ] mesa del comedor
+         - [ ] 10 sillas del comedor
+         - [ ] sofá
+         - [ ] mesita
+         - [ ] 2 sofás individuales
+         - [ ] television
+         
+    - [ ] Cocina (1)
+        - [ ] mueble de lava trastes   
+        - [ ] alacena
+        - [ ] desayunador
+        - [ ] refrigerador
+        - [ ] sillas
+        - [ ] estufa
+
+    - [ ] Baños (6 y 7)
+        - [ ] ducha
+        - [ ] retrete
+        - [ ] mueble con lava manos
+        - [ ] tina
+        - [ ] espejo
+        - [ ] toalla
+        - [ ] bote 
+        
+    - [ ] Escritorio (3)
+        - [ ] mesa de escritorio
+        - [ ] 2 asientos de escritorio
+        - [ ] un sofá
+        - [ ] librero y libros
+        - [ ] lámpara
+        - [ ] laptop
+        - [ ] plantas
+        
+    - [ ] Domirtorio (5)
+        - [ ] cama con colcha y almohadas
+        - [ ] sofá
+        - [ ] 2 burós y lamparas
+        - [ ] mueble con espejo
+        - [ ] vestidor(6)
+         
+        
+    - [ ] Garage (2) 
+        - [ ] lavadora
+        - [ ] medio baño
+            - [ ] retrete
+            - [ ] mueble de lava manos y espejo
 - [ ] Jardines
 - [ ] Animaciones
 	- [ ] 4 Animaciones normales
