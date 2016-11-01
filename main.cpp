@@ -252,7 +252,26 @@ void once(){
 		mi.techo(30, 0.075, 2.3875 + .3 + .15+0.5, 3, 3, 2, grass.GLindex);
 	glPopMatrix();
 }
-void doce(){}
+void doce(){
+	
+	
+
+	glPushMatrix();
+		glTranslatef(7.64, -0.0375, 9.225-.075-0.0375);//pasto12
+		mi.techo(4.27+.15, 0.075, 8+0.075, 3, 3, 2, grass.GLindex);
+
+		glTranslatef(0, 0, 5+0.0375);//piso pasillo de 12
+		mi.techo(4.27 + .15, .075, 2, 5, 5, 1, piso.GLindex);
+
+		glTranslatef(0, 2.9 + 0.15+.0375, 0);
+		mi.techo(4.27 + .15, 0.30, 2, 5, 5, 1, greyroof.GLindex);
+
+
+
+
+	glPopMatrix();
+}
+
 void trece(){
 	glPushMatrix();
 		glTranslatef(2.34, 1.45, 0);
