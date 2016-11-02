@@ -18,6 +18,7 @@ class CFiguras
 	void cono(float altura, float radio, int resolucion, GLuint text);		//Funcíon creacion cono
 	void prisma_anun (GLuint text, GLuint text2);							//Funcíon creacion movimiento
 	void prisma (float altura, float largo, float profundidad, GLuint text);//Funcíon creacion prisma
+	void arbol(float altura,float radio,GLuint arbol);
 	void pared(float largo, float altura, float profundidad, float frontback, float rightleft, float vertical, GLuint right, GLuint left=0, GLuint front=0, GLuint back=0);//Funcíon creacion prisma
 	void techo(float largo, float altura, float profundidad, float vertical, float horizontal,float side, GLuint top, GLuint bottom = 0, GLuint sides = 0);//Funcíon creacion prisma
 	void techomueve(float largo, float altura, float profundidad, float vertical,float verticalMoving, float horizontal, float horizontalMoving, float side, GLuint top, GLuint bottom = 0, GLuint sides = 0);//Funcíon creacion prisma

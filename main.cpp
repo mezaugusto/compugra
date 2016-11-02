@@ -39,7 +39,7 @@ GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
-CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window;
 CFiguras mi;
 bool hatemusic = true,backwards=false;
 float movX = 0, movZ = 0,x=0;
@@ -91,9 +91,9 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	piso.BuildGLTexture();
 	piso.ReleaseImage();
 
-	pool.LoadBMP("textures/pool.bmp");
-	pool.BuildGLTexture();
-	pool.ReleaseImage();
+	tile.LoadBMP("textures/tile.bmp");
+	tile.BuildGLTexture();
+	tile.ReleaseImage();
 
 	road.LoadBMP("textures/road.bmp");
 	road.BuildGLTexture();
@@ -103,7 +103,15 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	blue.BuildGLTexture();
 	blue.ReleaseImage();
 
-	water.LoadTGA("textures/water.tga");
+	window.LoadTGA("textures/window.tga");
+	window.BuildGLTexture();
+	window.ReleaseImage();
+
+	tree.LoadTGA("textures/tree.tga");
+	tree.BuildGLTexture();
+	tree.ReleaseImage();
+
+	water.LoadBMP("textures/water.bmp");
 	water.BuildGLTexture();
 	water.ReleaseImage();
 
@@ -111,6 +119,9 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	grass.BuildGLTexture();
 	grass.ReleaseImage();
 
+	pool.LoadBMP("textures/pool.bmp");
+	pool.BuildGLTexture();
+	pool.ReleaseImage();
 	/* Setup Sound*/
 	engine = irrklang::createIrrKlangDevice();
 	if (!engine) printf("No se pudo crear sonido");
@@ -250,12 +261,20 @@ void once(){
 		mi.techo(4, 0.075, 15.225, 2, 10, 1, pool.GLindex);
 		glTranslatef(2 - 0.0375, 1, 0);
 		mi.pared(0.075,2-0.075, 15.225-0.15,2,10,1,pool.GLindex);
-		glTranslatef(-4+0.075, 0, 0);
+		glTranslatef(0, 1, 0);
+		mi.pared(0.075, 0.075, 15.225 - 0.15, 10, 30, 0.1, tile.GLindex);
+		glTranslatef(-4+0.075, -1, 0);
 		mi.pared(0.075, 2 - 0.075, 15.225 - 0.15, 2, 10, 1, pool.GLindex);
-		glTranslatef(2-0.0375,0, 7.6125-0.0375);
+		glTranslatef(0, 1, 0);
+		mi.pared(0.075, 0.075, 15.225 - 0.15, 10, 30, 0.1, tile.GLindex);
+		glTranslatef(2-0.0375,-1, 7.6125-0.0375);
 		mi.pared(4, 2 - 0.075,0.075, 5, 2, 1, pool.GLindex);
-		glTranslatef(0, 0, -15.225+0.075);
+		glTranslatef(0, 1, 0);
+		mi.pared(4, 0.075, 0.075, 1, 0.1, 10, tile.GLindex);
+		glTranslatef(0, -1, -15.225+0.075);
 		mi.pared(4, 2 - 0.075, 0.075, 5, 2, 1, pool.GLindex);
+		glTranslatef(0, 1, 0);
+		mi.pared(4, 0.075, 0.075, 1, 0.1, 10, tile.GLindex);
 	glPopMatrix();
 	glPushMatrix();//Central grande
 		glTranslatef(9.85 + 4, -0.0375, -3.15);
@@ -336,14 +355,31 @@ void once_ventanas(){
 	glEnable(GL_BLEND);     // Turn Blending On
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_COLOR);
 		glPushMatrix();//Alberca
-			glTranslatef(11.85 + 4, -0.15+0.0375, 7.5375 + 0.009375);
-			mi.techomueve(4-0.15, 0.075, 15.225-0.15, 4,movX, 15,movZ, 1, water.GLindex);
+			glTranslatef(11.85 + 4, -0.15-1+0.075, 7.5375 + 0.009375);
+			mi.techomueve(4-0.15, 2, 15.225-0.15, 4,movX, 15,movZ, 1, water.GLindex);
 		glPopMatrix();
+
 	glDisable(GL_BLEND);        // Turn Blending Off
 	glEnable(GL_LIGHTING);
 }
 void doce_ventanas(){}
-void trece_ventanas(){}
+void trece_ventanas(){
+	/*glDisable(GL_LIGHTING);
+	glEnable(GL_BLEND);     // Turn Blending On
+	glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+	glPushMatrix();
+	glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075);
+	glRotatef(90, 0, 1, 0);
+	mi.pared(0.001, 2.9, 4.53, 0, 5, 1, window.GLindex, window.GLindex, 0, 0);
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(0.15+4.53, 1.45, 2.5 + 0.075);
+		mi.pared(0.001, 2.9, 5, 0, 4, 1, window.GLindex, window.GLindex,0,0);
+	glPopMatrix();
+	glDisable(GL_BLEND);        // Turn Blending Off
+	glEnable(GL_LIGHTING);*/
+
+}
 void catorce_ventanas(){}
 void quince_ventanas(){}
 
@@ -471,18 +507,22 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 	switch ( key ) {
 		case 'f':   //Movimientos de camara
 		case 'F':
+			g_lookupdown = 3;
 			objCamera.Position_Camera(-6.39, 1.70, -4.8, -5.97, 1.7, -4.54, 0, 1, 0);
 			break;
 		case 'c':   //Movimientos de camara
 		case 'C':
+			g_lookupdown = 2;
 			objCamera.Position_Camera(1.5, 1.70, 11.89, 1.76, 1.7, 11.46, 0, 1, 0);
 			break;
 		case 'o':   //Movimientos de camara
 		case 'O':
+			g_lookupdown = 6;
 			objCamera.Position_Camera(13.74, 1.70, 17.27, 13.83, 1.7, 16.78, 0, 1, 0);
 			break;
 		case 'i':   //Movimientos de camara
 		case 'I':
+			g_lookupdown = 29;
 			objCamera.Position_Camera(20.55, 10.10, 18.83, 20.20, 10.10, 18.48, 0, 1, 0);
 			break;
 		case 'w':   //Movimientos de camara
@@ -507,8 +547,8 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 
 		case 'p':
 		case 'P':
-			printf("Pos x:%.2f\tPos y:%.2f\tPos z:%.2f\tView x:%.2f\tView y:%.2f\tView z:%.2f\t\n",
-				objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z, objCamera.mView.x, objCamera.mView.y, objCamera.mView.z);
+			printf("Pos x:%.2f\tPos y:%.2f\tPos z:%.2f\tView x:%.2f\tView y:%.2f\tView z:%.2f\tLookupdown:%.2f\n",
+				objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z, objCamera.mView.x, objCamera.mView.y, objCamera.mView.z, g_lookupdown);
 			break;
 
 		case ' ':		//Poner algo en movimiento
@@ -532,6 +572,7 @@ void arrow_keys ( int a_keys, int x, int y )  // Funcion para manejo de teclas e
 {
   switch ( a_keys ) {
 	case GLUT_KEY_PAGE_UP:
+		
 		objCamera.UpDown_Camera(CAMERASPEED);
 		break;
 
