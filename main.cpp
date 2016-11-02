@@ -127,8 +127,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	wood1.BuildGLTexture();
 	wood1.ReleaseImage();
 
-
->>>>>>> 42ce3efebc6dd301320e46b23f5d9a343c8e19fe
+//>>>>>>> 42ce3efebc6dd301320e46b23f5d9a343c8e19fe
 	/* Setup Sound*/
 	engine = irrklang::createIrrKlangDevice();
 	if (!engine) printf("No se pudo crear sonido");
@@ -241,10 +240,10 @@ void tres(){
 		
 		glPushMatrix();
 			glTranslatef(0, 0, 1.0875);
-			mi.pared(0.15, 2.90, 2.175, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, 0, 0);
+			mi.pared(0.15, 2.90, 2.175, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
 			glPushMatrix();
 				glTranslatef(-.075-4-.075, 0, 0);
-				mi.pared(0.15, 2.90, 2.175, 0, 4, 2, whitewall.GLindex, whitewall.GLindex, 0, 0);
+				mi.pared(0.15, 2.90, 2.175, 0, 4, 2, whitewall.GLindex, 0, 0, 0);
 			glPopMatrix();
 		glPopMatrix();
 
@@ -255,7 +254,7 @@ void tres(){
 
 		glPushMatrix();
 			glTranslatef(-.075-2, 0, 0.075 + 3 + 0.075/2);
-			mi.pared(4.0, 2.90, 0.075, 0, 4, 2, whitewall.GLindex, whitewall.GLindex, 0, 0);
+			mi.pared(4.0, 2.90, 0.075, 0, 4, 2, whitewall.GLindex, 0, 0, 0);
 		glPopMatrix();
 
 	glPopMatrix();
@@ -266,7 +265,7 @@ void cuatro(){
 
 		glPushMatrix();
 			glTranslatef(0,0, 0.3375);
-			mi.pared(0.15, 2.90, 0.675, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, 0, 0);
+			mi.pared(0.15, 2.90, 0.675, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
 			glPushMatrix();
 				glTranslatef(-.075 - 4 - .075, 0, 0);
 				mi.pared(0.15, 2.90, 0.675, 0, 4, 2, whitewall.GLindex, 0, 0, 0);
@@ -280,7 +279,7 @@ void cuatro(){
 
 		glPushMatrix();
 			glTranslatef(-2.075, 0, 0.075 + 1.5 + .075);
-			mi.pared(4.3, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitewall.GLindex, 0, 0);
+			mi.pared(4.3, 2.90, 0.15, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
 		glPopMatrix();
 	glPopMatrix();
 }
@@ -306,10 +305,10 @@ void seis(){
 	
 		glPushMatrix();
 			glTranslatef(0, 0, 0.375);
-			mi.pared(0.15, 2.90, .75, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, 0, 0);
+			mi.pared(0.15, 2.90, .75, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
 			glPushMatrix();
 				glTranslatef(-.075-3-.075, 0, 0);
-				mi.pared(0.15, 2.90, .75, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, 0, 0);
+				mi.pared(0.15, 2.90, .75, 0, 4, 2, whitewall.GLindex, 0, 0, 0);
 			glPopMatrix();
 		glPopMatrix();
 
@@ -320,12 +319,12 @@ void seis(){
 
 		glPushMatrix();
 			glTranslatef(-.075-1.5, 0, .075);
-			mi.pared(3, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitewall.GLindex, 0, 0);
+			mi.pared(3, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, 0, 0, 0);
 		glPopMatrix();
 
 		glPushMatrix();
 			glTranslatef(-.075-1.5, 0, .15+1.9+.075);
-			mi.pared(3.3, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitewall.GLindex, 0, 0);
+			mi.pared(3.3, 2.90, 0.15, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
 		glPopMatrix();
 	glPopMatrix();
 }
@@ -345,7 +344,7 @@ void siete() {
 
 	glPushMatrix();
 		glTranslatef(7.64, 2.90 / 2, 15.225 + 0.105 + 6.36 + ((5.75 / 2) + 0.05) * 2);
-		mi.pared(4.27 + .15, 2.90, 0.15, 3, 3, 2, whitewall.GLindex, whitebrick.GLindex, whitebrick.GLindex);
+		mi.pared(4.27 + .15, 2.90, 0.15, 3, 3, 2, whitebrick.GLindex, whitewall.GLindex, whitebrick.GLindex, whitewall.GLindex);
 	glPopMatrix();
 }
 void ocho() {
