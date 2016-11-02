@@ -39,7 +39,7 @@ GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
-CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood1;
 CFiguras mi;
 bool hatemusic = true,backwards=false;
 float movX = 0, movZ = 0,x=0;
@@ -122,6 +122,13 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	pool.LoadBMP("textures/pool.bmp");
 	pool.BuildGLTexture();
 	pool.ReleaseImage();
+
+	wood1.LoadBMP("textures/wood1.bmp");
+	wood1.BuildGLTexture();
+	wood1.ReleaseImage();
+
+
+>>>>>>> 42ce3efebc6dd301320e46b23f5d9a343c8e19fe
 	/* Setup Sound*/
 	engine = irrklang::createIrrKlangDevice();
 	if (!engine) printf("No se pudo crear sonido");
@@ -147,6 +154,29 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
   {
     glutBitmapCharacter(font, *c); //imprime
   }
+}
+
+void chair() {
+	glTranslatef(2.265, .55, 2.4825 + 4);
+	mi.techo(.055, 1, .055, 5, 5, 1, wood1.GLindex);
+
+	glTranslatef(-.35, 0, 0);
+	mi.techo(.055, 1, .055, 5, 5, 1, wood1.GLindex);
+
+
+	glTranslatef(.15 + .025, 0.30, 0);
+	mi.techo(0.3, .15, .055, 5, 5, 1, wood1.GLindex);
+
+	glTranslatef(0, -0.225, 0);
+	mi.techo(0.3, .15, .055, 5, 5, 1, wood1.GLindex);
+
+	glTranslatef(0, 0.40 + 0.025, 0);
+	mi.techo(0.405 + 0.025, .0275, .055, 5, 5, 1, wood1.GLindex);
+
+	glTranslatef(0, -0.525 - .1, 0.1125 + 0.05625);
+	mi.techo(.40, .11, .30, 5, 5, 1, wood1.GLindex);
+
+
 }
 
 void uno() {
@@ -188,6 +218,12 @@ void uno() {
 	glTranslatef(0.24, -2.9 - 0.15 - 0.0375, 0);
 	mi.techo(5.17, 0.075, 5.17, 5, 5, 1, piso.GLindex);
 	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(7.305, .95, 2.575 - 0.075);
+	mi.techo(5.65, 0.3, 5.17, 5, 5, 1, wood1.GLindex);
+
+	glPopMatrix();
 }
 void dos() {
 	glPushMatrix();
@@ -209,51 +245,72 @@ void ocho(){}
 //void pared(float largo, float altura, float profundidad, float frontback (hacia la casa), float rightleft, float vertical, GLuint right, GLuint left=0, GLuint front=0, GLuint back=0);//Funcíon creacion prisma
 //void techo(float largo, float altura, float profundidad, GLuint text);//Funcion creacion prisma
 
-void nuevediez(){
+void nuevediez() {
 	glPushMatrix();
 	glTranslatef(0, 0, 0.37);
 	glPushMatrix();
-		glTranslatef(0.075, 2.90/2, 1.90 + 2.95 + (9.93 / 2)-0.075);
-		mi.pared(0.15, 2.90, 9.93+0.15, 0, 4, 2,whitewall.GLindex, whitebrick.GLindex, 0,0);
-	glPopMatrix();	
+	glTranslatef(0.075, 2.90 / 2, 1.90 + 2.95 + (9.93 / 2) - 0.075);
+	mi.pared(0.15, 2.90, 9.93 + 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
+	glPopMatrix();
 
-	glPushMatrix();
-		glTranslatef(4.53/2, 2.90 / 2, 1.90 + 2.95 + 9.93-0.075);
-		mi.pared(4.53, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
+	/*glPushMatrix();
+	glTranslatef(4.53/2, 2.90 / 2, 1.90 + 2.95 + 9.93-0.075);
+	mi.pared(4.53, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
 	glPopMatrix();
 
 	glPushMatrix();
-		glTranslatef(2.715, 2.90 + .15, 9.815-0.15);
-		mi.techo(5.43, 0.30, 9.93+0.30,5,5,1, greyroof.GLindex);
-	glPopMatrix();	
+	glTranslatef(1.815, 2.90 / 2, 1.90 + 2.95 + 9.93-0.075);
+	mi.pared(3.63, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
+
+	glTranslatef(1.815,1.45-.25, 0);
+	mi.pared(0.90, .5, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
+
+	glPopMatrix();*/
 
 	glPushMatrix();
-		glTranslatef(0, 0, 0.009375);
-		glTranslatef(0,0,-0.15-0.15);
-		glTranslatef(5.925- 0.009375, 2.90 + .30 +.40, 4.85+.075);
-		mi.techo(9.85+2, .80, 0.15, 5, 5, 1, greyroof.GLindex);
-
-		glTranslatef(-3.96, 0, 5.715);
-		mi.techo(0.15, .80, 11.43+0.075, 5, 5, 1, greyroof.GLindex);
-
-		glTranslatef(1.25, 0, 0);
-		mi.techo(0.15, .80, 11.43 + 0.075, 5, 5, 1, greyroof.GLindex);
+	glTranslatef(2.715, 2.90 + .15, 9.815 - 0.15);
+	mi.techo(5.43, 0.30, 9.93 + 0.30, 5, 5, 1, greyroof.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();
-		glTranslatef(0, 0, 0.009375);
-		glTranslatef(7.975-(0.0375/4), 2.90 + .30 + .40, 14.855-0.15);
-		mi.techo(11.8-(0.0375/2), .80, .15, 5, 5, 1, greyroof.GLindex);
+	glTranslatef(0, 0, 0.009375);
+	glTranslatef(0, 0, -0.15 - 0.15);
+	glTranslatef(5.925 - 0.009375, 2.90 + .30 + .40, 4.85 + .075);
+	mi.techo(9.85 + 2, .80, 0.15, 5, 5, 1, greyroof.GLindex);
+
+	glTranslatef(-3.96, 0, 5.715);
+	mi.techo(0.15, .80, 11.43 + 0.075, 5, 5, 1, greyroof.GLindex);
+
+	glTranslatef(1.25, 0, 0);
+	mi.techo(0.15, .80, 11.43 + 0.075, 5, 5, 1, greyroof.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();
-		glTranslatef(2.715, -.0375, 9.815-0.075);
-		mi.techo(5.43, 0.075, 9.93+0.15, 5, 5, 1, piso.GLindex);
+	glTranslatef(0, 0, 0.009375);
+	glTranslatef(7.975 - (0.0375 / 4), 2.90 + .30 + .40, 14.855 - 0.15);
+	mi.techo(11.8 - (0.0375 / 2), .80, .15, 5, 5, 1, greyroof.GLindex);
 	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(2.715, -.0375, 9.815 - 0.075);
+	mi.techo(5.43, 0.075, 9.93 + 0.15, 5, 5, 1, piso.GLindex);
 	glPopMatrix();
+
+
+	//mesa
+
+	glPushMatrix();
+	glTranslatef(2.265, .75, 2.4825 + 5.225);
+	mi.techo(2.5, .125, 1.5, 5, 5, 1, wood1.GLindex);
+	glPopMatrix();
+	chair();
+
+	glPopMatrix();
+
+
+
 
 }
-
 
 void once(){
 	glPushMatrix();//Alberca
