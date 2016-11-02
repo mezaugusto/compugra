@@ -163,6 +163,29 @@ void chair() {
 	glTranslatef(0, -0.525 - .1, 0.1125 + 0.05625);
 	mi.techo(.40, .11, .30, 5, 5, 1, wood1.GLindex);
 
+}
+
+void alacena() {
+	//glTranslatef(5.43 + 0.57 + .075 + .0375, 0.475, 0.80 - .075 + .025);
+	mi.techo(1.14, .90, .05, 5, 5, 1, wood1.GLindex);
+
+	glTranslatef(-0.57 + 0.025, 0, 0.2875);
+	mi.techo(.05, .90, 0.575, 5, 5, 1, wood1.GLindex);
+
+	glTranslatef(1.14 - .05, 0, 0);
+	mi.techo(.05, .90, 0.575, 5, 5, 1, wood1.GLindex);
+
+	glTranslatef(-0.285 + .025, 0, 0.285);
+	mi.techo(0.57, .90, .025, 5, 5, 1, wood1.GLindex);
+
+	glTranslatef(-0.57, 0, 0);
+	mi.techo(0.57, .90, .025, 5, 5, 1, wood1.GLindex);
+
+	glTranslatef(0.285, -.45 - .025, -0.30);
+	mi.techo(1.14, .05, .60 + 0.0125 + 0.0125, 5, 5, 1, greyroof.GLindex);
+
+	glTranslatef(0, .95, 0);
+	mi.techo(1.14, .05, .60 + 0.0125 + 0.0125, 5, 5, 1, greyroof.GLindex);
 
 }
 
@@ -207,9 +230,16 @@ void uno() {
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(7.305, .95, 2.575 - 0.075);
-	mi.techo(5.65, 0.3, 5.17, 5, 5, 1, wood1.GLindex);
+		glTranslatef(5.43 + 0.57 + .075 + .0375, 0.475, 0.80 - .075 + .025);
+	    alacena();
+			/*glTranslatef(-4, -.9, -1);
+		alacena();
 
+	glTranslatef(1.14+.75, 0, 0);
+		mi.techo(1.14, .95, .65, 5, 5, 1, wood1.GLindex);
+
+		glTranslatef(1.14+.75, 0, 0);
+		mi.techo(1.14, .95, .65, 5, 5, 1, wood1.GLindex);*/
 	glPopMatrix();
 }
 void dos() {
