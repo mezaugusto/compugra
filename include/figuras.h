@@ -24,8 +24,8 @@ class CFiguras
 	void techomueve(float largo, float altura, float profundidad, float vertical,float verticalMoving, float horizontal, float horizontalMoving, float side, GLuint top, GLuint bottom = 0, GLuint sides = 0);//Funcíon creacion prisma
 	void prisma2 (GLuint text, GLuint text2);
 	void skybox(float altura, float largo, float profundidad, GLuint text,GLuint text2);	//Funcion creacion cielo
-	
-
+	void ventana_solid(float altura, float largo, float profundidad, GLuint frame);
+	void ventana_blend(float altura, float largo, float profundidad, GLuint window);
 	//void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos, GLuint text );
 	void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos);
 

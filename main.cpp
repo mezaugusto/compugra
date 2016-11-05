@@ -36,12 +36,12 @@ GLfloat Position2[]= { 0.0f, 0.0f, -5.0f, 1.0f };			// Light Position
 
 GLfloat m_dif1[] = { 0.0f, 0.2f, 1.0f, 1.0f };				// Diffuse Light Values
 GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
-GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
+GLfloat m_amb1[] = {0.8, 0.8, 0.8, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
-CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood1;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood1,metal;
 CFiguras mi;
-bool hatemusic = true,backwards=false;
+bool hatemusic = true,backwards=false,ejes=false;
 float movX = 0, movZ = 0,x=0;
 			
 void InitGL ( GLvoid )     // Inicializamos parametros
@@ -123,11 +123,13 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	pool.BuildGLTexture();
 	pool.ReleaseImage();
 
+	metal.LoadBMP("textures/metal.bmp");
+	metal.BuildGLTexture();
+	metal.ReleaseImage();
+
 	wood1.LoadBMP("textures/wood1.bmp");
 	wood1.BuildGLTexture();
 	wood1.ReleaseImage();
-
-//>>>>>>> 42ce3efebc6dd301320e46b23f5d9a343c8e19fe
 	/* Setup Sound*/
 	engine = irrklang::createIrrKlangDevice();
 	if (!engine) printf("No se pudo crear sonido");
@@ -218,11 +220,11 @@ void uno() {
 	mi.techo(5.17, 0.075, 5.17, 5, 5, 1, piso.GLindex);
 	glPopMatrix();
 
-	glPushMatrix();
+	/*glPushMatrix();
 	glTranslatef(7.305, .95, 2.575 - 0.075);
 	mi.techo(5.65, 0.3, 5.17, 5, 5, 1, wood1.GLindex);
 
-	glPopMatrix();
+	glPopMatrix();*/
 }
 void dos() {
 	glPushMatrix();
@@ -513,6 +515,11 @@ void trece(){
 		glTranslatef(2.34, -0.0375, 2.5);
 		mi.techo(4.68, 0.075, 5.15, 3, 3, 2, grass.GLindex);
 	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075);
+		glRotatef(90, 0, 1, 0);
+		mi.ventana_solid(2.9, 1, 0.075, metal.GLindex);
+	glPopMatrix();
 }
 void catorce() {
 
@@ -567,29 +574,18 @@ void once_ventanas(){
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_COLOR);
 		glPushMatrix();//Alberca
 			glTranslatef(11.85 + 4, -0.15-1+0.075, 7.5375 + 0.009375);
-			mi.techomueve(4-0.15, 2, 15.225-0.15, 4,movX, 15,movZ, 1, water.GLindex);
+			mi.techomueve(4-0.15-.001, 2, 15.225-0.15-.001, 4-.001,movX, 15,movZ, 1, water.GLindex);
 		glPopMatrix();
-
 	glDisable(GL_BLEND);        // Turn Blending Off
 	glEnable(GL_LIGHTING);
 }
 void doce_ventanas(){}
 void trece_ventanas(){
-	/*glDisable(GL_LIGHTING);
-	glEnable(GL_BLEND);     // Turn Blending On
-	glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_ALPHA);
 	glPushMatrix();
-	glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075);
-	glRotatef(90, 0, 1, 0);
-	mi.pared(0.001, 2.9, 4.53, 0, 5, 1, window.GLindex, window.GLindex, 0, 0);
+		glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075);
+		glRotatef(90, 0, 1, 0);
+		mi.ventana_blend(2.9, 1, 0.075, window.GLindex);
 	glPopMatrix();
-	glPushMatrix();
-		glTranslatef(0.15+4.53, 1.45, 2.5 + 0.075);
-		mi.pared(0.001, 2.9, 5, 0, 4, 1, window.GLindex, window.GLindex,0,0);
-	glPopMatrix();
-	glDisable(GL_BLEND);        // Turn Blending Off
-	glEnable(GL_LIGHTING);*/
-
 }
 void catorce_ventanas(){}
 void quince_ventanas(){}
@@ -609,33 +605,32 @@ void display ( void )   // Creamos la funcion donde se dibuja
 					objCamera.mView.x, objCamera.mView.y, objCamera.mView.z,	
 					objCamera.mUp.x,   objCamera.mUp.y,   objCamera.mUp.z);
 	
-
-		glPushMatrix();		
-			glPushMatrix(); //Creamos cielo
-				glDisable(GL_LIGHTING);
-				glTranslatef(10,30-0.075-2,11);
-				mi.skybox(40.0, 60.0, 40.0,t_cielo.GLindex,blue.GLindex);
-				glEnable(GL_LIGHTING);
-			glPopMatrix();
+		glPushMatrix(); //Creamos cielo
+			glDisable(GL_LIGHTING);
+			glTranslatef(10,30-0.075-2,11);
+			mi.skybox(40.0, 60.0, 40.0,t_cielo.GLindex,blue.GLindex);
+			glEnable(GL_LIGHTING);
 		glPopMatrix();
-
-		glBegin(GL_LINES);
-		glColor3f(0, 0, 0);
-		glVertex3d(0,0,0);
-		glVertex3d(100, 0, 0);
-		glEnd();
-
-		glBegin(GL_LINES);
-		glColor3f(1, 1, 1);
-		glVertex3d(0, 0, 0);
-		glVertex3d(0, 100, 0);
-		glEnd();
-
-		glBegin(GL_LINES);
 		glColor3f(0.4, 0.4, 0.4);
-		glVertex3d(0, 0, 0);
-		glVertex3d(0, 0, 100);
-		glEnd();
+
+		if(ejes){
+			glBegin(GL_LINES);
+			glVertex3d(0, 0, 0);
+			glVertex3d(100, 0, 0);
+			glEnd();
+
+			glBegin(GL_LINES);
+			glColor3f(1, 1, 1);
+			glVertex3d(0, 0, 0);
+			glVertex3d(0, 100, 0);
+			glEnd();
+
+			glBegin(GL_LINES);
+			glColor3f(0.4, 0.4, 0.4);
+			glVertex3d(0, 0, 0);
+			glVertex3d(0, 0, 100);
+			glEnd();
+		}
 		
 		glPushMatrix();
 			uno();
@@ -667,7 +662,6 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			catorce_ventanas();
 			quince_ventanas();
 		glPopMatrix();
-
 	glPopMatrix();
 
 	glDisable(GL_TEXTURE_2D);

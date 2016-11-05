@@ -971,4 +971,25 @@ void CFiguras::cilindro(float radio, float altura, int resolucion, GLuint text)
 		glTexCoord2f(1.0 - ctext_s*i, 1.0f);		glVertex3fv(v4);
 		glEnd();
 	}
-}	
+}
+
+void CFiguras::ventana_solid(float altura, float largo, float profundidad, GLuint frame) {
+	float rep_ancho = largo*2.5, vertical = altura*2;
+	glTranslatef(0, -altura / 2 + profundidad / 2, 0);
+	pared(profundidad, profundidad, largo, profundidad, rep_ancho, profundidad, frame);
+	glTranslatef(0, altura - profundidad, 0);
+	pared(profundidad, profundidad, largo, profundidad, rep_ancho, profundidad, frame);
+	glTranslatef(0, -altura / 2 + profundidad / 2, -largo / 2 + profundidad / 2);
+	pared(profundidad, altura - 2 * profundidad, profundidad, profundidad, profundidad, vertical, frame);
+	glTranslatef(0, 0, largo - profundidad);
+	pared(profundidad, altura - 2 * profundidad, profundidad, profundidad, profundidad, vertical, frame);
+}
+
+void CFiguras::ventana_blend(float altura, float largo, float profundidad, GLuint window) {
+	glDisable(GL_LIGHTING);
+	glEnable(GL_BLEND);     // Turn Blending On
+	glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+	CFiguras::pared(profundidad, altura - 2 * profundidad-.001, largo - 2 * profundidad-.001, 0, 1, 1, window);
+	glDisable(GL_BLEND);        // Turn Blending Off
+	glEnable(GL_LIGHTING);
+}
