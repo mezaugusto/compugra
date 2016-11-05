@@ -219,7 +219,13 @@ void uno() {
 	glTranslatef(0.24, -2.9 - 0.15 - 0.0375, 0);
 	mi.techo(5.17, 0.075, 5.17, 5, 5, 1, piso.GLindex);
 	glPopMatrix();
-
+	glPushMatrix();
+		glTranslatef(9.85-0.0375,1.45,2.125+1.475-.075+ 0.009375);
+		mi.ventana_solid_repeat(2.95+.15, 4, 2.9, 0.075, metal.GLindex);
+		glTranslatef(-2.135-0.0375, 0, 1.475+0.0375);
+		glRotatef(90, 0, 1, 0);
+		mi.ventana_solid_repeat(4.27+0.15, 6, 2.9, 0.075, metal.GLindex);
+	glPopMatrix();
 	/*glPushMatrix();
 	glTranslatef(7.305, .95, 2.575 - 0.075);
 	mi.techo(5.65, 0.3, 5.17, 5, 5, 1, wood1.GLindex);
@@ -520,6 +526,10 @@ void trece(){
 		glRotatef(90, 0, 1, 0); //rote los ejes, las repeticiones estan sobre z
 		mi.ventana_solid_repeat(4.53,5,2.9,0.075,metal.GLindex); // longitud del cuarto, # de ventanas, altura, profundidad, textura del marco
 	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(4.53 + 0.15+0.0375, 1.45, 2.5 + 0.075-0.01875);
+		mi.ventana_solid_repeat(5.15-0.0375, 6, 2.9, 0.075, metal.GLindex);
+	glPopMatrix();
 }
 void catorce() {
 
@@ -559,7 +569,15 @@ void quince(){
 	glPopMatrix();
 
 }
-void uno_ventanas(){}
+void uno_ventanas(){
+	glPushMatrix();
+		glTranslatef(9.85 - 0.0375, 1.45, 2.125 + 1.475 - .075 + 0.009375);
+		mi.ventana_blend_repeat(2.95 + .15, 4, 2.9, 0.075, window.GLindex);
+		glTranslatef(-2.135 - 0.0375, 0, 1.475 + 0.0375);
+		glRotatef(90, 0, 1, 0);
+		mi.ventana_blend_repeat(4.27 + 0.15, 6, 2.9, 0.075, window.GLindex);
+	glPopMatrix();
+}
 void dos_ventanas(){}
 void tres_ventanas(){}
 void cuatro_ventanas(){}
@@ -585,6 +603,10 @@ void trece_ventanas(){
 		glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075); //nos movemos al mismo punto CTLR-C +CLTR+V
 		glRotatef(90, 0, 1, 0); //misma rotacion
 		mi.ventana_blend_repeat(4.53, 5, 2.9, 0.075, window.GLindex); //Solo cambiamos el nombre de la funcion por blend y la textura
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(4.53 + 0.15 + 0.0375, 1.45, 2.5 + 0.075 - 0.01875);
+		mi.ventana_blend_repeat(5.15 - 0.0375, 6, 2.9, 0.075, window.GLindex);
 	glPopMatrix();
 }
 void catorce_ventanas(){}
