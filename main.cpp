@@ -515,10 +515,10 @@ void trece(){
 		glTranslatef(2.34, -0.0375, 2.5);
 		mi.techo(4.68, 0.075, 5.15, 3, 3, 2, grass.GLindex);
 	glPopMatrix();
-	glPushMatrix();
-		glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075);
-		glRotatef(90, 0, 1, 0);
-		mi.ventana_solid(2.9, 1, 0.075, metal.GLindex);
+	glPushMatrix(); //aqui empieza una ventana
+		glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075); //se posicionan en el centro, como cualquier figura
+		glRotatef(90, 0, 1, 0); //rote los ejes, las repeticiones estan sobre z
+		mi.ventana_solid_repeat(4.53,5,2.9,0.075,metal.GLindex); // longitud del cuarto, # de ventanas, altura, profundidad, textura del marco
 	glPopMatrix();
 }
 void catorce() {
@@ -582,9 +582,9 @@ void once_ventanas(){
 void doce_ventanas(){}
 void trece_ventanas(){
 	glPushMatrix();
-		glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075);
-		glRotatef(90, 0, 1, 0);
-		mi.ventana_blend(2.9, 1, 0.075, window.GLindex);
+		glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075); //nos movemos al mismo punto CTLR-C +CLTR+V
+		glRotatef(90, 0, 1, 0); //misma rotacion
+		mi.ventana_blend_repeat(4.53, 5, 2.9, 0.075, window.GLindex); //Solo cambiamos el nombre de la funcion por blend y la textura
 	glPopMatrix();
 }
 void catorce_ventanas(){}

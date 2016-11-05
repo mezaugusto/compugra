@@ -993,3 +993,22 @@ void CFiguras::ventana_blend(float altura, float largo, float profundidad, GLuin
 	glDisable(GL_BLEND);        // Turn Blending Off
 	glEnable(GL_LIGHTING);
 }
+
+void CFiguras::ventana_solid_repeat(float longitud, float ventanas,float altura, float profundidad, GLuint frame) {
+	float largo = (profundidad*(ventanas-1)+longitud)/ventanas;
+	glTranslatef(0,0, -longitud / 2 + largo / 2);
+	for (int i = 0; i < ventanas; i++)
+	{
+		CFiguras::ventana_solid(altura, largo, profundidad, frame);
+		glTranslatef(0, 0, largo / 2-profundidad/2);
+	}
+}
+void CFiguras::ventana_blend_repeat(float longitud, float ventanas, float altura, float profundidad, GLuint window) {
+	float largo = (profundidad*(ventanas - 1) + longitud) / ventanas;
+	glTranslatef(0, 0, -longitud / 2 + largo / 2);
+	for (int i = 0; i < ventanas; i++)
+	{
+		CFiguras::ventana_blend(altura, largo, profundidad, window);
+		glTranslatef(0, 0, largo-profundidad);
+	}
+}
