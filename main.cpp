@@ -39,10 +39,35 @@ GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb1[] = {0.8, 0.8, 0.8, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
-CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2;
 CFiguras mi;
 bool hatemusic = true,backwards=false,ejes=false;
 float movX = 0, movZ = 0,x=0;
+
+#define MAX_FRAMES 13 //cantidad de cuadros clave que se pueden guardar
+int i_max_steps = 60;//cuadro intermedios
+int i_curr_steps = 0;//CONTADOR
+
+float tras_sillas = 0.0;
+float up_sillas = 0.0;
+float rot_sillas = 0.0;
+
+typedef struct _frame
+{
+	//Variables para GUARDAR Key Frames
+	float tras_sillas;
+	float tras_sillas_inc;
+	float up_sillas;
+	float up_sillas_inc;
+	float rot_sillas;
+	float rot_sillas_inc;
+
+}FRAME;
+
+FRAME KeyFrame[MAX_FRAMES];
+int FrameIndex = 0;			//introducir datos
+bool play = false;
+int playIndex = 0;
 			
 void InitGL ( GLvoid )     // Inicializamos parametros
 {
@@ -68,9 +93,40 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	glEnable(GL_AUTO_NORMAL);
 	glEnable(GL_NORMALIZE);
 
-	/* setup blending */
-	//glEnable(GL_BLEND);			// Turn Blending On
-    
+	//NEW Iniciar variables de KeyFrames
+	for (int i = 0; i<MAX_FRAMES; i++)
+	{
+		KeyFrame[i].tras_sillas = 0;
+	}
+	//Cuadro 1
+		KeyFrame[FrameIndex].tras_sillas = 0;
+		FrameIndex++;	
+	//Cuadro 2
+		KeyFrame[FrameIndex].tras_sillas = 1;
+		FrameIndex++;
+	//Cuadro 3
+		KeyFrame[FrameIndex].tras_sillas = 1;
+		KeyFrame[FrameIndex].up_sillas = 1.4;
+		KeyFrame[FrameIndex].rot_sillas = (float)(rand()%20);
+		FrameIndex++;
+	//Cuadro 4
+		KeyFrame[FrameIndex].tras_sillas = 1;
+		KeyFrame[FrameIndex].up_sillas = 1.5;
+		KeyFrame[FrameIndex].rot_sillas = -1 * (float)(rand() % 20);
+		FrameIndex++;
+	//Cuadro 5
+		KeyFrame[FrameIndex].tras_sillas = 1;
+		KeyFrame[FrameIndex].up_sillas = 1.7;
+		KeyFrame[FrameIndex].rot_sillas = -1 * (float)(rand() % 20);
+		FrameIndex++;
+	//Cuadro 6
+		KeyFrame[FrameIndex].tras_sillas = 1;
+		KeyFrame[FrameIndex].up_sillas = 0;
+		KeyFrame[FrameIndex].rot_sillas = 0;
+		FrameIndex++;
+	//Cuadro 7
+		KeyFrame[FrameIndex].tras_sillas = 0;
+		FrameIndex++;
 	t_cielo.LoadBMP("textures/sky2.bmp");
 	t_cielo.BuildGLTexture();
 	t_cielo.ReleaseImage();
@@ -110,6 +166,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	tree.LoadTGA("textures/tree.tga");
 	tree.BuildGLTexture();
 	tree.ReleaseImage();
+
+	tree2.LoadTGA("textures/tree2.tga");
+	tree2.BuildGLTexture();
+	tree2.ReleaseImage();
 
 	water.LoadBMP("textures/water.bmp");
 	water.BuildGLTexture();
@@ -153,6 +213,21 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 
 }
 
+void resetElements(void)//lo que tenia en el cuadro cero se empieza a reproducir lo hace l
+{
+	tras_sillas = KeyFrame[0].tras_sillas;
+	up_sillas = KeyFrame[0].up_sillas;
+	rot_sillas = KeyFrame[0].rot_sillas;
+}
+
+void interpolation(void)// playIndex me lleva al cuadro clave  y sus propiedades, se le resta el valor
+{
+	KeyFrame[playIndex].tras_sillas_inc = (KeyFrame[playIndex + 1].tras_sillas - KeyFrame[playIndex].tras_sillas) / i_max_steps;
+	KeyFrame[playIndex].up_sillas_inc = (KeyFrame[playIndex + 1].up_sillas - KeyFrame[playIndex].up_sillas) / i_max_steps;
+	KeyFrame[playIndex].rot_sillas_inc = (KeyFrame[playIndex + 1].rot_sillas - KeyFrame[playIndex].rot_sillas) / i_max_steps;
+}
+
+
 void pintaTexto(float x, float y, float z, void *font,char *string)
 {
   
@@ -163,58 +238,6 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
   {
     glutBitmapCharacter(font, *c); //imprime
   }
-}
-
-void chair() {
-	glPushMatrix();
-	glRotatef(3, 0, 0, 1);
-		glTranslatef(0, 0.99 - 0.28, 0.015);
-		mi.pared(0.03, 0.56, 0.03,1,2,3,wood2.GLindex);
-		glTranslatef(0,0, 0.03 + 0.31);
-		mi.pared(0.03, 0.56, 0.03, 1, 2, 3, wood2.GLindex);
-		glTranslatef(0, 0.22, -0.155 - 0.015);
-		mi.pared(0.02, 0.06, 0.31, 3, 3, 0.1, wood2.GLindex);
-		glTranslatef(0, -0.475, 0);
-		mi.pared(0.03, 0.05, 0.31, 3, 3, 0.1, wood2.GLindex);
-		glTranslatef(0, 0.235, 0);
-		mi.pared(0.03, 0.42, 0.03, 1, 2, 3, wood2.GLindex);
-	glPopMatrix();
-	glPushMatrix();
-		glTranslatef(0.155-0.04, 0.43025-0.025, 0.185);
-		mi.techo(0.31, 0.05, 0.37,3,3,0.1,wood2.GLindex);
-		glTranslatef(0.01, 0.025 + 0.005, 0);
-		mi.techo(0.31-0.03, 0.005, 0.36, 3, 3, 0.1, leather.GLindex);
-	glPopMatrix();
-	glPushMatrix();
-		glTranslatef(0,0.215-0.05,0.05);
-		mi.pared(0.05, 0.43, 0.05, 1, 2, 3, wood2.GLindex);
-		glTranslatef(0,0, 0.37 - 0.075);
-		mi.pared(0.05, 0.43, 0.05, 1, 2, 3, wood2.GLindex);
-		glTranslatef(0.31-0.075, 0, 0);
-		mi.pared(0.05, 0.43, 0.05, 1, 2, 3, wood2.GLindex);
-		glTranslatef(0, 0, -0.37 + 0.075);
-		mi.pared(0.05, 0.43, 0.05, 1, 2, 3, wood2.GLindex);
-	glPopMatrix();
-	
-	/*glTranslatef(2.265, .55, 2.4825 + 4);
-	mi.techo(.055, 1, .055, 5, 5, 1, wood1.GLindex);
-
-	glTranslatef(-.35, 0, 0);
-	mi.techo(.055, 1, .055, 5, 5, 1, wood1.GLindex);
-
-
-	glTranslatef(.15 + .025, 0.30, 0);
-	mi.techo(0.3, .15, .055, 5, 5, 1, wood1.GLindex);
-
-	glTranslatef(0, -0.225, 0);
-	mi.techo(0.3, .15, .055, 5, 5, 1, wood1.GLindex);
-
-	glTranslatef(0, 0.40 + 0.025, 0);
-	mi.techo(0.405 + 0.025, .0275, .055, 5, 5, 1, wood1.GLindex);
-
-	glTranslatef(0, -0.525 - .1, 0.1125 + 0.05625);
-	mi.techo(.40, .11, .30, 5, 5, 1, wood1.GLindex);*/
-
 }
 
 void alacena() {
@@ -504,9 +527,31 @@ void nuevediez() {
 		//mesa
 
 		glPushMatrix();
-			glTranslatef(2.265,0, 2.4825 + 5.225);
-			chair();
-			//mi.techo(2.5, .125, 1.5, 5, 5, 1, wood1.GLindex);
+			glTranslatef(1,0, 6.5);
+			glPushMatrix();
+				glScalef(1.2, 1, 1);
+				mi.table(wood2.GLindex,wood2.GLindex);
+			glPopMatrix();
+			glTranslatef(0.625,0+up_sillas,-0.6 - tras_sillas);
+			glRotatef(-90, 0, 1, 0);
+			glRotatef(rot_sillas , 0, 0, 1);
+			mi.chair(wood2.GLindex, leather.GLindex);
+			glTranslatef(0, 0, -0.5);
+			mi.chair(wood2.GLindex, leather.GLindex);
+			glTranslatef(0, 0, -0.5);
+			mi.chair(wood2.GLindex, leather.GLindex);
+			glTranslatef(0, 0, -0.5);
+			mi.chair(wood2.GLindex, leather.GLindex);
+			glTranslatef(1.2 + 2*tras_sillas, 0, 0.4);
+			glRotatef(-180, 0, 1, 0);
+			glRotatef(2*rot_sillas, 0, 0, 1);
+			mi.chair(wood2.GLindex, leather.GLindex);
+			glTranslatef(0, 0, -0.5);
+			mi.chair(wood2.GLindex, leather.GLindex);
+			glTranslatef(0, 0, -0.5);
+			mi.chair(wood2.GLindex, leather.GLindex);
+			glTranslatef(0, 0, -0.5);
+			mi.chair(wood2.GLindex, leather.GLindex);
 		glPopMatrix();
 	glPopMatrix();
 }
@@ -583,6 +628,10 @@ void trece(){
 	glPushMatrix();
 		glTranslatef(2.34, -0.0375, 2.5);
 		mi.techo(4.68, 0.075, 5.15, 3, 3, 2, grass.GLindex);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(2, -1, 3);
+		mi.arbol(8,2.8,tree2.GLindex);
 	glPopMatrix();
 	glPushMatrix(); //aqui empieza una ventana
 		glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075); //se posicionan en el centro, como cualquier figura
@@ -767,7 +816,35 @@ void animacion()
 	x += 0.005;
 	movX = sin(x*2);
 	movZ = sin(x*2);
-	
+	//Movimiento del monito
+	if (play)
+	{
+		if (i_curr_steps >= i_max_steps) //end of animation between frames? si realiza los cuadros intermedios
+		{
+			playIndex++;
+			if (playIndex>FrameIndex - 2)	//end of total animation?
+			{
+				printf("termina anim\n");
+				playIndex = 0;
+				play = false;
+			}
+			else //Next frame interpolations
+			{
+				i_curr_steps = 0; //Reset counter
+								  //Interpolation
+				interpolation();
+			}
+		}
+		else
+		{
+			//Draw animation
+			tras_sillas += KeyFrame[playIndex].tras_sillas_inc;
+			up_sillas += KeyFrame[playIndex].up_sillas_inc;
+			rot_sillas += KeyFrame[playIndex].rot_sillas_inc;
+			i_curr_steps++;
+		}
+
+	}
 	//printf("%.2f %.2f\n", movX, movZ);
 	glutPostRedisplay();
 }
@@ -840,7 +917,17 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			printf("Pos x:%.2f\tPos y:%.2f\tPos z:%.2f\tView x:%.2f\tView y:%.2f\tView z:%.2f\tLookupdown:%.2f\n",
 				objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z, objCamera.mView.x, objCamera.mView.y, objCamera.mView.z, g_lookupdown);
 			break;
-
+		case 'l':
+			if (play == false && (FrameIndex>1)){
+				resetElements();
+				interpolation();
+				play = true;
+				playIndex = 0;
+				i_curr_steps = 0;
+			}
+			else
+				play = false;
+			break;
 		case ' ':		//Poner algo en movimiento
 					//Activamos/desactivamos la animacíon
 			break;

@@ -299,7 +299,6 @@ void CFiguras::arbol(float altura,float radio,GLuint arbol)
 	glAlphaFunc(GL_GREATER, 0.1);
 	glBindTexture(GL_TEXTURE_2D, arbol);
 	glBegin(GL_QUADS); //plano
-	glColor3f(1.0, 1.0, 1.0);
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-radio, 0.0, 0.0);
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(radio, 0.0, 0.0);
@@ -312,7 +311,6 @@ void CFiguras::arbol(float altura,float radio,GLuint arbol)
 	glPushMatrix();
 	glRotatef(45, 0, 1, 0);
 	glBegin(GL_QUADS); //plano
-	glColor3f(1.0, 1.0, 1.0);
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-radio, 0.0, 0.0);
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(radio, 0.0, 0.0);
@@ -324,7 +322,6 @@ void CFiguras::arbol(float altura,float radio,GLuint arbol)
 	glPushMatrix();
 	glRotatef(-45, 0, 1, 0);
 	glBegin(GL_QUADS); //plano
-	glColor3f(1.0, 1.0, 1.0);
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-radio, 0.0, 0.0);
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(radio, 0.0, 0.0);
@@ -336,7 +333,6 @@ void CFiguras::arbol(float altura,float radio,GLuint arbol)
 	glPushMatrix();
 	glRotatef(90, 0, 1, 0);
 	glBegin(GL_QUADS); //plano
-	glColor3f(1.0, 1.0, 1.0);
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-radio, 0.0, 0.0);
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(radio, 0.0, 0.0);
@@ -1014,5 +1010,53 @@ void CFiguras::ventana_blend_repeat(float longitud, float ventanas, float altura
 			CFiguras::ventana_blend(altura, largo, profundidad, window);
 			glTranslatef(0, 0, largo-profundidad);
 		}
+	glPopMatrix();
+}
+
+void CFiguras::chair(GLuint material, GLuint sillon) {
+	glPushMatrix(); //respaldo
+		glRotatef(3, 0, 0, 1);
+		glTranslatef(0, 0.71, 0.015);
+		CFiguras::pared(0.03, 0.56, 0.03, 1, 2, 3, material);
+		glTranslatef(0, 0, 0.34);
+		CFiguras::pared(0.03, 0.56, 0.03, 1, 2, 3, material);
+		glTranslatef(0, 0.22, -0.17);
+		CFiguras::pared(0.02, 0.06, 0.31, 3, 3, 0.1, material);
+		glTranslatef(0, -0.475, 0);
+		CFiguras::pared(0.03, 0.05, 0.31, 3, 3, 0.1, material);
+		glTranslatef(0, 0.235, 0);
+		CFiguras::pared(0.03, 0.42, 0.03, 1, 2, 3, material);
+	glPopMatrix();
+	glPushMatrix();//asiento
+		glTranslatef(0.115, 0.40525, 0.185);
+		CFiguras::techo(0.31, 0.05, 0.37, 3, 3, 0.1, material);
+		glTranslatef(0.01, 0.03, 0);
+		CFiguras::techo(0.28, 0.005, 0.36, 3, 3, 0.1, sillon);
+	glPopMatrix();
+	glPushMatrix(); //patas
+		glTranslatef(-0.015625, 0.165, 0.025);
+		CFiguras::pared(0.05, 0.43, 0.05, 1, 2, 3, material);
+		glTranslatef(0, 0, 0.32);
+		CFiguras::pared(0.05, 0.43, 0.05, 1, 2, 3, material);
+		glTranslatef(0.26, 0, 0);
+		CFiguras::pared(0.05, 0.43, 0.05, 1, 2, 3, material);
+		glTranslatef(0, 0, -0.32);
+		CFiguras::pared(0.05, 0.43, 0.05, 1, 2, 3, material);
+	glPopMatrix();
+}
+void CFiguras::table(GLuint patas, GLuint mesa) {
+	glPushMatrix();
+		glTranslatef(1, 0.72, 0);
+		CFiguras::techo(2, 0.1, 1, 5, 5, 10, mesa);
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(0.05,0.335,-0.45);
+		CFiguras::pared(0.1, 0.67, 0.1,3,2,1,patas);
+		glTranslatef(1.9, 0, 0);
+		CFiguras::pared(0.1, 0.67, 0.1, 3, 2, 1, patas);
+		glTranslatef(0, 0, 0.9);
+		CFiguras::pared(0.1, 0.67, 0.1, 3, 2, 1, patas);
+		glTranslatef(-1.9, 0, 0);
+		CFiguras::pared(0.1, 0.67, 0.1, 3, 2, 1, patas);
 	glPopMatrix();
 }
