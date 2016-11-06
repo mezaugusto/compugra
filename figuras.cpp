@@ -1060,3 +1060,28 @@ void CFiguras::table(GLuint patas, GLuint mesa) {
 		CFiguras::pared(0.1, 0.67, 0.1, 3, 2, 1, patas);
 	glPopMatrix();
 }
+
+void CFiguras::sofa(GLuint sides,GLuint material, GLuint cojines) {
+	glPushMatrix();
+		glTranslatef(0.3, 0.25, 0.05);
+		CFiguras::pared(0.6,0.5,0.1,2,0.5,2,sides);
+		glTranslatef(0,0,1.4);
+		CFiguras::pared(0.6, 0.5, 0.1, 2, 0.5, 2, sides);
+		glTranslatef(-0.25,0.25,-0.7);
+		CFiguras::pared(0.1, 1, 1.3, 1, 3, 2, material);
+		glPushMatrix();
+			glTranslatef(0.3, -0.35, 0);
+			glRotatef(90, 0, 1, 0);
+			CFiguras::pared(1.3, 0.3, 0.5, 5, 1.5, 5, material);
+		glPopMatrix();
+		if (cojines != 0) {
+			glTranslatef(0.05, 0.01, -0.435);
+			glRotatef(45, 1, 0, 0);
+			CFiguras::pared(0.05, 0.3, 0.3, 1, 3, 2, cojines);
+			glTranslatef(0, 0.31, 0.31);
+			CFiguras::pared(0.05, 0.3, 0.3, 1, 3, 2, cojines);
+			glTranslatef(0, 0.31, 0.31);
+			CFiguras::pared(0.05, 0.3, 0.3, 1, 3, 2, cojines);
+		}
+	glPopMatrix();
+}

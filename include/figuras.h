@@ -30,6 +30,7 @@ class CFiguras
 	void ventana_blend_repeat(float longitud, float ventanas, float altura, float profundidad, GLuint window);
 	void chair(GLuint material,GLuint sillon);
 	void table(GLuint patas, GLuint mesa);
+	void sofa(GLuint sides, GLuint material, GLuint cojines=0);
 	//void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos, GLuint text );
 	void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos);
 

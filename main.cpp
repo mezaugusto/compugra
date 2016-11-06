@@ -39,7 +39,7 @@ GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb1[] = {0.8, 0.8, 0.8, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
-CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2,sofa,puff,carpet;
 CFiguras mi;
 bool hatemusic = true,backwards=false,ejes=false;
 float movX = 0, movZ = 0,x=0;
@@ -51,6 +51,7 @@ int i_curr_steps = 0;//CONTADOR
 float tras_sillas = 0.0;
 float up_sillas = 0.0;
 float rot_sillas = 0.0;
+float door = 0.0;
 
 typedef struct _frame
 {
@@ -61,6 +62,8 @@ typedef struct _frame
 	float up_sillas_inc;
 	float rot_sillas;
 	float rot_sillas_inc;
+	float door;
+	float door_inc;
 
 }FRAME;
 
@@ -97,9 +100,11 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	for (int i = 0; i<MAX_FRAMES; i++)
 	{
 		KeyFrame[i].tras_sillas = 0;
+		KeyFrame[i].up_sillas = 0;
+		KeyFrame[i].rot_sillas = 0;
+		KeyFrame[i].door = 0;
 	}
 	//Cuadro 1
-		KeyFrame[FrameIndex].tras_sillas = 0;
 		FrameIndex++;	
 	//Cuadro 2
 		KeyFrame[FrameIndex].tras_sillas = 1;
@@ -112,6 +117,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	//Cuadro 4
 		KeyFrame[FrameIndex].tras_sillas = 1;
 		KeyFrame[FrameIndex].up_sillas = 1.5;
+		KeyFrame[FrameIndex].door = 0.99;
 		KeyFrame[FrameIndex].rot_sillas = -1 * (float)(rand() % 20);
 		FrameIndex++;
 	//Cuadro 5
@@ -122,11 +128,13 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	//Cuadro 6
 		KeyFrame[FrameIndex].tras_sillas = 1;
 		KeyFrame[FrameIndex].up_sillas = 0;
+		KeyFrame[FrameIndex].door = 0;
 		KeyFrame[FrameIndex].rot_sillas = 0;
 		FrameIndex++;
 	//Cuadro 7
 		KeyFrame[FrameIndex].tras_sillas = 0;
 		FrameIndex++;
+
 	t_cielo.LoadBMP("textures/sky2.bmp");
 	t_cielo.BuildGLTexture();
 	t_cielo.ReleaseImage();
@@ -155,6 +163,15 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	road.BuildGLTexture();
 	road.ReleaseImage();
 
+	carpet.LoadBMP("textures/carpet.bmp");
+	carpet.BuildGLTexture();
+	carpet.ReleaseImage();
+
+	puff.LoadBMP("textures/puff.bmp");
+	puff.BuildGLTexture();
+	puff.ReleaseImage();
+
+
 	blue.LoadBMP("textures/blue.bmp");
 	blue.BuildGLTexture();
 	blue.ReleaseImage();
@@ -182,6 +199,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	pool.LoadBMP("textures/pool.bmp");
 	pool.BuildGLTexture();
 	pool.ReleaseImage();
+
+	sofa.LoadBMP("textures/sofa.bmp");
+	sofa.BuildGLTexture();
+	sofa.ReleaseImage();
 
 	leather.LoadBMP("textures/leather.bmp");
 	leather.BuildGLTexture();
@@ -218,6 +239,7 @@ void resetElements(void)//lo que tenia en el cuadro cero se empieza a reproducir
 	tras_sillas = KeyFrame[0].tras_sillas;
 	up_sillas = KeyFrame[0].up_sillas;
 	rot_sillas = KeyFrame[0].rot_sillas;
+	door = KeyFrame[0].door;
 }
 
 void interpolation(void)// playIndex me lleva al cuadro clave  y sus propiedades, se le resta el valor
@@ -225,6 +247,7 @@ void interpolation(void)// playIndex me lleva al cuadro clave  y sus propiedades
 	KeyFrame[playIndex].tras_sillas_inc = (KeyFrame[playIndex + 1].tras_sillas - KeyFrame[playIndex].tras_sillas) / i_max_steps;
 	KeyFrame[playIndex].up_sillas_inc = (KeyFrame[playIndex + 1].up_sillas - KeyFrame[playIndex].up_sillas) / i_max_steps;
 	KeyFrame[playIndex].rot_sillas_inc = (KeyFrame[playIndex + 1].rot_sillas - KeyFrame[playIndex].rot_sillas) / i_max_steps;
+	KeyFrame[playIndex].door_inc = (KeyFrame[playIndex + 1].door - KeyFrame[playIndex].door) / i_max_steps;
 }
 
 
@@ -553,6 +576,40 @@ void nuevediez() {
 			glTranslatef(0, 0, -0.5);
 			mi.chair(wood2.GLindex, leather.GLindex);
 		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(3,0,8.5);
+			glRotatef(-90, 0, 1, 0);
+			mi.sofa(sofa.GLindex,sofa.GLindex, puff.GLindex);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(2.3, 0.001, 10);
+			mi.techo(1.5, 0, 1.5, 3, 4, 1, carpet.GLindex);
+			glTranslatef(0, 0.001, 0);
+			mi.techo(1.1, 0, 0.5, 3, 4, 1, leather.GLindex);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(3.6, 0, 10.25);
+			glRotatef(-180, 0, 1, 0);
+			glScalef(0.8, 1, 0.333);
+			mi.sofa(sofa.GLindex, sofa.GLindex, 0);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(5.415,1.45,6.715);
+			mi.ventana_solid_repeat(4, 4, 2.9, 0.0375, metal.GLindex);
+			glTranslatef(-0.04, 0, 1.5);
+			glPushMatrix();
+				glTranslatef(0,0,door);
+				mi.ventana_solid_repeat(1, 1, 2.9, 0.0375, metal.GLindex);
+			glPopMatrix();
+			glTranslatef(0.0378,0,4.5325);
+			mi.ventana_solid_repeat(4.065, 5, 2.9, 0.0375, metal.GLindex);
+			glTranslatef(-0.04, 0, -1.53225);
+			glPushMatrix();
+				glTranslatef(0, 0, -door);
+				mi.ventana_solid_repeat(1, 1, 2.9, 0.0375, metal.GLindex);
+			glPopMatrix();
+		glPopMatrix();
 	glPopMatrix();
 }
 
@@ -697,7 +754,25 @@ void cinco_ventanas(){}
 void seis_ventanas(){}
 void siete_ventanas(){}
 void ocho_ventanas(){}
-void nuevediez_ventanas(){}
+void nuevediez_ventanas(){
+	glPushMatrix();
+		glTranslatef(0, 0, 0.37);
+		glTranslatef(5.415, 1.45, 6.715);
+		mi.ventana_blend_repeat(4, 4, 2.9, 0.0375, window.GLindex);
+		glTranslatef(-0.04, 0, 1.5);
+		glPushMatrix();
+		glTranslatef(0, 0, door);
+		mi.ventana_blend_repeat(1, 1, 2.9, 0.0375, window.GLindex);
+		glPopMatrix();
+		glTranslatef(0.04, 0, 4.5325);
+		mi.ventana_blend_repeat(4.065, 5, 2.9, 0.0375, window.GLindex);
+		glTranslatef(-0.0375, 0, -1.53225);
+		glPushMatrix();
+		glTranslatef(0, 0, -door);
+		mi.ventana_blend_repeat(1, 1, 2.9, 0.0375, window.GLindex);
+		glPopMatrix();
+	glPopMatrix();
+}
 void once_ventanas(){
 	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);     // Turn Blending On
@@ -841,6 +916,7 @@ void animacion()
 			tras_sillas += KeyFrame[playIndex].tras_sillas_inc;
 			up_sillas += KeyFrame[playIndex].up_sillas_inc;
 			rot_sillas += KeyFrame[playIndex].rot_sillas_inc;
+			door += KeyFrame[playIndex].door_inc;
 			i_curr_steps++;
 		}
 
