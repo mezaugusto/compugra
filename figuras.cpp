@@ -1085,3 +1085,9 @@ void CFiguras::sofa(GLuint sides,GLuint material, GLuint cojines) {
 		}
 	glPopMatrix();
 }
+void CFiguras::tv(GLuint material, GLuint tv,float distortion) {
+	glTranslatef(0.009375, 0, 0);
+	CFiguras::pared(0.01875,0.75,0.93,1,2,3,material);
+	glTranslatef(0.00948, 0, 0);
+	CFiguras::pared(0, 0.72, 0.90, 1, -1, 1-distortion, tv);
+}

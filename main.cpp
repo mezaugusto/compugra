@@ -31,7 +31,7 @@ int font=(int)GLUT_BITMAP_HELVETICA_18;
 
 GLfloat Diffuse[]= { 0.7f, 0.7f, 0.7f, 1.0f };				// Diffuse Light Values
 GLfloat Specular[] = { 1.0, 1.0, 1.0, 1.0 };				// Specular Light Values
-GLfloat Position[]= { 0.0f, 10.0f, -10.0f, 0.0f };			// Light Position
+GLfloat Position[]= { 0.0f, 30.0f, 30.0f, 0.0f };			// Light Position
 GLfloat Position2[]= { 0.0f, 0.0f, -5.0f, 1.0f };			// Light Position
 
 GLfloat m_dif1[] = { 0.0f, 0.2f, 1.0f, 1.0f };				// Diffuse Light Values
@@ -39,10 +39,13 @@ GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb1[] = {0.8, 0.8, 0.8, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
-CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2,sofa,puff,carpet;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2;
+CTexture sofa, puff, carpet, tv1, tv2,tv3,tv4;
 CFiguras mi;
+CModel fiat;
+GLuint currenttv;
 bool hatemusic = true,backwards=false,ejes=false;
-float movX = 0, movZ = 0,x=0;
+float movX = 0, movZ = 0,x=0,defaultcolor = 0.4, distortion=0;
 
 #define MAX_FRAMES 13 //cantidad de cuadros clave que se pueden guardar
 int i_max_steps = 60;//cuadro intermedios
@@ -135,6 +138,12 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 		KeyFrame[FrameIndex].tras_sillas = 0;
 		FrameIndex++;
 
+	//Modelos 3ds
+	fiat._3dsLoad("models/fiat/fiat.3ds");
+	fiat.LoadTextureImages();
+	fiat.GLIniTextures();
+	fiat.ReleaseTextureImages();
+
 	t_cielo.LoadBMP("textures/sky2.bmp");
 	t_cielo.BuildGLTexture();
 	t_cielo.ReleaseImage();
@@ -180,6 +189,23 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	window.BuildGLTexture();
 	window.ReleaseImage();
 
+	tv1.LoadTGA("textures/tv1.tga");
+	tv1.BuildGLTexture();
+	tv1.ReleaseImage();
+	currenttv = tv1.GLindex;
+
+	tv2.LoadTGA("textures/tv2.tga");
+	tv2.BuildGLTexture();
+	tv2.ReleaseImage();
+
+	tv3.LoadTGA("textures/tv3.tga");
+	tv3.BuildGLTexture();
+	tv3.ReleaseImage();
+
+	tv4.LoadTGA("textures/tv4.tga");
+	tv4.BuildGLTexture();
+	tv4.ReleaseImage();
+
 	tree.LoadTGA("textures/tree.tga");
 	tree.BuildGLTexture();
 	tree.ReleaseImage();
@@ -219,6 +245,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	wood2.LoadBMP("textures/wood2.bmp");
 	wood2.BuildGLTexture();
 	wood2.ReleaseImage();
+
 	/* Setup Sound*/
 	engine = irrklang::createIrrKlangDevice();
 	if (!engine) printf("No se pudo crear sonido");
@@ -354,6 +381,15 @@ void dos() {
 			mi.techo(5.65, 0.30, 6.15, 5, 5, 1, greyroof.GLindex);//techo
 		glTranslatef(-2.175+0.075, -2.9-0.15-0.0375,0);
 			mi.techo(9.85, 0.075, 6.15, 5, 5, 1, piso.GLindex);
+		glTranslatef(0,0.8,-1.5);
+		glRotatef(-90, 0, 1, 0);
+		glScalef(0.24, 0.24, 0.24);
+		glDisable(GL_COLOR_MATERIAL);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		fiat.GLrender(NULL, _SHADED, 1.0);
+		glDisable(GL_BLEND);
+		glEnable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
 void tres(){
@@ -610,6 +646,14 @@ void nuevediez() {
 				mi.ventana_solid_repeat(1, 1, 2.9, 0.0375, metal.GLindex);
 			glPopMatrix();
 		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.15, 1.5, 10);
+			glDisable(GL_LIGHTING);
+			glColor3f(1, 1, 1);
+			mi.tv(metal.GLindex, currenttv, distortion);
+			glColor3f(defaultcolor, defaultcolor, defaultcolor);
+			glEnable(GL_LIGHTING);
+		glPopMatrix();
 	glPopMatrix();
 }
 
@@ -766,7 +810,7 @@ void nuevediez_ventanas(){
 		glPopMatrix();
 		glTranslatef(0.04, 0, 4.5325);
 		mi.ventana_blend_repeat(4.065, 5, 2.9, 0.0375, window.GLindex);
-		glTranslatef(-0.0375, 0, -1.53225);
+		glTranslatef(-0.04, 0, -1.53225);
 		glPushMatrix();
 		glTranslatef(0, 0, -door);
 		mi.ventana_blend_repeat(1, 1, 2.9, 0.0375, window.GLindex);
@@ -820,7 +864,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			mi.skybox(40.0, 60.0, 40.0,t_cielo.GLindex,blue.GLindex);
 			glEnable(GL_LIGHTING);
 		glPopMatrix();
-		glColor3f(0.4, 0.4, 0.4);
+		glColor3f(defaultcolor, defaultcolor, defaultcolor);
 
 		if(ejes){
 			glBegin(GL_LINES);
@@ -887,13 +931,15 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 void animacion()
 {
-	if (x > 1000) x = 0;
-	x += 0.005;
+	if (x > 10) x = 0;
+	x += 0.01;
 	movX = sin(x*2);
 	movZ = sin(x*2);
-	//Movimiento del monito
+	//Animacion Keyframes
 	if (play)
 	{
+		defaultcolor = 0.1;
+		currenttv = tv4.GLindex;
 		if (i_curr_steps >= i_max_steps) //end of animation between frames? si realiza los cuadros intermedios
 		{
 			playIndex++;
@@ -920,6 +966,26 @@ void animacion()
 			i_curr_steps++;
 		}
 
+	}
+	else {
+		defaultcolor = 0.4;
+		if (x > 9.5) {
+			distortion = 0;
+			currenttv = tv1.GLindex;
+		}
+		else if (x > 8) {
+			distortion += distortion<0.2 ? 0.01 : -0.2;
+			currenttv = tv3.GLindex;
+		}
+		else if (x > 6) {
+			distortion = 0;
+			currenttv = tv2.GLindex;
+		}
+		else if (x > 4)
+		{
+			distortion += distortion<0.2 ? 0.01 : -0.2;
+			currenttv = tv3.GLindex;
+		}
 	}
 	//printf("%.2f %.2f\n", movX, movZ);
 	glutPostRedisplay();

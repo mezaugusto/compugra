@@ -31,6 +31,7 @@ class CFiguras
 	void chair(GLuint material,GLuint sillon);
 	void table(GLuint patas, GLuint mesa);
 	void sofa(GLuint sides, GLuint material, GLuint cojines=0);
+	void tv(GLuint material, GLuint tv,float distortion=0);
 	//void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos, GLuint text );
 	void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos);
 
