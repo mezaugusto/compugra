@@ -22,6 +22,7 @@ class CFiguras
 	void pared(float largo, float altura, float profundidad, float frontback, float rightleft, float vertical, GLuint right, GLuint left=0, GLuint front=0, GLuint back=0);//Funcíon creacion prisma
 	void techo(float largo, float altura, float profundidad, float vertical, float horizontal,float side, GLuint top, GLuint bottom = 0, GLuint sides = 0);//Funcíon creacion prisma
 	void techomueve(float largo, float altura, float profundidad, float vertical,float verticalMoving, float horizontal, float horizontalMoving, float side, GLuint top, GLuint bottom = 0, GLuint sides = 0);//Funcíon creacion prisma
+	void agua(float largo, float altura, float profundidad, float vertical, float horizontal, float verticalMoving, float side, GLuint top);
 	void prisma2 (GLuint text, GLuint text2);
 	void skybox(float altura, float largo, float profundidad, GLuint text,GLuint text2);	//Funcion creacion cielo
 	void ventana_solid(float altura, float largo, float profundidad, GLuint frame);
@@ -34,5 +35,6 @@ class CFiguras
 	void tv(GLuint material, GLuint tv,float distortion=0);
 	//void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos, GLuint text );
 	void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos);
+	void alacena(GLuint material, GLuint sillon, float rotalacena);
 
 };
