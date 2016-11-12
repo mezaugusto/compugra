@@ -239,19 +239,19 @@ void CFiguras::techomueve(float largo, float altura, float profundidad, float ve
 	glBegin(GL_POLYGON);  //Bottom
 						  //glColor3f(0.4,0.2,0.6);
 	glNormal3f(0.0f, -1.0f, 0.0f);
-	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[0]);
-	glTexCoord2f(1.0f*horizontal+horizontalMoving, 0.0f); glVertex3fv(vertice[1]);
+	glTexCoord2f(0.0f + horizontalMoving, 0.0f); glVertex3fv(vertice[0]);
+	glTexCoord2f(1.0f*horizontal+horizontalMoving, 0.0f + verticalMoving); glVertex3fv(vertice[1]);
 	glTexCoord2f(1.0f*horizontal + horizontalMoving, 1.0f*vertical+verticalMoving); glVertex3fv(vertice[2]);
-	glTexCoord2f(0.0f, 1.0f*vertical + verticalMoving); glVertex3fv(vertice[3]);
+	glTexCoord2f(0.0f + horizontalMoving, 1.0f*vertical + verticalMoving); glVertex3fv(vertice[3]);
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, top);   // choose the texture to use.
 	glBegin(GL_POLYGON);  //Top
 						  //glColor3f(0.8,0.2,0.4);
 	glNormal3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[4]);
-	glTexCoord2f(1.0f*horizontal + horizontalMoving, 0.0f); glVertex3fv(vertice[5]);
+	glTexCoord2f(0.0f+ horizontalMoving, 0.0f + verticalMoving); glVertex3fv(vertice[4]);
+	glTexCoord2f(1.0f*horizontal + horizontalMoving, 0.0f + verticalMoving); glVertex3fv(vertice[5]);
 	glTexCoord2f(1.0f*horizontal + horizontalMoving, 1.0f*vertical + verticalMoving); glVertex3fv(vertice[6]);
-	glTexCoord2f(0.0f, 1.0f*vertical + verticalMoving); glVertex3fv(vertice[7]);
+	glTexCoord2f(0.0f+ horizontalMoving, 1.0f*vertical + verticalMoving); glVertex3fv(vertice[7]);
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, sides == 0 ? top : sides);   // choose the texture to use.
 															  //glBindTexture(GL_TEXTURE_2D, texture[filter]);   // choose the texture to use.
