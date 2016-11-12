@@ -290,29 +290,6 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
   }
 }
 
-void alacena() {
-	//glTranslatef(5.43 + 0.57 + .075 + .0375, 0.475, 0.80 - .075 + .025);
-	mi.techo(1.14, .90, .05, 5, 5, 1, wood1.GLindex);
-
-	glTranslatef(-0.57 + 0.025, 0, 0.2875);
-	mi.techo(.05, .90, 0.575, 5, 5, 1, wood1.GLindex);
-
-	glTranslatef(1.14 - .05, 0, 0);
-	mi.techo(.05, .90, 0.575, 5, 5, 1, wood1.GLindex);
-
-	glTranslatef(-0.285 + .025, 0, 0.285);
-	mi.techo(0.57, .90, .025, 5, 5, 1, wood1.GLindex);
-
-	glTranslatef(-0.57, 0, 0);
-	mi.techo(0.57, .90, .025, 5, 5, 1, wood1.GLindex);
-
-	glTranslatef(0.285, -.45 - .025, -0.30);
-	mi.techo(1.14, .05, .60 + 0.0125 + 0.0125, 5, 5, 1, greyroof.GLindex);
-
-	glTranslatef(0, .95, 0);
-	mi.techo(1.14, .05, .60 + 0.0125 + 0.0125, 5, 5, 1, greyroof.GLindex);
-
-}
 
 void uno() {
 	glPushMatrix();
@@ -353,18 +330,93 @@ void uno() {
 	glTranslatef(0.24, -2.9 - 0.15 - 0.0375, 0);
 	mi.techo(5.17, 0.075, 5.17, 5, 5, 1, piso.GLindex);
 	glPopMatrix();
+	//alacena
 	glPushMatrix();
+
 		glTranslatef(5.43 + 0.57 + .075 + .0375, 0.475, 0.80 - .075 + .025);
-	    alacena();
-			/*glTranslatef(-4, -.9, -1);
-		alacena();
+		glPushMatrix();
+			mi.alacena(wood1.GLindex, greyroof.GLindex, movX*100*play);
 
-	glTranslatef(1.14+.75, 0, 0);
-		mi.techo(1.14, .95, .65, 5, 5, 1, wood1.GLindex);
+			glTranslatef(1.8, 0,0);
+			mi.alacena(wood1.GLindex, greyroof.GLindex, movX * 100 * play);
 
-		glTranslatef(1.14+.75, 0, 0);
-		mi.techo(1.14, .95, .65, 5, 5, 1, wood1.GLindex);*/
+			glTranslatef(0, 2.2, 0);
+			mi.alacena(wood1.GLindex, greyroof.GLindex, movX * 100 * play);
+
+			glTranslatef(-1.8, 0, 0);
+			mi.alacena(wood1.GLindex, greyroof.GLindex, movX * 100 * play);
+			glPopMatrix();
+			
+		glTranslatef(0.57+0.33, 0, 0);
+		mi.techo(0.66, 0.9, 0.05, 5, 5, 1, wood1.GLindex);
+
+		glTranslatef(0, 0, 0.575);
+		mi.techo(0.66, 0.9, 0.05, 5, 5, 1, wood1.GLindex);
+
+		glTranslatef(0, 2.2, 0);
+		mi.techo(0.66, 0.9, 0.05, 5, 5, 1, wood1.GLindex);
+
+		glTranslatef(0, -.45-0.025, -0.2875);
+		mi.techo(0.66, .05, .60 + 0.0125 + 0.0125, 5, 5, 1, greyroof.GLindex);
+
+		glTranslatef(0, -1.25,0.2875-0.071875);
+		mi.techo(0.66, .05,0.14375+0.05, 5, 5, 1, greyroof.GLindex);
+
+		glTranslatef(0, -.1, -0.2875);
+		glPushMatrix();
+			mi.techo(0.66, .05, 0.38125, 5, 5, 1, metal.GLindex);
+
+			glTranslatef(-0.33-.2,+.05+0.0125+.002, 0);
+			mi.techo(.4+.002, .1+.025, 0.38125, 5, 5, 1, metal.GLindex);
+
+			glTranslatef(+0.33+.5+.05, 0, 0);
+			mi.techo(.05, .1 + 0.025+0.002, 0.38125, 5, 5, 1, metal.GLindex);
+		glPopMatrix();
+		  
+		glTranslatef(-0.226+0.05, 0.05+0.025, -0.190625-0.025);
+		mi.techo(1.112, .1, 0.05+0.002+0.002, 5, 5, 1, metal.GLindex);
+
+		glTranslatef(+0.226 - 0.05,+0.052,0);
+		mi.techo(0.45, 0.095, 0.05, 5, 5, 1, metal.GLindex);
+
+		glTranslatef(-0.1125, +0.026, 0);
+		mi.cilindro(.025, 0.085, 12, metal.GLindex);
+
+		glTranslatef(0.225, 0, 0);
+		mi.cilindro(.025, 0.085, 12, metal.GLindex);
+
+		glTranslatef(-0.1125, .2, 0);
+		mi.prisma(.04, .4, .04, metal.GLindex);
+
+		glTranslatef(0, .2, .1-.0125+.002+.002);
+		mi.prisma(.04, .05, .2+.025, metal.GLindex);
+
+		glTranslatef(0, -.025, .0915);
+		mi.prisma(.04, .03, .04, metal.GLindex);
+
+		glTranslatef(0.33+1.14+.4+0.025, -1, 0);
+		mi.prisma(.885-0.025-0.0125, 1.2, .8, metal.GLindex);//ancho
+		
+		glTranslatef(0, +1.2+.05, 0);
+		mi.prisma(.885 - 0.025 - 0.0125, 1.2, .8, metal.GLindex);//ancho
+
+
+		glTranslatef(0, -.6 + .025, 0);
+		mi.prisma(.885 - 0.025 - 0.0125, .05, .8, greyroof.GLindex);//ancho
+
+		glTranslatef(0, -0.05, 0);
+		mi.prisma(.885 - 0.025 - 0.0125, .05, .8, greyroof.GLindex);//ancho
+
+		glTranslatef(-.4+.0125, -0.4, .375+.002);
+		mi.prisma(.025, .55, .075, greyroof.GLindex);//ancho
+
+		glTranslatef(0, .95, 0);
+		mi.prisma(.025, .65, .075, greyroof.GLindex);//ancho
 	glPopMatrix();
+
+		
+
+
 	glPushMatrix();
 		glTranslatef(9.85-0.0375,1.45,2.125+1.475-.075+ 0.009375);
 		mi.ventana_solid_repeat(2.95+.15, 4, 2.9, 0.075, metal.GLindex);
@@ -789,6 +841,19 @@ void uno_ventanas(){
 		glTranslatef(-2.135 - 0.0375, 0, 1.475 + 0.0375);
 		glRotatef(90, 0, 1, 0);
 		mi.ventana_blend_repeat(4.27 + 0.15, 6, 2.9, 0.075, window.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glEnable(GL_BLEND);     // Turn Blending On
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glPushMatrix();//llave cocina
+		glTranslatef(5.43 + 0.57 + .075 + .0375 + .9, 0.475+1-.35, 0.80 - .075 + .025+ .1 - .0125 + .002 + .002+ .1 - .0125 + .002 + .002);
+		mi.agua(.02,.6 , .02,0.5,0.1,x,1,water.GLindex);
+		glPopMatrix();
+		glDisable(GL_BLEND);        // Turn Blending Off
+		glEnable(GL_LIGHTING);
+
 	glPopMatrix();
 }
 void dos_ventanas(){}
