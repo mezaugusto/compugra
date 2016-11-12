@@ -30,22 +30,26 @@ GLfloat g_lookupdown = 0.0f;    // Look Position In The Z-Axis (NEW)
 int font=(int)GLUT_BITMAP_HELVETICA_18;
 
 GLfloat Diffuse[]= { 0.7f, 0.7f, 0.7f, 1.0f };				// Diffuse Light Values
+GLfloat Diffuse2[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 GLfloat Specular[] = { 1.0, 1.0, 1.0, 1.0 };				// Specular Light Values
 GLfloat Position[]= { 0.0f, 30.0f, 30.0f, 0.0f };			// Light Position
-GLfloat Position2[]= { 0.0f, 0.0f, -5.0f, 1.0f };			// Light Position
+GLfloat Position2[]= { 7.0f, 1.0f, -2.0f, 1.0f };			// Light Position
 
 GLfloat m_dif1[] = { 0.0f, 0.2f, 1.0f, 1.0f };				// Diffuse Light Values
 GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
-GLfloat m_amb1[] = {0.8, 0.8, 0.8, 1.0 };				// Ambiental Light Values
-GLfloat m_s1[] = {18};
+GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
+GLfloat m_amb2[] = { 1.0, 1.0, 1.0, 1.0 };				// Ambiental Light Values
 
 CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2;
-CTexture sofa, puff, carpet, tv1, tv2,tv3,tv4;
+CTexture sofa, puff, carpet, tv1, tv2,tv3,tv4,tv5,black;
 CFiguras mi;
 CModel fiat;
 GLuint currenttv;
-bool hatemusic = true,backwards=false,ejes=false;
-float movX = 0, movZ = 0,x=0,defaultcolor = 0.4, distortion=0;
+GLuint currentsky;
+#define COLOR_DEFAULT 0.35
+bool hatemusic = true,backwards=false,ejes=false,valak=false;
+float movX = 0,x=0,defaultcolor = COLOR_DEFAULT, distortion=0;
+
 
 #define MAX_FRAMES 13 //cantidad de cuadros clave que se pueden guardar
 int i_max_steps = 60;//cuadro intermedios
@@ -81,15 +85,19 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 
 	glEnable(GL_TEXTURE_2D);
 
-	glShadeModel (GL_SMOOTH);
+	glShadeModel(GL_SMOOTH);
+	//Para construir la figura comentar esto
 	glLightfv(GL_LIGHT1, GL_POSITION, Position);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, Diffuse);
-	glLightfv(GL_LIGHT1, GL_AMBIENT, m_amb1);
+	//glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, Position2);
 	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT1);
 	glEnable(GL_LIGHT0);
+	//glEnable(GL_LIGHT1);
 
-	glEnable ( GL_COLOR_MATERIAL );
+	glEnable(GL_COLOR_MATERIAL);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
+	//glPolygonMode(GL_BACK, GL_LINE);
 
 	glClearDepth(1.0f);									// Configuramos Depth Buffer
 	glEnable(GL_DEPTH_TEST);							// Habilitamos Depth Testing
@@ -147,6 +155,11 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	t_cielo.LoadBMP("textures/sky2.bmp");
 	t_cielo.BuildGLTexture();
 	t_cielo.ReleaseImage();
+	currentsky = t_cielo.GLindex;
+
+	black.LoadBMP("textures/skyblack.bmp");
+	black.BuildGLTexture();
+	black.ReleaseImage();
 
 	whitebrick.LoadBMP("textures/white.bmp");
 	whitebrick.BuildGLTexture();
@@ -206,6 +219,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	tv4.BuildGLTexture();
 	tv4.ReleaseImage();
 
+	tv5.LoadTGA("textures/tv5.tga");
+	tv5.BuildGLTexture();
+	tv5.ReleaseImage();
+
 	tree.LoadTGA("textures/tree.tga");
 	tree.BuildGLTexture();
 	tree.ReleaseImage();
@@ -214,7 +231,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	tree2.BuildGLTexture();
 	tree2.ReleaseImage();
 
-	water.LoadBMP("textures/water.bmp");
+	water.LoadTGA("textures/water.tga");
 	water.BuildGLTexture();
 	water.ReleaseImage();
 
@@ -434,13 +451,18 @@ void dos() {
 		glTranslatef(-2.175+0.075, -2.9-0.15-0.0375,0);
 			mi.techo(9.85, 0.075, 6.15, 5, 5, 1, piso.GLindex);
 		glTranslatef(0,0.8,-1.5);
-		glRotatef(-90, 0, 1, 0);
-		glScalef(0.24, 0.24, 0.24);
+		glScalef(0.3, 0.3, 0.3);
 		glDisable(GL_COLOR_MATERIAL);
 		glEnable(GL_BLEND);
+		glLightfv(GL_LIGHT0, GL_POSITION, Position2);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, Diffuse2);
+		glLightfv(GL_LIGHT0, GL_AMBIENT, m_amb2);
 		glBlendFunc(GL_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		fiat.GLrender(NULL, _SHADED, 1.0);
 		glDisable(GL_BLEND);
+		glLightfv(GL_LIGHT0, GL_POSITION, Position);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, Diffuse);
+		glLightfv(GL_LIGHT0, GL_AMBIENT, m_amb1);
 		glEnable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
@@ -701,7 +723,7 @@ void nuevediez() {
 		glPushMatrix();
 			glTranslatef(0.15, 1.5, 10);
 			glDisable(GL_LIGHTING);
-			glColor3f(1, 1, 1);
+			glColor3f(0.7, 0.7, 0.7);
 			mi.tv(metal.GLindex, currenttv, distortion);
 			glColor3f(defaultcolor, defaultcolor, defaultcolor);
 			glEnable(GL_LIGHTING);
@@ -885,10 +907,10 @@ void nuevediez_ventanas(){
 void once_ventanas(){
 	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);     // Turn Blending On
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_COLOR);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 		glPushMatrix();//Alberca
 			glTranslatef(11.85 + 4, -0.15-1+0.075, 7.5375 + 0.009375);
-			mi.techomueve(4-0.15-.001, 2, 15.225-0.15-.001, 4-.001,movX, 15,movZ, 1, water.GLindex);
+			mi.techomueve(4-0.15-.005, 2, 15.225-0.15-.01, 4-.005,movX, 15,0, 1, water.GLindex);
 		glPopMatrix();
 	glDisable(GL_BLEND);        // Turn Blending Off
 	glEnable(GL_LIGHTING);
@@ -926,11 +948,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		glPushMatrix(); //Creamos cielo
 			glDisable(GL_LIGHTING);
 			glTranslatef(10,30-0.075-2,11);
-			mi.skybox(40.0, 60.0, 40.0,t_cielo.GLindex,blue.GLindex);
+			glColor3f(1, 1, 1);
+			mi.skybox(40.0, 60.0, 40.0,currentsky,blue.GLindex);
+			glColor3f(defaultcolor, defaultcolor, defaultcolor);
 			glEnable(GL_LIGHTING);
 		glPopMatrix();
 		glColor3f(defaultcolor, defaultcolor, defaultcolor);
-
 		if(ejes){
 			glBegin(GL_LINES);
 			glVertex3d(0, 0, 0);
@@ -980,16 +1003,43 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			catorce_ventanas();
 			quince_ventanas();
 		glPopMatrix();
+		if (valak) {
+			glPushMatrix();
+				float alejamiento = 1;
+				float dx = objCamera.mView.x - objCamera.mPos.x;
+				float dy = objCamera.mView.y - objCamera.mPos.y;
+				float dz = objCamera.mView.z - objCamera.mPos.z;
+				glTranslatef(objCamera.mPos.x + alejamiento*dx, objCamera.mPos.y + alejamiento*dy, objCamera.mPos.z + alejamiento*dz);
+				float dz2 = dz > 0 ? dz : -dz;
+				float dx2 = dx > 0 ? dx : -dx;
+				if ((dx*dz) > 0) {
+					dx *= -1;
+				}
+				else {
+					dz = dz > 0 ? dz : -dz;
+					dx = dx > 0 ? dx : -dx;
+				}
+				float angulo = atan(dz / dx) * 180 / 3.1415;
+				glRotatef(angulo + 90, 0, 1, 0);
+				printf("\nAngulo:%f\tDX:%f\tDZ:%f\tDX2:%f\tDZ2:%f", angulo, dx, dz, dx2, dz2);
+				glDisable(GL_LIGHTING);
+				glEnable(GL_BLEND);     // Turn Blending On
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glColor3d(0.7, 0.7, 0.7);
+				mi.prisma(1, 1.5, 0.01, tv5.GLindex);
+				glColor3f(defaultcolor, defaultcolor,defaultcolor);
+				glDisable(GL_BLEND);        // Turn Blending Off
+				glEnable(GL_LIGHTING);
+			glPopMatrix();
+		}
 	glPopMatrix();
-
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
-		glColor3f(1.0,0.0,0.0);
-		pintaTexto(-12,12.0,-14.0,(void *)font,"Proyecto Final");
-		glColor3f(1.0,1.0,1.0);
+		glColor3f(1.0, 0.0, 0.0);
+		pintaTexto(-12, 12.0, -14.0, (void *)font, "Proyecto Final");
+		glColor3f(1.0, 1.0, 1.0);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_TEXTURE_2D);
-
 	glutSwapBuffers ( );
 
 }
@@ -998,19 +1048,25 @@ void animacion()
 {
 	if (x > 10) x = 0;
 	x += 0.01;
-	movX = sin(x*2);
-	movZ = sin(x*2);
+	movX = sin(x);
+	movX = movX > 0 ? movX : -movX;
 	//Animacion Keyframes
 	if (play)
 	{
+		if(!hatemusic)music->setIsPaused();
 		defaultcolor = 0.1;
 		currenttv = tv4.GLindex;
+		if(playIndex==0 && i_curr_steps==1)engine->play2D("sounds/doll.flac");
+		currentsky = black.GLindex;
 		if (i_curr_steps >= i_max_steps) //end of animation between frames? si realiza los cuadros intermedios
 		{
 			playIndex++;
 			if (playIndex>FrameIndex - 2)	//end of total animation?
 			{
 				printf("termina anim\n");
+				currenttv = tv1.GLindex;
+				currentsky = t_cielo.GLindex;
+				if (!hatemusic)music->setIsPaused(false);
 				playIndex = 0;
 				play = false;
 			}
@@ -1028,12 +1084,32 @@ void animacion()
 			up_sillas += KeyFrame[playIndex].up_sillas_inc;
 			rot_sillas += KeyFrame[playIndex].rot_sillas_inc;
 			door += KeyFrame[playIndex].door_inc;
+			if (i_curr_steps > 30 && i_curr_steps < 46 && playIndex==2) {
+				if (i_curr_steps>36) {
+					currentsky = whitewall.GLindex;
+					defaultcolor = 1.0;
+					currenttv = black.GLindex;
+					valak = true;
+				}
+				else {
+					defaultcolor = 0.1;
+					currenttv = tv4.GLindex;
+					currentsky = black.GLindex;
+				}
+				if (i_curr_steps == 31) {
+					engine->play2D("sounds/thunder.wav");
+				}
+			}
+			else {
+				valak = false;
+				defaultcolor = 0.1;
+			}
 			i_curr_steps++;
 		}
 
 	}
 	else {
-		defaultcolor = 0.4;
+		defaultcolor = COLOR_DEFAULT;
 		if (x > 9.5) {
 			distortion = 0;
 			currenttv = tv1.GLindex;
@@ -1087,12 +1163,12 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 		case 'c':   //Movimientos de camara
 		case 'C':
 			g_lookupdown = 2;
-			objCamera.Position_Camera(1.5, 1.70, 11.89, 1.76, 1.7, 11.46, 0, 1, 0);
+			objCamera.Position_Camera(1.51, 1.70, 12.70, 1.58, 1.70, 12.21, 0, 1, 0);
 			break;
 		case 'o':   //Movimientos de camara
 		case 'O':
 			g_lookupdown = 6;
-			objCamera.Position_Camera(13.74, 1.70, 17.27, 13.83, 1.7, 16.78, 0, 1, 0);
+			objCamera.Position_Camera(13.74, 1.70, 16.48, 13.83, 1.7, 15.99, 0, 1, 0);
 			break;
 		case 'i':   //Movimientos de camara
 		case 'I':
