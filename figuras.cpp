@@ -1164,3 +1164,59 @@ void CFiguras::agua(float largo, float altura, float profundidad, float vertical
 	glTexCoord2f(0.0f, 0.0f + verticalMoving); glVertex3fv(vertice[2]);
 	glEnd();
 }
+void CFiguras::alacena(GLuint wood, GLuint marble, float rotalacena) {
+	glPushMatrix();
+	CFiguras::techo(1.14, .90, .05, 5, 5, 1, wood);
+
+	glTranslatef(-0.57 + 0.025, 0, 0.2875);
+	CFiguras::techo(.05, .90, 0.575, 5, 5, 1, wood);
+
+	glTranslatef(1.14 - .05, 0, 0);
+	CFiguras::techo(.05, .90, 0.575, 5, 5, 1, wood);
+
+	glTranslatef(-0.57 + 0.025, 0.45 + 0.025, 0);
+	CFiguras::techo(1.14, .05, .60 + 0.0125 + 0.0125, 5, 5, 1, marble);
+
+	glTranslatef(0, -(0.90 + 0.05), 0);
+	CFiguras::techo(1.14, .05, .60 + 0.0125 + 0.0125, 5, 5, 1, marble);
+
+	while (rotalacena > 100)
+		rotalacena -= 100;
+	if (rotalacena < 0)
+		rotalacena *= -1;
+
+	glPushMatrix();
+	glTranslatef(-0.57, .5 - .025, 0.25 + .05);
+	glPushMatrix();
+	glRotatef(rotalacena, 0, -1, 0);
+	glTranslatef(0.285, 0, 0);
+	CFiguras::techo(0.57, .90, .025, 5, 5, 1, wood);
+	glPopMatrix();
+	glTranslatef(1.14, 0, 0);
+	glRotatef(rotalacena, 0, 1, 0);
+	glTranslatef(-0.285, 0, 0);
+	CFiguras::techo(0.57, .90, .025, 5, 5, 1, wood);
+
+	glPopMatrix();
+	glPopMatrix();
+
+	/*
+	glTranslatef(0.285, -.45 - .025, -0.30);
+	CFiguras::techo(1.14, .05, .60 + 0.0125 + 0.0125, 5, 5, 1, marble);
+
+	glTranslatef(-0.285 + .025, 0, 0.285);
+	CFiguras::techo(0.57, .90, .025, 5, 5, 1, wood);
+
+	glTranslatef(-0.57, 0, 0);
+	CFiguras::techo(0.57, .90, .025, 5, 5, 1, wood);
+
+
+	glTranslatef(0, .95, 0);
+	CFiguras::techo(1.14, .05, .60 + 0.0125 + 0.0125, 5, 5, 1, marble);
+	*/
+
+
+
+
+
+}
