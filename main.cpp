@@ -40,10 +40,10 @@ GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
 GLfloat m_amb2[] = { 1.0, 1.0, 1.0, 1.0 };				// Ambiental Light Values
 
-CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2;
-CTexture sofa, puff, carpet, tv1, tv2,tv3,tv4,tv5,black;
+CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2,tree3;
+CTexture sofa, puff, carpet, tv1, tv2,tv3,tv4,tv5,black,puerta,puerta2;
 CFiguras mi;
-CModel fiat;
+CModel toilet;
 GLuint currenttv;
 GLuint currentsky;
 #define COLOR_DEFAULT 0.35
@@ -87,8 +87,9 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 
 	glShadeModel(GL_SMOOTH);
 	//Para construir la figura comentar esto
-	glLightfv(GL_LIGHT1, GL_POSITION, Position);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, Diffuse);
+	glLightfv(GL_LIGHT0, GL_POSITION, Position);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, Diffuse);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, m_amb1);
 	//glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, Position2);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
@@ -145,12 +146,11 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	//Cuadro 7
 		KeyFrame[FrameIndex].tras_sillas = 0;
 		FrameIndex++;
+		FrameIndex++;
+		FrameIndex++;
 
 	//Modelos 3ds
-	fiat._3dsLoad("models/fiat/fiat.3ds");
-	fiat.LoadTextureImages();
-	fiat.GLIniTextures();
-	fiat.ReleaseTextureImages();
+	toilet._3dsLoad("models/toilet.3ds");
 
 	t_cielo.LoadBMP("textures/sky2.bmp");
 	t_cielo.BuildGLTexture();
@@ -202,6 +202,14 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	window.BuildGLTexture();
 	window.ReleaseImage();
 
+	puerta.LoadTGA("textures/door.tga");
+	puerta.BuildGLTexture();
+	puerta.ReleaseImage();
+
+	puerta2.LoadTGA("textures/door2.tga");
+	puerta2.BuildGLTexture();
+	puerta2.ReleaseImage();
+
 	tv1.LoadTGA("textures/tv1.tga");
 	tv1.BuildGLTexture();
 	tv1.ReleaseImage();
@@ -230,6 +238,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	tree2.LoadTGA("textures/tree2.tga");
 	tree2.BuildGLTexture();
 	tree2.ReleaseImage();
+
+	tree3.LoadTGA("textures/tree3.tga");
+	tree3.BuildGLTexture();
+	tree3.ReleaseImage();
 
 	water.LoadTGA("textures/water.tga");
 	water.BuildGLTexture();
@@ -323,36 +335,35 @@ void chairkitch() {
 
 void uno() {
 	glPushMatrix();
-		glTranslatef(9.85-0.26,1.45,0.009375);
+		glTranslatef(9.59, 1.45, 0.009375);
 		mi.pared(0.52, 2.9, 0.15, 0.2, 0.1, 2, whitebrick.GLindex);
-		glTranslatef(-0.26+0.075,0,0.285+0.075);
+		glTranslatef(-.185, 0, 0.36);
 		mi.pared(0.15, 2.9, 0.57, 0.1, 0.2, 2, whitebrick.GLindex);
-		glTranslatef(0, 0, 0.665+0.285);
+		glTranslatef(0, 0, 0.95);
 		mi.pared(0.15, 2.9, 1.33, 0.1, 2, 2, whitewall.GLindex);
-		glTranslatef(0.26,0,0.665-0.075);
+		glTranslatef(0.26, 0, 0.59);
 		mi.pared(0.37, 2.9, 0.15, 0.2, 0.1, 2, whitewall.GLindex);
-		glTranslatef(0.11+0.075, 0, -0.95);
+		glTranslatef(0.185, 0, -0.95);
 		mi.pared(0.01, 2.9, 2.05, 0.1, 1.3, 2, whitebrick.GLindex);
-		glTranslatef(-2.395+0.87, 0, -0.26-0.0375+0.025);
-		mi.pared(2.01, 2.9, 0.075, 2.5, 0.1, 2, 0,whitewall.GLindex,whitewall.GLindex,whitebrick.GLindex);
-		glTranslatef(1.875 - 1.11 - 0.075-0.87, 0, -0.26-0.137);
-		mi.pared(0.15, 2.9, 0.57+0.15, 0.1, 0.2, 2, whitebrick.GLindex);
-		glTranslatef(-0.60-0.25,0,0);
-		mi.pared(0.15, 2.9, 0.57 + 0.15, 0.1, 0.2, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitebrick.GLindex);
-		glTranslatef(-0.07 - 0.845, 0, -0.4+0.075);
+		glTranslatef(-1.525, 0, -0.2725);
+		mi.pared(2.01, 2.9, 0.075, 2.5, 0.1, 2, 0, whitewall.GLindex, whitewall.GLindex, whitebrick.GLindex);
+		glTranslatef(-.18, 0, -0.397);
+		mi.pared(0.15, 2.9, 0.72, 0.1, 0.2, 2, whitebrick.GLindex);
+		glTranslatef(-0.85, 0, 0);
+		mi.pared(0.15, 2.9, 0.72, 0.1, 0.2, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitebrick.GLindex);
+		glTranslatef(-0.915, 0, -0.325);
 		mi.pared(1.69, 2.9, 0.075, 2, 0.2, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitebrick.GLindex);
-		glTranslatef(0.0375+0.01, 0, 0.7225);
-		mi.pared(1.69+0.075+0.02, 2.9, 0.075, 2.5, 0.2, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
-		glTranslatef(-0.8925+0.0375, 0, -0.0375-0.0375);
-		mi.pared(0.075, 2.9, 0.075, 0.2, 0.1, 2, whitewall.GLindex);//Marco de la puerta
-		glTranslatef(0,1.2,-0.36125+0.0375);
-		mi.pared(0.075, 0.50, 0.7225-0.15,0.1,0.5,0.1, whitewall.GLindex);
-		glTranslatef(-0.075, -1.2, -0.36125+0.0375);
-		mi.pared(0.075, 2.9, 0.075, 0.2, 0.1, 2, 0, 0, whitewall.GLindex, whitebrick.GLindex);//Marco de la puerta
-		glTranslatef(-0.3125-.0375, 1.2, 0);
-		mi.pared(0.625, 0.50, 0.075 , 0.5, 0.5,0.4, 0, 0, whitewall.GLindex, whitebrick.GLindex);
-		glTranslatef(-0.3125 -.075, -1.2, 0);
-		mi.pared(0.15, 2.9, 0.075, 0.2, 0.1, 2, 0, 0, whitewall.GLindex, whitebrick.GLindex);//Marco de la puerta
+		glTranslatef(0.0475, 0, 0.7225);
+		mi.pared(1.785, 2.9, 0.075, 2.5, 0.2, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
+		glTranslatef(-0.855, 0, -.32375);
+		mi.door(0.075, 2.9, 0.6475, x, whitewall.GLindex, puerta.GLindex,puerta2.GLindex);
+		glTranslatef(-0.35, -1.2, -0.32375);
+		glPushMatrix();
+			glRotatef(90,0,1,0);
+			mi.door(0.075, 2.9, .7, -x, whitewall.GLindex, puerta.GLindex, puerta2.GLindex);
+		glPopMatrix();
+		glTranslatef(-.467, 0, 0);
+		mi.pared(0.15, 2.9, 0.075, 0.2, 0.1, 2, 0, 0, whitewall.GLindex, whitebrick.GLindex);//Marco de la puerta*/
 	glPopMatrix();
 	glPushMatrix();
 	glTranslatef(7.265-0.24, 2.9+0.15, 2.575-0.075);
@@ -487,8 +498,12 @@ void uno() {
 												  
 	glPopMatrix();
 
-		
-
+	glPushMatrix();
+		glTranslatef(4.53+1.85,0.5,0.4);
+		glRotatef(90, 0, 1, 0);
+		glScalef(0.0005, 0.0011, 0.0008);
+		toilet.GLrender(NULL, _SHADED, 1.0);
+	glPopMatrix();
 
 	glPushMatrix();
 		glTranslatef(9.85-0.0375,1.45,2.125+1.475-.075+ 0.009375);
@@ -507,19 +522,6 @@ void dos() {
 		glTranslatef(-2.175+0.075, -2.9-0.15-0.0375,0);
 			mi.techo(9.85, 0.075, 6.15, 5, 5, 1, piso.GLindex);
 		glTranslatef(0,0.8,-1.5);
-		glScalef(0.3, 0.3, 0.3);
-		glDisable(GL_COLOR_MATERIAL);
-		glEnable(GL_BLEND);
-		glLightfv(GL_LIGHT0, GL_POSITION, Position2);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, Diffuse2);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, m_amb2);
-		glBlendFunc(GL_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		fiat.GLrender(NULL, _SHADED, 1.0);
-		glDisable(GL_BLEND);
-		glLightfv(GL_LIGHT0, GL_POSITION, Position);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, Diffuse);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, m_amb1);
-		glEnable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
 void tres(){
@@ -1064,7 +1066,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		glPopMatrix();
 		if (valak) {
 			glPushMatrix();
-				float alejamiento = 1;
+				float alejamiento = 1.0;
 				float dx = objCamera.mView.x - objCamera.mPos.x;
 				float dy = objCamera.mView.y - objCamera.mPos.y;
 				float dz = objCamera.mView.z - objCamera.mPos.z;
@@ -1082,12 +1084,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glRotatef(angulo + 90, 0, 1, 0);
 				printf("\nAngulo:%f\tDX:%f\tDZ:%f\tDX2:%f\tDZ2:%f", angulo, dx, dz, dx2, dz2);
 				glDisable(GL_LIGHTING);
-				glEnable(GL_BLEND);     // Turn Blending On
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glColor3d(0.7, 0.7, 0.7);
-				mi.prisma(1, 1.5, 0.01, tv5.GLindex);
+				glEnable(GL_ALPHA_TEST);     // Turn Blending On
+				glAlphaFunc(GL_GREATER, 0.1);
+				glColor3d(1.0, 1.0, 1.0);
+				mi.prisma(1, 1.5, 0, tv5.GLindex);
 				glColor3f(defaultcolor, defaultcolor,defaultcolor);
-				glDisable(GL_BLEND);        // Turn Blending Off
+				glDisable(GL_ALPHA_TEST);        // Turn Blending Off
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 		}
@@ -1105,15 +1107,14 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 void animacion()
 {
-	if (x > 10) x = 0;
+	if (x > 3.1415*2) x = 0;
 	x += 0.01;
-	movX = sin(x);
-	movX = movX > 0 ? movX : -movX;
+	movX = cos((x-3.1415)*.5)+1;
 	//Animacion Keyframes
 	if (play)
 	{
 		if(!hatemusic)music->setIsPaused();
-		defaultcolor = 0.1;
+		defaultcolor = 0.2;
 		currenttv = tv4.GLindex;
 		if(playIndex==0 && i_curr_steps==1)engine->play2D("sounds/doll.flac");
 		currentsky = black.GLindex;
@@ -1151,7 +1152,7 @@ void animacion()
 					valak = true;
 				}
 				else {
-					defaultcolor = 0.1;
+					defaultcolor = 0.2;
 					currenttv = tv4.GLindex;
 					currentsky = black.GLindex;
 				}
@@ -1161,7 +1162,7 @@ void animacion()
 			}
 			else {
 				valak = false;
-				defaultcolor = 0.1;
+				defaultcolor = 0.2;
 			}
 			i_curr_steps++;
 		}
@@ -1169,25 +1170,24 @@ void animacion()
 	}
 	else {
 		defaultcolor = COLOR_DEFAULT;
-		if (x > 9.5) {
+		if (x > 5) {
 			distortion = 0;
 			currenttv = tv1.GLindex;
 		}
-		else if (x > 8) {
-			distortion += distortion<0.2 ? 0.01 : -0.2;
+		else if (x > 4) {
+			distortion += x;
 			currenttv = tv3.GLindex;
 		}
-		else if (x > 6) {
+		else if (x > 2) {
 			distortion = 0;
 			currenttv = tv2.GLindex;
 		}
-		else if (x > 4)
+		else if (x > 1)
 		{
-			distortion += distortion<0.2 ? 0.01 : -0.2;
+			distortion += x;
 			currenttv = tv3.GLindex;
 		}
 	}
-	//printf("%.2f %.2f\n", movX, movZ);
 	glutPostRedisplay();
 }
 
