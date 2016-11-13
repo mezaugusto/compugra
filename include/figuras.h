@@ -36,6 +36,6 @@ class CFiguras
 	//void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos, GLuint text );
 	void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos);
 	void alacena(GLuint material, GLuint sillon, float rotalacena);
-	void door(float profundidad, float altura, float largo,float apertura,GLuint pared,GLuint puerta,GLuint puerta2);
+	void door(float profundidad, float altura, float largo,float apertura,GLuint pared,GLuint pared2,GLuint puerta,GLuint puerta2);
 
 };

@@ -1215,14 +1215,14 @@ void CFiguras::alacena(GLuint wood, GLuint marble, float rotalacena) {
 	CFiguras::techo(1.14, .05, .60 + 0.0125 + 0.0125, 5, 5, 1, marble);
 	*/
 }
-void CFiguras::door(float profundidad, float altura, float largo,float apertura, GLuint pared, GLuint puerta,GLuint puerta2) {
+void CFiguras::door(float profundidad, float altura, float largo,float apertura, GLuint pared, GLuint pared2, GLuint puerta,GLuint puerta2) {
 	apertura *= 12.73 * 2;
 	if (apertura > 80)apertura = 160-apertura;
 	if (apertura < -80)apertura = -160 - apertura;
 	glTranslatef(0, 0, -profundidad+largo*.5);
-	CFiguras::pared(profundidad, altura, profundidad, 0.2, 0.1, 2, pared);//Marco de la puerta
+	CFiguras::pared(profundidad, altura, profundidad, 0.2, 0.1, 2, pared2,pared,pared,pared);//Marco de la puerta
 	glTranslatef(0, altura*0.41379, -.5*largo);
-	CFiguras::pared(profundidad, altura*0.172413, largo-profundidad, 0.1, 0.5, 0.1, pared);
+	CFiguras::pared(profundidad, altura*0.172413, largo-profundidad, 1, 2, 0.3, pared2, pared, pared, pared);
 	glPushMatrix();
 		glTranslatef(0, -altura*.5, (largo - profundidad)*-.5);
 		glRotatef(apertura, 0, 1, 0);

@@ -48,7 +48,7 @@ GLuint currenttv;
 GLuint currentsky;
 #define COLOR_DEFAULT 0.35
 bool hatemusic = true,backwards=false,ejes=false,valak=false;
-float movX = 0,x=0,defaultcolor = COLOR_DEFAULT, distortion=0;
+float movX = 0,x=0,x2=0,defaultcolor = COLOR_DEFAULT, distortion=0;
 
 
 #define MAX_FRAMES 13 //cantidad de cuadros clave que se pueden guardar
@@ -343,11 +343,11 @@ void uno() {
 		glTranslatef(0.0475, 0, 0.7225);
 		mi.pared(1.785, 2.9, 0.075, 2.5, 0.2, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
 		glTranslatef(-0.855, 0, -.32375);
-		mi.door(0.075, 2.9, 0.6475, x, whitewall.GLindex, puerta.GLindex,puerta2.GLindex);
+		mi.door(0.075, 2.9, 0.6475, x2, whitewall.GLindex,whitewall.GLindex, puerta.GLindex,puerta2.GLindex);
 		glTranslatef(-0.35, -1.2, -0.32375);
 		glPushMatrix();
 			glRotatef(90,0,1,0);
-			mi.door(0.075, 2.9, .7, -x, whitewall.GLindex, puerta.GLindex, puerta2.GLindex);
+			mi.door(0.075, 2.9, .7, -x2, whitewall.GLindex,whitebrick.GLindex, puerta.GLindex, puerta2.GLindex);
 		glPopMatrix();
 		glTranslatef(-.467, 0, 0);
 		mi.pared(0.15, 2.9, 0.075, 0.2, 0.1, 2, 0, 0, whitewall.GLindex, whitebrick.GLindex);//Marco de la puerta*/
@@ -807,8 +807,8 @@ void trece(){
 		mi.techo(4.68, 0.075, 5.15, 3, 3, 2, grass.GLindex);
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(2, -1, 3);
-		mi.arbol(8,2.8,tree2.GLindex);
+	glTranslatef(2, -0.1, 3);
+		mi.arbol(8,2,tree2.GLindex);
 	glPopMatrix();
 	glPushMatrix(); //aqui empieza una ventana
 		glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075); //se posicionan en el centro, como cualquier figura
@@ -877,7 +877,6 @@ void uno_ventanas(){
 		glPopMatrix();
 		glDisable(GL_BLEND);        // Turn Blending Off
 		glEnable(GL_LIGHTING);
-
 	glPopMatrix();
 }
 void dos_ventanas(){}
@@ -1023,7 +1022,6 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				}
 				float angulo = atan(dz / dx) * 180 / 3.1415;
 				glRotatef(angulo + 90, 0, 1, 0);
-				printf("\nAngulo:%f\tDX:%f\tDZ:%f\tDX2:%f\tDZ2:%f", angulo, dx, dz, dx2, dz2);
 				glDisable(GL_LIGHTING);
 				glEnable(GL_ALPHA_TEST);     // Turn Blending On
 				glAlphaFunc(GL_GREATER, 0.1);
@@ -1051,11 +1049,18 @@ void animacion()
 	if (x > 3.1415*2) x = 0;
 	x += 0.01;
 	movX = cos((x-3.1415)*.5)+1;
+	if (objCamera.mPos.x > 1 && objCamera.mPos.x<7 && objCamera.mPos.z>-4 && objCamera.mPos.z < 5) {
+		x2 += x2>3.14?0 : 0.2;
+	}
+	else {
+		x2 -= x2>0? 0.2 : 0;
+	}
 	//Animacion Keyframes
 	if (play)
 	{
 		if(!hatemusic)music->setIsPaused();
 		defaultcolor = 0.2;
+		distortion = 0;
 		currenttv = tv4.GLindex;
 		if(playIndex==0 && i_curr_steps==1)engine->play2D("sounds/doll.flac");
 		currentsky = black.GLindex;
