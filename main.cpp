@@ -307,6 +307,19 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
   }
 }
 
+void chairkitch() {
+
+	mi.cilindro(.2, .025, 24, greyroof.GLindex);
+	glTranslatef(0,.0125-0.00625,0);
+	mi.cilindro(.025, .7, 16, greyroof.GLindex);
+	glTranslatef(0, .7+.025, 0);
+	mi.prisma(.3,0.075, .4, metal.GLindex);
+	glTranslatef(0, .0375, 0);
+	mi.prisma(.3, .0375, .4, puff.GLindex);
+	glTranslatef(0, .075+ .0375, .2-.005 - .005 - .005 - .005 - .005);
+	mi.prisma(.3, .2-.005, .05, metal.GLindex);
+}
+
 
 void uno() {
 	glPushMatrix();
@@ -410,25 +423,68 @@ void uno() {
 
 		glTranslatef(0, -.025, .0915);
 		mi.prisma(.04, .03, .04, metal.GLindex);
-
-		glTranslatef(0.33+1.14+.4+0.025, -1, 0);
-		mi.prisma(.885-0.025-0.0125, 1.2, .8, metal.GLindex);//ancho
+		//refri
+		glTranslatef(0.33+1.14+.4+0.025, -1, 0.075); //parte baja
+		mi.prisma(.885-0.025-0.0125, 1.2, .65, metal.GLindex);//ancho
 		
-		glTranslatef(0, +1.2+.05, 0);
-		mi.prisma(.885 - 0.025 - 0.0125, 1.2, .8, metal.GLindex);//ancho
+		glTranslatef(0, +1.2+.05, 0);//parte alta
+		mi.prisma(.885 - 0.025 - 0.0125, 1.2, .65, metal.GLindex);//ancho
 
 
-		glTranslatef(0, -.6 + .025, 0);
-		mi.prisma(.885 - 0.025 - 0.0125, .05, .8, greyroof.GLindex);//ancho
+		glTranslatef(0, -.6 + .025, 0);//mitad
+		mi.prisma(.885 - 0.025 - 0.0125, .05, .65, greyroof.GLindex);//ancho
 
-		glTranslatef(0, -0.05, 0);
-		mi.prisma(.885 - 0.025 - 0.0125, .05, .8, greyroof.GLindex);//ancho
+		glTranslatef(0, -0.05, 0);//mitad
+		mi.prisma(.885 - 0.025 - 0.0125, .05, .65, greyroof.GLindex);//ancho
 
-		glTranslatef(-.4+.0125, -0.4, .375+.002);
-		mi.prisma(.025, .55, .075, greyroof.GLindex);//ancho
+		glTranslatef(-.4+.0125, -0.4, .375+.002);//agarraderas
+		mi.prisma(.035, .55, .025, greyroof.GLindex);//ancho
 
-		glTranslatef(0, .95, 0);
-		mi.prisma(.025, .65, .075, greyroof.GLindex);//ancho
+		glTranslatef(0, .95, 0);//agarradera
+		mi.prisma(.035, .65, .025, greyroof.GLindex);//ancho
+		glTranslatef(-1 - .625, -1.25 + .2, 1.6);
+		mi.alacena(wood1.GLindex, greyroof.GLindex, 0);
+
+		glTranslatef(0.57 + .5 - .15, 0, 0.575 - 0.14375 + 0.025);
+		mi.techo(1 - .3, .90, 0.14375 * 2, 5, 5, 1, wood1.GLindex);//ancho alto profunididad
+
+		glTranslatef(.5 + .285, 0, -0.45625);
+		mi.alacena(wood1.GLindex, greyroof.GLindex, 0);
+
+		glTranslatef(-.5 - .285 - .05 - .025 + .00625, +.05, +.45625 - .2875 - .025);
+		mi.techo(.5, .55, 0.14375 * 2 + .05 + .025, 5, 5, 1, metal.GLindex);
+
+		glTranslatef(0, 0, 0);
+		mi.techo(.6 - .025, .85, 0.14375 * 2 + .05 + .002, 5, 5, 1, greyroof.GLindex);
+
+		glTranslatef(0, -0.425 - .05 - .025, 0);
+		mi.techo(.6 - .025, .1 + .05, 0.14375 * 2 + .05 + .002, 5, 5, 1, metal.GLindex);
+
+		glTranslatef(0, +0.90, 0);
+		mi.techo(.6 - .025, .09, 0.14375 * 2 + .05 + .002 + .002, 5, 5, 1, metal.GLindex);
+
+		glTranslatef(0, +0.005, 0);
+		mi.techo(.6 - .025, .01, 0.14375 * 2 + .05 + .002 + .002, 5, 5, 1, metal.GLindex);
+
+		glTranslatef(0, 0.025 - .002 - .002, +.14375 * 2 + .025);
+		mi.techo(.6 - .025, .05, 0.14375 * 2, 5, 5, 1, greyroof.GLindex);
+
+		glTranslatef(0, -1 + .05, 0);
+		mi.techo(.6 - .025, .05, 0.14375 * 2, 5, 5, 1, greyroof.GLindex);
+
+		glTranslatef(0, +1 - 0.05 + .05 + .3 + 1.05 + .10, -(+.14375 * 2 + .025));
+		mi.prisma(.3, 1.2 - .05 - .1 - .1, .3, greyroof.GLindex);//ancho
+
+		glTranslatef(0, -.475, 0);
+		mi.prisma(.75, .05, .4, greyroof.GLindex);//ancho
+
+		glTranslatef(-.9, -2, .7);
+		chairkitch();
+		glTranslatef(1,-.5-.25-.125, -.2);
+		chairkitch();
+		glTranslatef(1, -.5 - .25 - .125, -.2);
+		chairkitch();
+												  
 	glPopMatrix();
 
 		
@@ -607,25 +663,28 @@ void ocho() {
 
 void nuevediez() {
 	glPushMatrix();
-		glTranslatef(0, 0, 0.37);
-		glPushMatrix();
-			glTranslatef(0.075, 2.90 / 2, 1.90 + 2.95 + (9.93 / 2) - 0.075);
-			mi.pared(0.15, 2.90, 9.93 + 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
-		glPopMatrix();
+			glTranslatef(0, 0, 0.37);
+			glPushMatrix();
+				glTranslatef(0.075, 2.90 / 2, 1.90 + 2.95 + (9.93 / 2) - 0.075);
+				mi.pared(0.15, 2.90, 9.93 + 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
+			glPopMatrix();
 
-		/*glPushMatrix();
-			glTranslatef(4.53/2, 2.90 / 2, 1.90 + 2.95 + 9.93-0.075);
-			mi.pared(4.53, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
-		glPopMatrix();
+			glPushMatrix();
+				glTranslatef(3.63/2, 2.90 / 2, 1.90 + 2.95 + 9.93-0.075);
+				mi.pared(3.63, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
+		
 
-		glPushMatrix();
-			glTranslatef(1.815, 2.90 / 2, 1.90 + 2.95 + 9.93-0.075);
-			mi.pared(3.63, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
+		
+				glTranslatef(1.815+.45-0.025,1+0.225,0);
+				mi.pared(.90, .45, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
+		
+		
+				glTranslatef(0.45-0.075,-1.225, 0);
+				mi.pared(0.15+.05, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
 
-			glTranslatef(1.815,1.45-.25, 0);
-			mi.pared(0.90, .5, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
+			glPopMatrix();
+		
 
-		glPopMatrix();*/
 
 		glPushMatrix();
 			glTranslatef(2.715, 2.90 + .15, 9.815 - 0.15);
