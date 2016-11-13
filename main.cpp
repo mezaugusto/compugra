@@ -48,7 +48,7 @@ GLuint currenttv;
 GLuint currentsky;
 #define COLOR_DEFAULT 0.35
 bool hatemusic = true,backwards=false,ejes=false,valak=false;
-float movX = 0,x=0,x2=0,defaultcolor = COLOR_DEFAULT, distortion=0;
+float movX = 0, x = 0, x2 = 0,  x3 = 0,defaultcolor = COLOR_DEFAULT, distortion = 0;
 
 
 #define MAX_FRAMES 13 //cantidad de cuadros clave que se pueden guardar
@@ -59,6 +59,26 @@ float tras_sillas = 0.0;
 float up_sillas = 0.0;
 float rot_sillas = 0.0;
 float door = 0.0;
+
+//Figuras de 3D Studio
+CModel kit;
+CModel llanta;
+CModel casita;
+CModel oldhouse;
+CModel carro;
+
+//Animación del coche
+float angRot = 0.0;
+float movKitX = 0.0;
+float movKitZ = 0.0;
+float movKitXFinal = 0.0;
+float movKitZFinal = 0.0;
+float movKitXInc = 0.0;
+float movKitZInc = 0.0;
+float rotKit = 0.0;
+float rotTires = 0.0;
+bool g_fanimacion = false;
+bool g_avanza = true;
 
 typedef struct _frame
 {
@@ -275,6 +295,9 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	wood2.BuildGLTexture();
 	wood2.ReleaseImage();
 
+	kit._3dsLoad("kitt.3ds");
+	llanta._3dsLoad("k_rueda.3ds");
+
 	/* Setup Sound*/
 	engine = irrklang::createIrrKlangDevice();
 	if (!engine) printf("No se pudo crear sonido");
@@ -332,7 +355,71 @@ void chairkitch() {
 	mi.prisma(.3, .2-.005, .05, metal.GLindex);
 }
 
+void car() {
+	glPushMatrix();
+		glDisable(GL_COLOR_MATERIAL);
+		glPushMatrix();
+			glRotatef(90, 0, 1, 0);
+			glScalef(0.10, 0.16, 0.14);
 
+			glTranslatef(movKitX, 4, movKitZ);
+			glRotatef(rotKit, 0, 1, 0);
+
+			kit.GLrender(NULL, _SHADED, 1.0); //Dibujamos la carroceria
+
+			glPushMatrix(); //llanta frontal der
+				glTranslatef(-6, -1, 7.5);
+				glRotatef(-rotTires, 1, 0, 0);
+				llanta.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
+
+			glPushMatrix(); //llanta frontal izq
+				glTranslatef(6, -1, 7.5);
+				glRotatef(180, 0, 1, 0);
+				glRotatef(rotTires, 1, 0, 0);
+				llanta.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
+
+			glPushMatrix(); //llanta trasera der
+				glTranslatef(-6, -1, -9.5);
+				glRotatef(-rotTires, 1, 0, 0);
+				llanta.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
+
+			glPushMatrix(); //llanta trasera izq
+				glTranslatef(6, -1, -9.5);
+				glRotatef(180, 0, 1, 0);
+				glRotatef(rotTires, 1, 0, 0);
+				llanta.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
+
+			glEnable(GL_COLOR_MATERIAL);
+		glPopMatrix();
+		glPopMatrix();
+
+}
+
+void sink() {
+	
+	mi.techo(0.45, 0.095, 0.05, 5, 5, 1, metal.GLindex);
+
+	glTranslatef(-0.1125, +0.026, 0);
+	mi.cilindro(.025, 0.085, 12, metal.GLindex);
+
+	glTranslatef(0.225, 0, 0);
+	mi.cilindro(.025, 0.085, 12, metal.GLindex);
+
+	glTranslatef(-0.1125, .2, 0);
+	mi.prisma(.04, .4, .04, metal.GLindex);
+
+	glTranslatef(0, .2, .1 - .0125 + .002 + .002);
+	mi.prisma(.04, .05, .2 + .025, metal.GLindex);
+
+	glTranslatef(0, -.025, .0915);
+	mi.prisma(.04, .03, .04, metal.GLindex);
+
+
+}
 void uno() {
 	glPushMatrix();
 		glTranslatef(9.59, 1.45, 0.009375);
@@ -357,7 +444,7 @@ void uno() {
 		mi.pared(1.785, 2.9, 0.075, 2.5, 0.2, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
 		glTranslatef(-0.855, 0, -.32375);
 		mi.door(0.075, 2.9, 0.6475, x2, whitewall.GLindex,whitewall.GLindex, puerta.GLindex,puerta2.GLindex);
-		glTranslatef(-0.35, -1.2, -0.32375);
+		glTranslatef(-0.35, 0, -0.39875);
 		glPushMatrix();
 			glRotatef(90,0,1,0);
 			mi.door(0.075, 2.9, .7, -x2, whitewall.GLindex,whitebrick.GLindex, puerta.GLindex, puerta2.GLindex);
@@ -371,6 +458,80 @@ void uno() {
 	glTranslatef(0.24, -2.9 - 0.15 - 0.0375, 0);
 	mi.techo(5.17, 0.075, 5.17, 5, 5, 1, piso.GLindex);
 	glPopMatrix();
+
+	//sink
+	glPushMatrix();
+		glTranslatef(6.6975, 0.45, .25+.125-.0625);
+		glScalef(.4225, .9, 0.35);
+		glRotatef(90, 0, 1, 0);
+		mi.alacena(wood1.GLindex, greyroof.GLindex, 0);
+
+		glTranslatef(0, 0.55, .5);
+			glPushMatrix();
+				glRotatef(180, 0, 1, 0);
+				sink();
+			glPopMatrix();
+	 
+		glTranslatef(.03125-.002-.002-.002 - .002 - .002, -.05+.002, -.25);
+			mi.cilindro(.35, .0075, 26, metal.GLindex);
+	glPopMatrix();
+
+	//bote
+	glPushMatrix();
+		glTranslatef(7.725, 0, .15);
+		mi.cilindro(.23, .9, 26, metal.GLindex);
+		glTranslatef(0, .9, 0);
+		mi.cilindro(.23, .075, 26, greyroof.GLindex);
+		glTranslatef(0, 0.075, 0);
+		mi.prisma(.1, .05, .025, metal.GLindex);
+	glPopMatrix();
+
+	//lavadora
+	glPushMatrix();
+		glTranslatef(7.725+0.855+.2, 0, .15);
+		mi.prisma(.55,.8 , .4, metal.GLindex);
+
+		glTranslatef(0, .8, 0);
+		mi.prisma(.55, 1.15, .4, whitewall.GLindex);
+
+		glTranslatef(0, .1025-.075, -.125-.075-.002-.002);
+			glPushMatrix();
+				glRotatef(90, 1,0,0);
+				mi.cilindro(.26, .0075, 26, metal.GLindex);//radio, grosor, 
+			glPopMatrix();
+
+		glTranslatef(.19, .45, 0);
+			glPushMatrix();
+				glRotatef(90, 1, 0, 0);
+				mi.cilindro(.045, .0075, 26, metal.GLindex);//radio, grosor, 
+			glPopMatrix();
+
+		glTranslatef(-.15, 0, 0);
+			glPushMatrix();
+				glRotatef(90, 1, 0, 0);
+				mi.cilindro(.035, .0075, 26, metal.GLindex);//radio, grosor, 
+			glPopMatrix();
+
+		glTranslatef(-.15, 0, 0);
+			glPushMatrix();
+				glRotatef(90, 1, 0, 0);
+				mi.cilindro(.025, .0075, 26, metal.GLindex);//radio, grosor, 
+			glPopMatrix();
+
+		glTranslatef(-.1, 0, 0);
+			glPushMatrix();
+				glRotatef(90, 1, 0, 0);
+				mi.cilindro(.015, .0075, 26, metal.GLindex);//radio, grosor, 
+			glPopMatrix();
+
+		glTranslatef(0.3-.075-.0125, .15, .4);
+		mi.prisma(.55, .09, .09, metal.GLindex);
+
+
+
+
+	glPopMatrix();
+
 	//alacena
 	glPushMatrix();
 
@@ -462,21 +623,58 @@ void uno() {
 		glTranslatef(.5 + .285, 0, -0.45625);
 		mi.alacena(wood1.GLindex, greyroof.GLindex, 0);
 
-		glTranslatef(-.5 - .285 - .05 - .025 + .00625, +.05, +.45625 - .2875 - .025);
+		//estufa
+		glTranslatef(-.5 - .285 - .05 - .025 + .00625, +.05, +.45625 - .2875 - .025);//centro negro
 		mi.techo(.5, .55, 0.14375 * 2 + .05 + .025, 5, 5, 1, metal.GLindex);
 
 		glTranslatef(0, 0, 0);
-		mi.techo(.6 - .025, .85, 0.14375 * 2 + .05 + .002, 5, 5, 1, greyroof.GLindex);
+		mi.techo(.6 - .025, .85, 0.14375 * 2 + .05 + .002, 5, 5, 1, greyroof.GLindex);//caja 
 
-		glTranslatef(0, -0.425 - .05 - .025, 0);
+		glTranslatef(0, -0.425 - .05 - .025, 0);//soporte inferior
 		mi.techo(.6 - .025, .1 + .05, 0.14375 * 2 + .05 + .002, 5, 5, 1, metal.GLindex);
 
-		glTranslatef(0, +0.90, 0);
+		glTranslatef(0, +0.90, 0);//parrilla
 		mi.techo(.6 - .025, .09, 0.14375 * 2 + .05 + .002 + .002, 5, 5, 1, metal.GLindex);
 
-		glTranslatef(0, +0.005, 0);
+		glTranslatef(0, +0.005, 0);//parrilla
 		mi.techo(.6 - .025, .01, 0.14375 * 2 + .05 + .002 + .002, 5, 5, 1, metal.GLindex);
 
+		//botones
+		glPushMatrix();
+
+			glTranslatef(.15, .05-.0125, -.075);
+			mi.cilindro(.03125*2, .0125, 28, puff.GLindex);
+
+			glTranslatef(-.27, 0, 0);
+			mi.cilindro(.03125 * 2, .0125, 28, puff.GLindex);
+
+			glTranslatef(0, 0, .15);
+			mi.cilindro(.03125 * 2, .0125, 28, puff.GLindex);
+
+			glTranslatef(.27, 0, 0);
+			mi.cilindro(.03125 * 2, .0125, 28, puff.GLindex);
+
+			glTranslatef(.0625, -.05, -.25);
+			glRotatef(90, 1, 0, 0);
+			mi.cilindro(.03125, .0125, 28, puff.GLindex);
+
+			glTranslatef(-.1, 0, 0);
+			mi.cilindro(.03125, .0125, 28, puff.GLindex);
+
+			glTranslatef(-.1, 0, 0);
+			mi.cilindro(.03125, .0125, 28, puff.GLindex);
+
+			glTranslatef(-.1, 0, 0);
+			mi.cilindro(.03125/2, .0125, 28, puff.GLindex);
+
+			glTranslatef(-.05, 0, 0);
+			mi.cilindro(.03125 / 2, .0125, 28, puff.GLindex);
+
+			glTranslatef(-.05, 0, 0);
+			mi.cilindro(.03125 / 2, .0125, 28, puff.GLindex);
+		glPopMatrix();
+
+		//mesa y campana
 		glTranslatef(0, 0.025 - .002 - .002, +.14375 * 2 + .025);
 		mi.techo(.6 - .025, .05, 0.14375 * 2, 5, 5, 1, greyroof.GLindex);
 
@@ -489,6 +687,7 @@ void uno() {
 		glTranslatef(0, -.475, 0);
 		mi.prisma(.75, .05, .4, greyroof.GLindex);//ancho
 
+		//sillas
 		glTranslatef(-.9, -2, .7);
 		chairkitch();
 		glTranslatef(1,-.5-.25-.125, -.2);
@@ -522,6 +721,11 @@ void dos() {
 		glTranslatef(-2.175+0.075, -2.9-0.15-0.0375,0);
 			mi.techo(9.85, 0.075, 6.15, 5, 5, 1, piso.GLindex);
 		glTranslatef(0,0.8,-1.5);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(7.355, 0, -3);
+		car();
 	glPopMatrix();
 }
 void tres(){
@@ -675,14 +879,18 @@ void nuevediez() {
 				glTranslatef(3.63/2, 2.90 / 2, 1.90 + 2.95 + 9.93-0.075);
 				mi.pared(3.63, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
 		
-
-		
+				
+				
 				glTranslatef(1.815+.45-0.025,1+0.225,0);
-				mi.pared(.90, .45, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
-		
-		
-				glTranslatef(0.45-0.075,-1.225, 0);
-				mi.pared(0.15+.05, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
+				glPushMatrix();
+				glTranslatef(-.15,-1.225,0);
+				glRotatef(-90, 0, 1, 0);
+					mi.door(.15, 2.9, .75, x3, whitewall.GLindex, whitebrick.GLindex, puerta.GLindex, puerta2.GLindex);
+					
+				glPopMatrix();
+			
+					glTranslatef(0.45-0.075,-1.225, 0);
+					mi.pared(0.15+.05, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
 
 			glPopMatrix();
 		
@@ -710,6 +918,29 @@ void nuevediez() {
 			glTranslatef(0, 0, 0.009375);
 			glTranslatef(7.975 - (0.0375 / 4), 2.90 + .30 + .40, 14.855 - 0.15);
 			mi.techo(11.8 - (0.0375 / 2), .80, .15, 5, 5, 1, greyroof.GLindex);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(5.85, -0.1, 5);
+			mi.arbol(1, .5, tree3.GLindex);
+			glTranslatef(0, 0, 1);
+			mi.arbol(1, .5, tree3.GLindex);
+			glTranslatef(0, 0, 1);
+			mi.arbol(1, .5, tree3.GLindex);
+			glTranslatef(0, 0, 1);
+			mi.arbol(1, .5, tree3.GLindex);
+			glTranslatef(0, 0, 3.5);
+			mi.arbol(1, .5, tree3.GLindex);
+			glTranslatef(0, 0, 1);
+			mi.arbol(1, .5, tree3.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(7.2, -0.1, 6.5);
+		mi.arbol(8, 2, tree2.GLindex);
+
+		glTranslatef(0, 0, 4.5);
+		mi.arbol(8, 2, tree2.GLindex);
+		
 		glPopMatrix();
 
 		glPushMatrix();
@@ -991,11 +1222,15 @@ void catorce_ventanas(){}
 void quince_ventanas(){}
 
 
+
+
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glLoadIdentity();
+
+
 	
 	glPushMatrix();
 
@@ -1004,7 +1239,8 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		gluLookAt(	objCamera.mPos.x,  objCamera.mPos.y,  objCamera.mPos.z,	
 					objCamera.mView.x, objCamera.mView.y, objCamera.mView.z,	
 					objCamera.mUp.x,   objCamera.mUp.y,   objCamera.mUp.z);
-	
+
+		
 		glPushMatrix(); //Creamos cielo
 			glDisable(GL_LIGHTING);
 			glTranslatef(10,30-0.075-2,11);
@@ -1113,6 +1349,12 @@ void animacion()
 	}
 	else {
 		x2 -= x2>0? 0.2 : 0;
+	}
+	if (objCamera.mPos.x > 0 && objCamera.mPos.x<5 && objCamera.mPos.z>13 && objCamera.mPos.z < 18) {
+		x3 += x3>3.14 ? 0 : 0.2;
+	}
+	else {
+		x3 -= x3>0 ? 0.2 : 0;
 	}
 	//Animacion Keyframes
 	if (play)
