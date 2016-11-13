@@ -1,4 +1,4 @@
-# Proyecto 2017-1 de Valencia para Computación Grafica
+﻿# Proyecto 2017-1 de Valencia para Computación Grafica
 [![CocoaPods](https://img.shields.io/cocoapods/l/AFNetworking.svg)]()
 
 Checklist del proyecto
@@ -16,26 +16,11 @@ Checklist del proyecto
 - [x] Techos
 - [X] Alrededores c/pasto y carretera
 - [ ] Muebles
-    - [ ] Estar-comedor (9-10)
-        - [x] mesa del comedor
-         - [x] 10 sillas del comedor
-         - [x] sofá
-         - [x] mesita
-         - [x] 2 sofás individuales
-         - [ ] television
-         
-    - [ ] Cocina (1)
-        - [ ] mueble de lava trastes   
-        - [ ] alacena
-        - [ ] desayunador
-        - [ ] refrigerador
-        - [ ] sillas
-        - [ ] estufa
-
+    - [X] Estar-comedor (9-10)
+        
+    - [X] Cocina (1)
+     
     - [ ] Baños (6 y 7)
-        - [ ] ducha
-        - [ ] retrete
-        - [ ] mueble con lava manos
         - [ ] tina
         - [ ] espejo
         - [ ] toalla
@@ -56,14 +41,11 @@ Checklist del proyecto
         - [ ] 2 burós y lamparas
         - [ ] mueble con espejo
         - [ ] vestidor(6)
-    - [ ] Garage (2) 
-        - [ ] lavadora
-        - [ ] medio baño
-            - [ ] retrete
-            - [ ] mueble de lava manos y espejo
-- [ ] Jardines
+    - [X] Garage (2) 
+        
+- [X] Jardines
 - [ ] Animaciones
-	- [X] 1 Animación normal
-	- [ ] 3 Animaciones normales
+	- [X] 2 Animación normal(Agua y ventanas)
+	- [ ] 1 Animaciones normales
 	- [x] 1 Animación por keyframe
 - [ ] Manual de Uso
