@@ -27,8 +27,6 @@ irrklang::ISound* music;
 CCamera objCamera; 
 GLfloat g_lookupdown = 0.0f;    // Look Position In The Z-Axis (NEW) 
 
-int font=(int)GLUT_BITMAP_HELVETICA_18;
-
 CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2,tree3;
 CTexture sofa, puff, carpet, tv1, tv2,tv3,tv4,tv5,black,puerta,puerta2, cama2, almohada, blanket, aluminio;
 CFiguras mi;
@@ -294,8 +292,8 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	aluminio.BuildGLTexture();
 	aluminio.ReleaseImage();
 
-	kit._3dsLoad("kitt.3ds");
-	llanta._3dsLoad("k_rueda.3ds");
+	kit._3dsLoad("models/kitt.3ds");
+	llanta._3dsLoad("models/k_rueda.3ds");
 
 	/* Setup Sound*/
 	engine = irrklang::createIrrKlangDevice();
@@ -786,7 +784,9 @@ void cuatro(){
 			glTranslatef(-0.4, -1.4, 0.825);
 			glRotatef(270, 0.0, 1.0, 0.0);
 			glScalef(0.000825, 0.002, 0.0007);
+			glEnable(GL_LIGHTING);
 			tina.GLrender(NULL, _SHADED, 1.0);
+			glDisable(GL_LIGHTING);
 		glPopMatrix();
 		
 		glPushMatrix();
@@ -1009,9 +1009,6 @@ void ocho() {
 	mi.pared(0.9, 2.90, 0.15, 3, 3, 2, whitewall.GLindex, whitebrick.GLindex, whitebrick.GLindex);
 	glPopMatrix();
 }
-
-//void pared(float largo, float altura, float profundidad, float frontback (hacia la casa), float rightleft, float vertical, GLuint right, GLuint left=0, GLuint front=0, GLuint back=0);//Funcíon creacion prisma
-//void techo(float largo, float altura, float profundidad, GLuint text);//Funcion creacion prisma
 
 void nuevediez() {
 	glPushMatrix();
@@ -1293,27 +1290,6 @@ void catorce() {
 	mi.techo(4.53, 0.075, ((24.78 + 0.3) / 2), 3, 3, 2, piso.GLindex);
 	glPopMatrix();
 
-
-	/*glPushMatrix();
-	glTranslatef((4.53 / 4)-0.2 , 2.9/2, 15.186);
-	glRotatef(90,0.0,1.0,0.0);
-	mi.ventana_solid_repeat((4.225/2)*0.75,2,2.9,0.075,metal.GLindex);
-		glPushMatrix();
-			glTranslatef(0.078,0.0,((4.225/2)*0.75)/2);
-			mi.ventana_solid_repeat(((4.225/2)*0.75)/2,1,2.9,0.075,metal.GLindex);
-		glPopMatrix();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef((4.53*3 / 4)+0.2, 2.9/2, 15.186);
-	glRotatef(90,0.0,1.0,0.0);
-	mi.ventana_solid_repeat((4.225/2)*0.75,2,2.9,0.075,metal.GLindex);
-		glPushMatrix();
-			glTranslatef(0.078,0.0,-((4.225/2)*0.75)/2);
-			mi.ventana_solid_repeat(((4.225/2)*0.75)/2,1,2.9,0.075,metal.GLindex);
-		glPopMatrix();
-	glPopMatrix();*/
-
 	glPushMatrix();
 	glTranslatef(0.075, 1.45, 15.225 + 1.675);
 	mi.pared(0.15, 2.9, 3.5, 1, 4, 2, whitebrick.GLindex, whitebrick.GLindex, whitebrick.GLindex, whitebrick.GLindex);
@@ -1364,7 +1340,6 @@ void uno_ventanas(){
 		glDisable(GL_BLEND);        // Turn Blending Off
 	glPopMatrix();
 }
-void dos_ventanas(){}
 void tres_ventanas(){
 glPushMatrix();
 		glTranslatef(0.15 + 4.53 + .90 + 4.27 - 0.075 , 2.90 / 2, 1.90 + .15 + 2.95 + .075 + 10 + 0.075);
@@ -1394,7 +1369,6 @@ void cuatro_ventanas(){
 
 	glPopMatrix();
 }
-void cinco_ventanas(){}
 void seis_ventanas(){
 	glPushMatrix();
 		glTranslatef(0.15 + 4.53 + .90 + 4.27 - 0.075, 2.90 / 2, 1.90 + .15 + 2.95 + .075 + 10 + 0.075 + 0.075 + 3 + .075 + 1.5 +.15 +3.7);
@@ -1416,7 +1390,6 @@ void seis_ventanas(){
 
 	glPopMatrix();
 }
-void siete_ventanas(){}
 void ocho_ventanas(){
 
 	glPushMatrix();
@@ -1474,8 +1447,6 @@ void once_ventanas(){
 		glPopMatrix();
 	glDisable(GL_BLEND);        // Turn Blending Off
 }
-void doce_ventanas(){
-}
 void trece_ventanas(){
 	glPushMatrix();
 		glTranslatef(2.34 + 0.075, 1.45, 5 + 0.075); //nos movemos al mismo punto CTLR-C +CLTR+V
@@ -1493,29 +1464,6 @@ void trece_ventanas(){
 		mi.ventana_blend_repeat(5.15,1,4.2,0.3,window.GLindex);
 	glPopMatrix();
 }
-void catorce_ventanas(){
-	/*glPushMatrix();
-	glTranslatef((4.53 / 4)-0.2 , 2.9/2, 15.186);
-	glRotatef(90,0.0,1.0,0.0);
-	//mi.ventana_blend_repeat((4.225/2)*0.75,2,2.9,0.075,window.GLindex);
-		glPushMatrix();
-			glTranslatef(0.078,0.0,((4.225/2)*0.75)/2);
-		//	mi.ventana_blend_repeat(((4.225/2)*0.75)/2,1,2.9,0.075,window.GLindex);
-		glPopMatrix();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef((4.53*3 / 4)+0.2, 2.9/2, 15.186);
-	glRotatef(90,0.0,1.0,0.0);
-	//mi.ventana_blend_repeat((4.225/2)*0.75,2,2.9,0.075,window.GLindex);
-		glPushMatrix();
-			glTranslatef(0.078,0.0,-((4.225/2)*0.75)/2);
-			//mi.ventana_blend_repeat(((4.225/2)*0.75)/2,1,2.9,0.075,window.GLindex);
-		glPopMatrix();
-	glPopMatrix(); Se sobrepone a la pared*/
-
-}
-void quince_ventanas(){}
 
 
 
@@ -1579,19 +1527,13 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			catorce();
 			quince();
 			uno_ventanas();
-			dos_ventanas();
 			tres_ventanas();
 			cuatro_ventanas();
-			cinco_ventanas();
 			seis_ventanas();
-			siete_ventanas();
 			ocho_ventanas();
 			nuevediez_ventanas();
 			once_ventanas();
-			doce_ventanas();
 			trece_ventanas();
-			catorce_ventanas();
-			quince_ventanas();
 		glPopMatrix();
 		if (valak) {
 			glPushMatrix();
@@ -1620,11 +1562,6 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPopMatrix();
 		}
 	glPopMatrix();
-	glDisable(GL_TEXTURE_2D);
-		glColor3f(1.0, 0.0, 0.0);
-		pintaTexto(-12, 12.0, -14.0, (void *)font, "Proyecto Final");
-		glColor3f(1.0, 1.0, 1.0);
-	glEnable(GL_TEXTURE_2D);
 	glutSwapBuffers ( );
 
 }
