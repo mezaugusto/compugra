@@ -294,7 +294,6 @@ void CFiguras::techomueve(float largo, float altura, float profundidad, float ve
 void CFiguras::arbol(float altura,float radio,GLuint arbol)
 {
 	glPushMatrix();
-	glDisable(GL_LIGHTING);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.1);
 	glBindTexture(GL_TEXTURE_2D, arbol);
@@ -340,7 +339,6 @@ void CFiguras::arbol(float altura,float radio,GLuint arbol)
 	glTexCoord2f(0.0f, 1.0f); glVertex3f(-radio, altura, 0.0);
 	glEnd();
 	glDisable(GL_ALPHA_TEST);
-	glEnable(GL_LIGHTING);
 
 	glPopMatrix();
 }
@@ -982,12 +980,10 @@ void CFiguras::ventana_solid(float altura, float largo, float profundidad, GLuin
 }
 
 void CFiguras::ventana_blend(float altura, float largo, float profundidad, GLuint window) {
-	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);     // Turn Blending On
 	glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_ALPHA);
 	CFiguras::pared(profundidad, altura - 2 * profundidad-.001, largo - 2 * profundidad-.001, 0, 1, 1, window);
 	glDisable(GL_BLEND);        // Turn Blending Off
-	glEnable(GL_LIGHTING);
 }
 
 void CFiguras::ventana_solid_repeat(float longitud, float ventanas,float altura, float profundidad, GLuint frame) {
@@ -1215,6 +1211,43 @@ void CFiguras::alacena(GLuint wood, GLuint marble, float rotalacena) {
 	CFiguras::techo(1.14, .05, .60 + 0.0125 + 0.0125, 5, 5, 1, marble);
 	*/
 }
+void CFiguras::cama(float xMadera, float yMadera, float zMadera, GLuint base, GLuint blanket, GLuint almohada){
+	glPushMatrix();
+		glScalef(xMadera, yMadera, zMadera); //posicion y tamaño 
+		//cabecera
+		glPushMatrix();
+			glTranslatef(0.0, 0.6, -1.04);
+			CFiguras::prisma(2.1, 1.2, 0.08, base);
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(0.0, 0.25, 1.04);
+			CFiguras::prisma(2.1, 0.5, 0.08, base);
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(0.0, 0.4, 0.0);
+			CFiguras::prisma(2.1, 0.2, 2.0, base);
+		glPopMatrix();
+
+		//Colchon
+		glPushMatrix();
+			glTranslatef(0.0, 0.6, 0.0);
+			CFiguras::pared(2.0, 0.2, 2.0, 10, 2, 2, blanket);
+		glPopMatrix();
+
+		//Almohadas
+		glPushMatrix();
+			glTranslatef(-0.5, 0.75, -0.80);
+			CFiguras::prisma(0.8, 0.1, 0.3, almohada);
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(0.5, 0.75, -0.80);
+			CFiguras::prisma(0.8, 0.1, 0.3, almohada);
+		glPopMatrix();
+	glPopMatrix();
+}
 void CFiguras::door(float profundidad, float altura, float largo,float apertura, GLuint pared, GLuint pared2, GLuint puerta,GLuint puerta2) {
 	apertura *= 12.73 * 2;
 	if (apertura > 80)apertura = 160-apertura;
@@ -1229,4 +1262,299 @@ void CFiguras::door(float profundidad, float altura, float largo,float apertura,
 		glTranslatef(0, 0, (largo - profundidad)*.5);
 		CFiguras::pared(profundidad, altura*0.827586, largo - profundidad,0.1, 1, 1, puerta2,puerta,puerta,puerta);
 	glPopMatrix();
+}
+void CFiguras::cajon(GLfloat xCajon, GLfloat yCajon, GLfloat zCajon, GLuint text, GLuint manija)
+{
+	glPushMatrix();
+		//glTranslatef(0.0, 0.0, cajon_mov);
+		glPushMatrix();
+			glTranslatef(0.0, 0.39, 0.23);
+			CFiguras::prisma(0.40, 0.12, 0.02, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.0, 0.39, -0.23);
+			CFiguras::prisma(0.40, 0.12, 0.02, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.19, 0.39, 0.0);
+			CFiguras::prisma(0.02, 0.12, 0.44, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-0.19, 0.39, 0.0);
+			CFiguras::prisma(0.02, 0.12, 0.44, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.0, 0.34, 0.0);
+			CFiguras::prisma(0.36, 0.02, 0.44, text);
+		glPopMatrix();
+
+	//Manija
+		glPushMatrix();
+			glTranslatef(0.0, 0.39, 0.3);
+			CFiguras::prisma(0.2, 0.015, 0.015, manija);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.0925, 0.39, 0.26425);
+			CFiguras::prisma(0.015, 0.015, 0.0585, manija);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-0.0925, 0.39, 0.26425);
+			CFiguras::prisma(0.015, 0.015, 0.0585, manija);
+		glPopMatrix();
+	glPopMatrix();
+}
+void CFiguras::armario(GLfloat xcloset, GLfloat ycloset, GLfloat zcloset, GLuint text, GLuint manija, GLuint tubo) {
+	glPushMatrix();
+		glPushMatrix();
+			glTranslatef(0.5, 2.5/2, -0.3);
+			CFiguras::prisma(0.02, 2.5, 0.6, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-0.5, 2.5/2, -0.3);
+			CFiguras::prisma(0.02, 2.5, 0.6, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-1.5, 2.9/2, -0.3);
+			CFiguras::prisma(0.02, 2.9, 0.6, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(1.5, 2.9/2, -0.3);
+			CFiguras::prisma(0.02, 2.9, 0.6, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.0, 2.51, -0.3);
+			CFiguras::prisma(2.98, 0.02, 0.6, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-1.0, 2.5/2, -0.3);
+			CFiguras::prisma(0.98, 0.02, 0.6, text);
+			glPushMatrix();
+				glTranslatef(0.5, 1.15, 0.0);
+				glRotatef(90, 0.0, 0.0, 1.0);
+				CFiguras::cilindro(0.02, 1.0, 50, tubo);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(0.5, -0.15, 0.0);
+				glRotatef(90, 0.0, 0.0, 1.0);
+				CFiguras::cilindro(0.02, 1.0, 50, tubo);
+			glPopMatrix();
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(0.0, 2.5/6, -0.3);
+			CFiguras::prisma(0.98, 0.02, 0.6, text);
+			glTranslatef(0.0, 2.5 / 6, 0.0);
+			CFiguras::prisma(0.98, 0.02, 0.6, text);
+			glTranslatef(0.0, 2.5 / 6, 0.0);
+			CFiguras::prisma(0.98, 0.02, 0.6, text);
+			glTranslatef(0.0, 2.5 / 6, 0.0);
+			CFiguras::prisma(0.98, 0.02, 0.6, text);
+			glTranslatef(0.0, 2.5 / 6, 0.0);
+			CFiguras::prisma(0.98, 0.02, 0.6, text);
+		glPopMatrix();
+
+		glPushMatrix();
+			glPushMatrix();
+				glTranslatef(1.35, 2.5-2.5/4, -0.3);
+				CFiguras::prisma(0.3, 0.02, 0.6, text);
+				glTranslatef(0.0, - 2.5 / 4, 0.0);
+				CFiguras::prisma(0.3, 0.02, 0.6, text);
+				glTranslatef(0.0, -2.5 / 4, 0.0);
+				CFiguras::prisma(0.3, 0.02, 0.6, text);
+				glTranslatef(0.0, -2.5 / 4, 0.0);
+				CFiguras::prisma(0.3, 0.02, 0.6, text);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(1.19, 2.5/2, -0.3);
+				CFiguras::prisma(0.02, 2.48, 0.6, text);
+			glPopMatrix();
+		glPopMatrix();
+
+		glPushMatrix();
+			glPushMatrix();
+				glTranslatef(0.845, 1.015, -0.3);
+				CFiguras::prisma(0.675, 0.02, 0.6, text);
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(1.175, 2.4, -0.3);
+				glRotatef(90, 0.0, 0.0, 1.0);
+				CFiguras::cilindro(0.02, .675, 50, tubo);
+			glPopMatrix();
+
+			glTranslatef(0.845, -0.4, -0.285);
+			glPushMatrix();
+				glScalef(1.66, 2.0, 1.20);
+				CFiguras::cajon(1.0,1.0,1.0, text, manija);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(0.0, -0.25, 0.0);
+				glScalef(1.66, 2.0, 1.20);
+				CFiguras::cajon(1.0, 1.0, 1.0, text, manija);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(0.0, 0.25, 0.0);
+				glScalef(1.66, 2.0, 1.20);
+				CFiguras::cajon(1.0, 1.0, 1.0, text, manija);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(0.0, 0.5, 0.0);
+				glScalef(1.66, 2.0, 1.20);
+				CFiguras::cajon(1.0, 1.0, 1.0, text, manija);
+			glPopMatrix();
+		glPopMatrix();
+	glPopMatrix();
+}
+void CFiguras::buro(GLfloat xburo, GLfloat yburo, GLfloat zburo, GLfloat mov_cajon, GLuint text, GLuint manija){
+	glPushMatrix();
+		glScalef(xburo, yburo, zburo); //posicion y tamaño 
+		glPushMatrix();
+			glTranslatef(0.0, 0.025, 0.0);
+			CFiguras::prisma(0.45, 0.05, 0.45, text);
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(0.0, 0.075, 0.0);
+			CFiguras::prisma(0.5, 0.05, 0.5, text);
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(0.225, 0.3, 0.0);
+			CFiguras::prisma(0.05, 0.4, 0.5, text);
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(-0.225, 0.3, 0.0);
+			CFiguras::prisma(0.05, 0.4, 0.5, text);
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(0.0, 0.475, 0.0);
+			CFiguras::prisma(0.5, 0.05, 0.5, text);
+		glPopMatrix();
+
+		//Cajon
+		glPushMatrix();
+			glTranslatef(0.0, 0.0, mov_cajon);
+			CFiguras::cajon(1.0,1.0,1.0, text, manija);
+		glPopMatrix();
+	glPopMatrix();
+}
+void CFiguras::escritorio(GLfloat xescritorio, GLfloat yescritorio, GLfloat zescritorio, GLfloat text, GLuint tubos)
+{
+	glPushMatrix();
+	glScalef(xescritorio, yescritorio, zescritorio);
+		glPushMatrix();
+			glTranslatef(0.0,0.72,0.0);
+			CFiguras::prisma(1.2,0.04,0.4, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-0.58,0.35,0.0);
+			CFiguras::prisma(0.04,0.7,0.4, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.45,0.70,0.0);
+			glRotatef(180, 1.0, 0.0, 0.0);
+			CFiguras::cilindro(0.02,0.10,100, tubos);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.45,0.02,0.25);
+			CFiguras::prisma(0.3, 0.04, 0.9, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.45,0.04,0.0);
+			CFiguras::cilindro(0.02,0.25,100, tubos);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.45,0.165,0.68);
+			CFiguras::prisma(0.3, 0.25, 0.04, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.45,0.31,0.25);
+			CFiguras::prisma(0.3, 0.04, 0.9, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.45,0.33,0.55);
+			CFiguras::cilindro(0.02,0.25,100, tubos);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.45,0.455,-0.18);
+			CFiguras::prisma(0.3, 0.25, 0.04, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.45,0.60,0.25);
+			CFiguras::prisma(0.3, 0.04, 0.9, text);
+		glPopMatrix();
+
+		//Repisa
+		glPushMatrix();
+			glTranslatef(0.0,1.5,-0.05);
+			CFiguras::prisma(1.0, 0.04, 0.3, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.48,1.72,-0.05);
+			CFiguras::prisma(0.04, 0.4, 0.3, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-0.48,1.72,-0.05);
+			CFiguras::prisma(0.04, 0.4, 0.3, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.0,1.94,-0.05);
+			CFiguras::prisma(1.0, 0.04, 0.3, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-0.20,1.72,-0.05);
+			CFiguras::prisma(0.04, 0.4, 0.3, text);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.20,1.72,-0.05);
+			CFiguras::prisma(0.04, 0.4, 0.3, text);
+		glPopMatrix();
+	glPopMatrix();
+}
+void CFiguras::lampara(GLfloat xlampara, GLfloat ylampara, GLfloat zlampara, GLfloat text1, GLuint text2) {
+	glPushMatrix();
+	glScalef(xlampara, ylampara, zlampara);
+		glPushMatrix();
+			glRotatef(180, 0.0, 0.0, 1.0);
+			cilindro(0.04,0.03,50,text1);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.0,-0.01,0.0);
+			glRotatef(20, 0.0, 0.0, 1.0);
+			cilindro(0.005,0.20,50, text1);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-0.068,0.18,0.0);
+			glRotatef(80, 0.0, 0.0, 1.0);
+			cilindro(0.005,0.1,50, text1);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-0.16,0.145,0.0);
+			glRotatef(0, 0.0, 0.0, 1.0);
+			cono(0.05,0.05,30, text2);
+		glPopMatrix();
+	glPopMatrix();
+}
+void CFiguras::Laptop(GLfloat xLaptop, GLfloat yLaptop, GLfloat zLaptop, GLfloat text, GLfloat teclado, GLfloat pantalla)
+{
+		glPushMatrix();		
+		glScalef(xLaptop, yLaptop, zLaptop);
+			glPushMatrix();
+				glRotatef(90, 0.0, 1.0, 0.0);
+				glTranslatef(0.0, 0.01, 0.0);
+				CFiguras::prisma(0.25, 0.02, 0.38, text);
+				glTranslatef(0.0, 0.01, 0.0);
+				CFiguras::prisma(0.25, 0.0001, 0.38, teclado);
+			glPopMatrix();
+
+			glPushMatrix();		
+				glTranslatef(0.0, 0.21, 0.12);
+				CFiguras::prisma(0.38, 0.40, 0.02, text);
+				glTranslatef(0.0, 0.0, -0.01);
+				CFiguras::prisma(0.38, 0.40, 0.0001, pantalla);
+			glPopMatrix();
+
+		glPopMatrix();	
 }

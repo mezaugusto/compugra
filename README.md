@@ -11,7 +11,7 @@ Checklist del proyecto
 	- [X] Alberca(Tecla o)
 	- [X] Isometrica(Tecla i)
 - [x] Cuartos
-- [ ] Ventanas
+- [x] Ventanas
 - [X] Alberca
 - [x] Techos
 - [X] Alrededores c/pasto y carretera
@@ -33,7 +33,7 @@ Checklist del proyecto
         - [ ] librero y libros
         - [ ] lámpara
         - [ ] laptop
-        - [ ] plantas
+        - [x] plantas
         
     - [ ] Dormitorio (5)
         - [ ] cama con colcha y almohadas
