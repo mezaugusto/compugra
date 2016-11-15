@@ -41,14 +41,16 @@ GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
 GLfloat m_amb2[] = { 1.0, 1.0, 1.0, 1.0 };				// Ambiental Light Values
 
 CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2,tree3;
-CTexture sofa, puff, carpet, tv1, tv2,tv3,tv4,tv5,black,puerta,puerta2;
+CTexture sofa, puff, carpet, tv1, tv2,tv3,tv4,tv5,black,puerta,puerta2, cama2, almohada, blanket, aluminio;
 CFiguras mi;
 CModel toilet;
+CModel tina;
 GLuint currenttv;
 GLuint currentsky;
 #define COLOR_DEFAULT 0.35
 bool hatemusic = true,backwards=false,ejes=false,valak=false;
-float movX = 0, x = 0, x2 = 0,  x3 = 0,defaultcolor = COLOR_DEFAULT, distortion = 0;
+float movX = 0, x = 0, x2 = 0, x3 = 0, defaultcolor = COLOR_DEFAULT, distortion = 0, cajon = 0.0;
+int cajon2=0;
 
 
 #define MAX_FRAMES 13 //cantidad de cuadros clave que se pueden guardar
@@ -172,6 +174,8 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	//Modelos 3ds
 	toilet._3dsLoad("models/toilet.3ds");
 
+	tina._3dsLoad("models/tina.3ds");
+
 	t_cielo.LoadBMP("textures/sky2.bmp");
 	t_cielo.BuildGLTexture();
 	t_cielo.ReleaseImage();
@@ -294,6 +298,22 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	wood2.LoadBMP("textures/wood2.bmp");
 	wood2.BuildGLTexture();
 	wood2.ReleaseImage();
+
+	cama2.LoadBMP("textures/wood2.bmp");
+	cama2.BuildGLTexture();
+	cama2.ReleaseImage();
+
+	almohada.LoadBMP("textures/almohada2.bmp");
+	almohada.BuildGLTexture();
+	almohada.ReleaseImage();
+
+	blanket.LoadBMP("textures/blanket.bmp");
+	blanket.BuildGLTexture();
+	blanket.ReleaseImage();
+
+	aluminio.LoadBMP("textures/aluminio.bmp");
+	aluminio.BuildGLTexture();
+	aluminio.ReleaseImage();
 
 	kit._3dsLoad("kitt.3ds");
 	llanta._3dsLoad("k_rueda.3ds");
@@ -757,7 +777,7 @@ void tres(){
 			glPushMatrix();
 				glTranslatef(-0.0325-0.075-0.075-4.155,0.0,-0.1);
 				glRotatef(180,0.0,1.0,0.0);
-				mi.door(0.155,2.9,0.95,-x,whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
+				mi.door(0.155,2.9,0.95,-x,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
 			glPopMatrix();
 		glPopMatrix();
 
@@ -773,6 +793,13 @@ void cuatro(){
 	glPushMatrix();
 		glTranslatef(0.15 + 4.53 + .90 + 4.27 - 0.075, 2.90 / 2, 1.90 + .15 + 2.95 + .075 + 10 + 0.075 + 0.075 + 3);
 
+		glPushMatrix();
+			glTranslatef(-0.2, -1.4, 0.625);
+			glRotatef(90, 0.0, 1.0, 0.0);
+			glScalef(0.002, 0.0035, 0.0025);
+			tina.GLrender(NULL, _SHADED, 1.0);
+		glPopMatrix();
+		
 		glPushMatrix();
 			glTranslatef(0,0, 0.3375);
 			mi.pared(0.15, 2.90, 0.675, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
@@ -793,11 +820,11 @@ void cuatro(){
 			glPushMatrix();
 				glTranslatef(-0.0325-0.075-0.075-4.155,0.0,-0.1);
 				glRotatef(180,0.0,1.0,0.0);
-				mi.door(0.155,2.9,0.95,-x,whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
+				mi.door(0.155,2.9,0.95,-x,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
 			glPopMatrix();
 			glPushMatrix();
 				glTranslatef(-0.0325-0.075-0.075-4.155,0.0,1.275);
-				mi.door(0.155,2.9,1.2,x,whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
+				mi.door(0.155,2.9,1.2,x,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
 			glPopMatrix();
 		glPopMatrix();
 
@@ -819,6 +846,24 @@ void cinco(){
 		glPushMatrix();
 			glTranslatef(-.075 -3 - .15 - .5, 2.90 / 2 + .15, .15 + 3.7+.15 + 1.025);
 			mi.techo(1.0, 0.30, 2.05, 5, 5, 1, greyroof.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
+				glTranslatef(-1.65, -2.90/2, 2.7);
+				glRotatef(180, 0.0, 1.0, 0.0);
+				mi.cama(0.8, 1.0, 1.0, wood2.GLindex, blanket.GLindex, almohada.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
+				glTranslatef(-0.45, -2.90/2, 3.4);
+				glRotatef(180, 0.0, 1.0, 0.0);
+				mi.buro(1.0, 1.5, 1.0, cajon, wood2.GLindex, aluminio.GLindex);
+		glPopMatrix();
+		
+		glPushMatrix();
+				glTranslatef(-2.85, -2.90 / 2, 3.4);
+				glRotatef(180, 0.0, 1.0, 0.0);
+				mi.buro(1.0, 1.5, 1.0, cajon, wood2.GLindex, aluminio.GLindex);
 		glPopMatrix();
 	glPopMatrix();
 
@@ -873,8 +918,14 @@ void seis(){
 			glPushMatrix();
 				glTranslatef(-0.6-1.65+0.130,0.0,0.0);
 				glRotatef(90,0.0,1.0,0.0);
-				mi.door(0.155,2.9,1.1,-x,whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
+				mi.door(0.155,2.9,1.1,-x,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
 			glPopMatrix();
+		glPopMatrix();
+
+		glPushMatrix();
+				glTranslatef(-1.575,-2.9/2,0.75);
+				glScalef(0.99, 1.0, 1.0);
+				mi.armario(1.0,1.0,1.0, wood2.GLindex, aluminio.GLindex, aluminio.GLindex);
 		glPopMatrix();
 	glPopMatrix();
 }
@@ -1622,6 +1673,20 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 void animacion()
 {
+	if (cajon2 == 0)
+	{
+		if (cajon < .45)
+			cajon += 0.001;
+		else
+			cajon2 = 1;
+	}
+	if (cajon2 == 1)
+	{
+		if (cajon > 0.0)
+			cajon -= 0.001;
+		else
+			cajon2 = 0;
+	}
 	if (x > 3.1415*2) x = 0;
 	x += 0.01;
 	movX = cos((x-3.1415)*.5)+1;

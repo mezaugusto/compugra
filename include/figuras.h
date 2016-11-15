@@ -37,5 +37,8 @@ class CFiguras
 	void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos);
 	void alacena(GLuint material, GLuint sillon, float rotalacena);
 	void door(float profundidad, float altura, float largo,float apertura,GLuint pared,GLuint pared2,GLuint puerta,GLuint puerta2);
-
+	void CFiguras::cama(float xMadera, float yMadera, float zMadera, GLuint base, GLuint blanket, GLuint almohada);
+	void CFiguras::cajon(GLfloat xCajon, GLfloat yCajon, GLfloat zCajon, GLuint text, GLuint manija);
+	void CFiguras::armario(GLfloat xcloset, GLfloat ycloset, GLfloat zcloset, GLuint text, GLuint manija, GLuint tubo);
+	void CFiguras::buro(GLfloat xburo, GLfloat yburo, GLfloat zburo, GLfloat mov_cajon, GLuint text, GLuint manija);
 };
