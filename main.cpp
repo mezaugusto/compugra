@@ -799,9 +799,9 @@ void cuatro(){
 		glTranslatef(0.15 + 4.53 + .90 + 4.27 - 0.075, 2.90 / 2, 1.90 + .15 + 2.95 + .075 + 10 + 0.075 + 0.075 + 3);
 
 		glPushMatrix();
-			glTranslatef(-0.2, -1.4, 0.625);
-			glRotatef(90, 0.0, 1.0, 0.0);
-			glScalef(0.002, 0.0035, 0.0025);
+			glTranslatef(-0.4, -1.4, 0.825);
+			glRotatef(270, 0.0, 1.0, 0.0);
+			glScalef(0.000825, 0.002, 0.0007);
 			tina.GLrender(NULL, _SHADED, 1.0);
 		glPopMatrix();
 		
