@@ -36,7 +36,7 @@ GLuint currenttv;
 GLuint currentsky;
 #define COLOR_DEFAULT 0.4
 bool hatemusic = true,backwards=false,ejes=false,valak=false;
-float movX = 0, x = 0, x2 = 0, x3 = 0, defaultcolor = COLOR_DEFAULT, distortion = 0, cajon = 0.0;
+float movX = 0, x = 0, x2 = 0, x3 = 0,x4=0,x5=0,x6=0,x7=0, defaultcolor = COLOR_DEFAULT, distortion = 0, cajon = 0.0;
 int cajon2=0;
 GLfloat m_amb1[] = { 0.5, 0.5, 0.5, 1.0 };				// Ambiental Light Values
 
@@ -764,7 +764,7 @@ void tres(){
 			glPushMatrix();
 				glTranslatef(-0.0325-0.075-0.075-4.155,0.0,-0.1);
 				glRotatef(180,0.0,1.0,0.0);
-				mi.door(0.155,2.9,0.95,-x,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
+				mi.door(0.155,2.9,0.95,-x4,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
 			glPopMatrix();
 		glPopMatrix();
 
@@ -809,11 +809,11 @@ void cuatro(){
 			glPushMatrix();
 				glTranslatef(-0.0325-0.075-0.075-4.155,0.0,-0.1);
 				glRotatef(180,0.0,1.0,0.0);
-				mi.door(0.155,2.9,0.95,-x,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
+				mi.door(0.155,2.9,0.95,-x5,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
 			glPopMatrix();
 			glPushMatrix();
 				glTranslatef(-0.0325-0.075-0.075-4.155,0.0,1.275);
-				mi.door(0.155,2.9,1.2,x,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
+				mi.door(0.155,2.9,1.2,x6,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
 			glPopMatrix();
 		glPopMatrix();
 
@@ -907,7 +907,7 @@ void seis(){
 			glPushMatrix();
 				glTranslatef(-0.6-1.65+0.130,0.0,0.0);
 				glRotatef(90,0.0,1.0,0.0);
-				mi.door(0.155,2.9,1.1,-x,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
+				mi.door(0.155,2.9,1.1,-x7,whitewall.GLindex, whitewall.GLindex,puerta.GLindex,puerta2.GLindex);
 			glPopMatrix();
 		glPopMatrix();
 
@@ -1021,7 +1021,7 @@ void nuevediez() {
 
 			glPushMatrix();
 				glTranslatef(3.63/2, 2.90 / 2, 1.90 + 2.95 + 9.93-0.075);
-				mi.pared(3.63, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);	
+				mi.pared(3.63, 2.90, 0.15, 4, 4, 2, whitebrick.GLindex, whitebrick.GLindex, whitebrick.GLindex, whitewall.GLindex);		
 				
 				glTranslatef(1.815+.45-0.025,1+0.225,0);
 				glPushMatrix();
@@ -1596,6 +1596,33 @@ void animacion()
 	}
 	else {
 		x3 -= x3>0 ? 0.2 : 0;
+	}
+	if (objCamera.mPos.x > 3 && objCamera.mPos.x<7 && objCamera.mPos.z>16 && objCamera.mPos.z < 17.5) {
+		x4 += x4>3.14 ? 0 : 0.2;
+	}
+	else {
+		x4 -= x4>0 ? 0.2 : 0;
+	}
+
+	if (objCamera.mPos.x > 3 && objCamera.mPos.x<7 && objCamera.mPos.z>17.5 && objCamera.mPos.z < 19.4) {
+		x5 += x5>3.14 ? 0 : 0.2;
+	}
+	else {
+		x5 -= x5>0 ? 0.2 : 0;
+	}
+
+	if (objCamera.mPos.x > 3 && objCamera.mPos.x<7 && objCamera.mPos.z>19.4 && objCamera.mPos.z < 22) {
+		x6 += x6>3.14 ? 0 : 0.2;
+	}
+	else {
+		x6 -= x6>0 ? 0.2 : 0;
+	}
+
+	if (objCamera.mPos.x > 5 && objCamera.mPos.x<7 && objCamera.mPos.z>22 && objCamera.mPos.z < 28) {
+		x7 += x7>3.14 ? 0 : 0.2;
+	}
+	else {
+		x7 -= x7>0 ? 0.2 : 0;
 	}
 	//Animacion Keyframes
 	if (play)
