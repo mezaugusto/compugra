@@ -437,9 +437,8 @@ void sink() {
 
 	glTranslatef(0, -.025, .0915);
 	mi.prisma(.04, .03, .04, metal.GLindex);
-
-
 }
+
 void uno() {
 	glPushMatrix();
 		glTranslatef(9.59, 1.45, 0.009375);
@@ -753,6 +752,12 @@ void tres(){
 		glTranslatef(0.15 + 4.53 + .90 + 4.27 - 0.075 , 2.90 / 2, 1.90 + .15 + 2.95 + .075 + 10 + 0.075);
 		
 		glPushMatrix();
+			glTranslatef(-2.075, -2.9 / 2, 2.8);
+			glRotatef(180, 0.0, 1.0, 0.0);
+			mi.escritorio(1.5,1.2,1.2, metal.GLindex, aluminio.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
 			glTranslatef(0, 0, 1.0875);
 			mi.pared(0.15, 2.90, 2.175, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
 			glPushMatrix();
@@ -1031,12 +1036,11 @@ void nuevediez() {
 				glTranslatef(0.075, 2.90 / 2, 1.90 + 2.95 + (9.93 / 2) - 0.075);
 				mi.pared(0.15, 2.90, 9.93 + 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
 			glPopMatrix();
+			
 
 			glPushMatrix();
 				glTranslatef(3.63/2, 2.90 / 2, 1.90 + 2.95 + 9.93-0.075);
-				mi.pared(3.63, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
-		
-				
+				mi.pared(3.63, 2.90, 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);	
 				
 				glTranslatef(1.815+.45-0.025,1+0.225,0);
 				glPushMatrix();
