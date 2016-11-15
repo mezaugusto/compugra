@@ -29,17 +29,6 @@ GLfloat g_lookupdown = 0.0f;    // Look Position In The Z-Axis (NEW)
 
 int font=(int)GLUT_BITMAP_HELVETICA_18;
 
-GLfloat Diffuse[]= { 0.7f, 0.7f, 0.7f, 1.0f };				// Diffuse Light Values
-GLfloat Diffuse2[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat Specular[] = { 1.0, 1.0, 1.0, 1.0 };				// Specular Light Values
-GLfloat Position[]= { 0.0f, 30.0f, 30.0f, 0.0f };			// Light Position
-GLfloat Position2[]= { 7.0f, 1.0f, -2.0f, 1.0f };			// Light Position
-
-GLfloat m_dif1[] = { 0.0f, 0.2f, 1.0f, 1.0f };				// Diffuse Light Values
-GLfloat m_spec1[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
-GLfloat m_amb1[] = {0.7, 0.7, 0.7, 1.0 };				// Ambiental Light Values
-GLfloat m_amb2[] = { 1.0, 1.0, 1.0, 1.0 };				// Ambiental Light Values
-
 CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2,tree3;
 CTexture sofa, puff, carpet, tv1, tv2,tv3,tv4,tv5,black,puerta,puerta2, cama2, almohada, blanket, aluminio;
 CFiguras mi;
@@ -47,10 +36,11 @@ CModel toilet;
 CModel tina;
 GLuint currenttv;
 GLuint currentsky;
-#define COLOR_DEFAULT 0.35
+#define COLOR_DEFAULT 0.4
 bool hatemusic = true,backwards=false,ejes=false,valak=false;
 float movX = 0, x = 0, x2 = 0, x3 = 0, defaultcolor = COLOR_DEFAULT, distortion = 0, cajon = 0.0;
 int cajon2=0;
+GLfloat m_amb1[] = { 0.5, 0.5, 0.5, 1.0 };				// Ambiental Light Values
 
 
 #define MAX_FRAMES 13 //cantidad de cuadros clave que se pueden guardar
@@ -65,9 +55,6 @@ float door = 0.0;
 //Figuras de 3D Studio
 CModel kit;
 CModel llanta;
-CModel casita;
-CModel oldhouse;
-CModel carro;
 
 //Animación del coche
 float angRot = 0.0;
@@ -108,27 +95,20 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	glEnable(GL_TEXTURE_2D);
 
 	glShadeModel(GL_SMOOTH);
-	//Para construir la figura comentar esto
-	glLightfv(GL_LIGHT0, GL_POSITION, Position);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, Diffuse);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, m_amb1);
-	//glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, Position2);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	//glEnable(GL_LIGHT1);
 
 	glEnable(GL_COLOR_MATERIAL);
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
-	//glPolygonMode(GL_BACK, GL_LINE);
 
 	glClearDepth(1.0f);									// Configuramos Depth Buffer
 	glEnable(GL_DEPTH_TEST);							// Habilitamos Depth Testing
 	glDepthFunc(GL_LEQUAL);								// Tipo de Depth Testing a realizar
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
+	glLightfv(GL_LIGHT0, GL_AMBIENT, m_amb1);
+	glEnable(GL_LIGHT0);
 	glEnable(GL_AUTO_NORMAL);
 	glEnable(GL_NORMALIZE);
+	glDisable(GL_LIGHTING);
+
+	
 
 	//NEW Iniciar variables de KeyFrames
 	for (int i = 0; i<MAX_FRAMES; i++)
@@ -167,7 +147,6 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 		FrameIndex++;
 	//Cuadro 7
 		KeyFrame[FrameIndex].tras_sillas = 0;
-		FrameIndex++;
 		FrameIndex++;
 		FrameIndex++;
 
@@ -384,8 +363,8 @@ void car() {
 
 			glTranslatef(movKitX, 4, movKitZ);
 			glRotatef(rotKit, 0, 1, 0);
-
-			kit.GLrender(NULL, _SHADED, 1.0); //Dibujamos la carroceria
+			glEnable(GL_LIGHTING);
+			kit.GLrender(NULL, _SHADED, 0.0); //Dibujamos la carroceria
 
 			glPushMatrix(); //llanta frontal der
 				glTranslatef(-6, -1, 7.5);
@@ -412,7 +391,7 @@ void car() {
 				glRotatef(rotTires, 1, 0, 0);
 				llanta.GLrender(NULL, _SHADED, 1.0);
 			glPopMatrix();
-
+			glDisable(GL_LIGHTING);
 			glEnable(GL_COLOR_MATERIAL);
 		glPopMatrix();
 		glPopMatrix();
@@ -465,10 +444,11 @@ void uno() {
 		mi.door(0.075, 2.9, 0.6475, x2, whitewall.GLindex,whitewall.GLindex, puerta.GLindex,puerta2.GLindex);
 		glTranslatef(-0.35, 0, -0.39875);
 		glPushMatrix();
+			glTranslatef(0,-1.20,0.075);
 			glRotatef(90,0,1,0);
 			mi.door(0.075, 2.9, .7, -x2, whitewall.GLindex,whitebrick.GLindex, puerta.GLindex, puerta2.GLindex);
 		glPopMatrix();
-		glTranslatef(-.467, 0, 0);
+		glTranslatef(-.467, -1.20, 0.075);
 		mi.pared(0.15, 2.9, 0.075, 0.2, 0.1, 2, 0, 0, whitewall.GLindex, whitebrick.GLindex);//Marco de la puerta*/
 	glPopMatrix();
 	glPushMatrix();
@@ -720,7 +700,11 @@ void uno() {
 		glTranslatef(4.53+1.85,0.5,0.4);
 		glRotatef(90, 0, 1, 0);
 		glScalef(0.0005, 0.0011, 0.0008);
+		glDisable(GL_COLOR_MATERIAL);
+		glEnable(GL_LIGHTING);
 		toilet.GLrender(NULL, _SHADED, 1.0);
+		glDisable(GL_LIGHTING);
+		glEnable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -1175,11 +1159,9 @@ void nuevediez() {
 		glPopMatrix();
 		glPushMatrix();
 			glTranslatef(0.15, 1.5, 10);
-			glDisable(GL_LIGHTING);
 			glColor3f(0.7, 0.7, 0.7);
 			mi.tv(metal.GLindex, currenttv, distortion);
 			glColor3f(defaultcolor, defaultcolor, defaultcolor);
-			glEnable(GL_LIGHTING);
 		glPopMatrix();
 	glPopMatrix();
 }
@@ -1231,16 +1213,6 @@ void doce(){
 	glPushMatrix();
 		glTranslatef(7.64, -0.0375, 9.225-.075-0.0375);//pasto12
 		mi.techo(4.27+.15, 0.075, 8+0.075, 3, 3, 2, grass.GLindex);
-		glPushMatrix();
-			glTranslatef(0, -0.5, 1.5);
-			glScalef(0.2,0.2,0.2);
-			mi.arbol(16,6.0,tree2.GLindex);	
-		glPopMatrix();
-		glPushMatrix();
-			glTranslatef(0, -0.5, -1.5);
-			glScalef(0.2,0.2,0.2);
-			mi.arbol(16,6.0,tree2.GLindex);	
-		glPopMatrix();
 		glPushMatrix();
 		glTranslated(0.0,2.90+0.19,0.0);
 		glRotatef(90,0.0,0.0,1.0);
@@ -1322,7 +1294,7 @@ void catorce() {
 	glPopMatrix();
 
 
-	glPushMatrix();
+	/*glPushMatrix();
 	glTranslatef((4.53 / 4)-0.2 , 2.9/2, 15.186);
 	glRotatef(90,0.0,1.0,0.0);
 	mi.ventana_solid_repeat((4.225/2)*0.75,2,2.9,0.075,metal.GLindex);
@@ -1340,7 +1312,7 @@ void catorce() {
 			glTranslatef(0.078,0.0,-((4.225/2)*0.75)/2);
 			mi.ventana_solid_repeat(((4.225/2)*0.75)/2,1,2.9,0.075,metal.GLindex);
 		glPopMatrix();
-	glPopMatrix();
+	glPopMatrix();*/
 
 	glPushMatrix();
 	glTranslatef(0.075, 1.45, 15.225 + 1.675);
@@ -1383,7 +1355,6 @@ void uno_ventanas(){
 	glPopMatrix();
 
 	glPushMatrix();
-		glDisable(GL_LIGHTING);
 		glEnable(GL_BLEND);     // Turn Blending On
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glPushMatrix();//llave cocina
@@ -1391,7 +1362,6 @@ void uno_ventanas(){
 		mi.agua(.02,.6 , .02,0.5,0.1,x,1,water.GLindex);
 		glPopMatrix();
 		glDisable(GL_BLEND);        // Turn Blending Off
-		glEnable(GL_LIGHTING);
 	glPopMatrix();
 }
 void dos_ventanas(){}
@@ -1496,7 +1466,6 @@ void nuevediez_ventanas(){
 	glPopMatrix();
 }
 void once_ventanas(){
-	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);     // Turn Blending On
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 		glPushMatrix();//Alberca
@@ -1504,17 +1473,8 @@ void once_ventanas(){
 			mi.techomueve(4-0.15-.005, 2, 15.225-0.15-.01, 4-.005,movX, 15,0, 1, water.GLindex);
 		glPopMatrix();
 	glDisable(GL_BLEND);        // Turn Blending Off
-	glEnable(GL_LIGHTING);
 }
 void doce_ventanas(){
-	glPushMatrix();
-		glTranslatef(7.64, -0.0375, 9.225-.075-0.0375);
-		glPushMatrix();
-		glTranslated(0.0,2.90+0.19,0.0);
-		glRotatef(90,0.0,0.0,1.0);
-		mi.ventana_blend_repeat(8+0.075,1,4.27+.15,0.3,window.GLindex);
-		glPopMatrix();
-	glPopMatrix();
 }
 void trece_ventanas(){
 	glPushMatrix();
@@ -1534,25 +1494,25 @@ void trece_ventanas(){
 	glPopMatrix();
 }
 void catorce_ventanas(){
-	glPushMatrix();
+	/*glPushMatrix();
 	glTranslatef((4.53 / 4)-0.2 , 2.9/2, 15.186);
 	glRotatef(90,0.0,1.0,0.0);
-	mi.ventana_blend_repeat((4.225/2)*0.75,2,2.9,0.075,window.GLindex);
+	//mi.ventana_blend_repeat((4.225/2)*0.75,2,2.9,0.075,window.GLindex);
 		glPushMatrix();
 			glTranslatef(0.078,0.0,((4.225/2)*0.75)/2);
-			mi.ventana_blend_repeat(((4.225/2)*0.75)/2,1,2.9,0.075,window.GLindex);
+		//	mi.ventana_blend_repeat(((4.225/2)*0.75)/2,1,2.9,0.075,window.GLindex);
 		glPopMatrix();
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef((4.53*3 / 4)+0.2, 2.9/2, 15.186);
 	glRotatef(90,0.0,1.0,0.0);
-	mi.ventana_blend_repeat((4.225/2)*0.75,2,2.9,0.075,window.GLindex);
+	//mi.ventana_blend_repeat((4.225/2)*0.75,2,2.9,0.075,window.GLindex);
 		glPushMatrix();
 			glTranslatef(0.078,0.0,-((4.225/2)*0.75)/2);
-			mi.ventana_blend_repeat(((4.225/2)*0.75)/2,1,2.9,0.075,window.GLindex);
+			//mi.ventana_blend_repeat(((4.225/2)*0.75)/2,1,2.9,0.075,window.GLindex);
 		glPopMatrix();
-	glPopMatrix();
+	glPopMatrix(); Se sobrepone a la pared*/
 
 }
 void quince_ventanas(){}
@@ -1578,12 +1538,10 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 		
 		glPushMatrix(); //Creamos cielo
-			glDisable(GL_LIGHTING);
 			glTranslatef(10,30-0.075-2,11);
 			glColor3f(1, 1, 1);
 			mi.skybox(40.0, 60.0, 40.0,currentsky,blue.GLindex);
 			glColor3f(defaultcolor, defaultcolor, defaultcolor);
-			glEnable(GL_LIGHTING);
 		glPopMatrix();
 		glColor3f(defaultcolor, defaultcolor, defaultcolor);
 		if(ejes){
@@ -1653,23 +1611,19 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				}
 				float angulo = atan(dz / dx) * 180 / 3.1415;
 				glRotatef(angulo + 90, 0, 1, 0);
-				glDisable(GL_LIGHTING);
 				glEnable(GL_ALPHA_TEST);     // Turn Blending On
 				glAlphaFunc(GL_GREATER, 0.1);
 				glColor3d(1.0, 1.0, 1.0);
 				mi.prisma(1, 1.5, 0, tv5.GLindex);
 				glColor3f(defaultcolor, defaultcolor,defaultcolor);
 				glDisable(GL_ALPHA_TEST);        // Turn Blending Off
-				glEnable(GL_LIGHTING);
 			glPopMatrix();
 		}
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
-	glDisable(GL_LIGHTING);
 		glColor3f(1.0, 0.0, 0.0);
 		pintaTexto(-12, 12.0, -14.0, (void *)font, "Proyecto Final");
 		glColor3f(1.0, 1.0, 1.0);
-	glEnable(GL_LIGHTING);
 	glEnable(GL_TEXTURE_2D);
 	glutSwapBuffers ( );
 

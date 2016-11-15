@@ -294,7 +294,6 @@ void CFiguras::techomueve(float largo, float altura, float profundidad, float ve
 void CFiguras::arbol(float altura,float radio,GLuint arbol)
 {
 	glPushMatrix();
-	glDisable(GL_LIGHTING);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.1);
 	glBindTexture(GL_TEXTURE_2D, arbol);
@@ -340,7 +339,6 @@ void CFiguras::arbol(float altura,float radio,GLuint arbol)
 	glTexCoord2f(0.0f, 1.0f); glVertex3f(-radio, altura, 0.0);
 	glEnd();
 	glDisable(GL_ALPHA_TEST);
-	glEnable(GL_LIGHTING);
 
 	glPopMatrix();
 }
@@ -982,12 +980,10 @@ void CFiguras::ventana_solid(float altura, float largo, float profundidad, GLuin
 }
 
 void CFiguras::ventana_blend(float altura, float largo, float profundidad, GLuint window) {
-	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);     // Turn Blending On
 	glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_ALPHA);
 	CFiguras::pared(profundidad, altura - 2 * profundidad-.001, largo - 2 * profundidad-.001, 0, 1, 1, window);
 	glDisable(GL_BLEND);        // Turn Blending Off
-	glEnable(GL_LIGHTING);
 }
 
 void CFiguras::ventana_solid_repeat(float longitud, float ventanas,float altura, float profundidad, GLuint frame) {
