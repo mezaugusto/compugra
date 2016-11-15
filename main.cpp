@@ -28,7 +28,7 @@ CCamera objCamera;
 GLfloat g_lookupdown = 0.0f;    // Look Position In The Z-Axis (NEW) 
 
 CTexture t_cielo,whitebrick,whitewall,greyroof,piso,pool,grass,road,blue,water,tile,tree,window,wood2,wood1,metal,leather,tree2,tree3;
-CTexture sofa, puff, carpet, tv1, tv2,tv3,tv4,tv5,black,puerta,puerta2, cama2, almohada, blanket, aluminio;
+CTexture sofa, puff, carpet, tv1, tv2,tv3,tv4,tv5,black,puerta,puerta2, cama2, almohada, blanket, aluminio, teclado, pantalla;
 CFiguras mi;
 CModel toilet;
 CModel tina;
@@ -291,6 +291,14 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	aluminio.LoadBMP("textures/aluminio.bmp");
 	aluminio.BuildGLTexture();
 	aluminio.ReleaseImage();
+
+	teclado.LoadBMP("textures/teclado.bmp");
+	teclado.BuildGLTexture();
+	teclado.ReleaseImage();
+
+	pantalla.LoadBMP("textures/pantalla.bmp");
+	pantalla.BuildGLTexture();
+	pantalla.ReleaseImage();
 
 	kit._3dsLoad("models/kitt.3ds");
 	llanta._3dsLoad("models/k_rueda.3ds");
@@ -740,6 +748,16 @@ void tres(){
 		glPopMatrix();
 
 		glPushMatrix();
+			glTranslatef(-1.4, -0.53, 2.85);
+			glRotatef(270, 0.0, 1.0, 0.0);
+			mi.lampara(1.0,1.5,1.0,aluminio.GLindex, puff.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(-2.0, -0.55, 2.85);
+		glPopMatrix();
+
+		glPushMatrix();
 			glTranslatef(0, 0, 1.0875);
 			mi.pared(0.15, 2.90, 2.175, 0, 4, 2, whitebrick.GLindex, whitewall.GLindex, whitewall.GLindex, whitewall.GLindex);
 			glPushMatrix();
@@ -847,6 +865,11 @@ void cinco(){
 				glTranslatef(-0.45, -2.90/2, 3.4);
 				glRotatef(180, 0.0, 1.0, 0.0);
 				mi.buro(1.0, 1.5, 1.0, cajon, wood2.GLindex, aluminio.GLindex);
+				glPushMatrix();
+					glTranslatef(0.0, 0.80, 0.0);
+					glRotatef(130, 0.0, 1.0, 0.0);
+					mi.lampara(1.5,2.0,1.5,aluminio.GLindex, puff.GLindex);
+				glPopMatrix();
 		glPopMatrix();
 		
 		glPushMatrix();

@@ -42,4 +42,6 @@ class CFiguras
 	void armario(GLfloat xcloset, GLfloat ycloset, GLfloat zcloset, GLuint text, GLuint manija, GLuint tubo);
 	void buro(GLfloat xburo, GLfloat yburo, GLfloat zburo, GLfloat mov_cajon, GLuint text, GLuint manija);
 	void escritorio(GLfloat xescritorio, GLfloat yescritorio, GLfloat zescritorio, GLfloat text, GLuint tubos);
+	void lampara(GLfloat xlampara, GLfloat ylampara, GLfloat zlampara, GLfloat text1, GLuint text2);
+	void Laptop(GLfloat xLaptop, GLfloat yLaptop, GLfloat zLaptop, GLfloat text, GLfloat teclado, GLfloat pantalla);
 };

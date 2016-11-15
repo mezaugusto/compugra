@@ -1513,3 +1513,48 @@ void CFiguras::escritorio(GLfloat xescritorio, GLfloat yescritorio, GLfloat zesc
 		glPopMatrix();
 	glPopMatrix();
 }
+void CFiguras::lampara(GLfloat xlampara, GLfloat ylampara, GLfloat zlampara, GLfloat text1, GLuint text2) {
+	glPushMatrix();
+	glScalef(xlampara, ylampara, zlampara);
+		glPushMatrix();
+			glRotatef(180, 0.0, 0.0, 1.0);
+			cilindro(0.04,0.03,50,text1);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.0,-0.01,0.0);
+			glRotatef(20, 0.0, 0.0, 1.0);
+			cilindro(0.005,0.20,50, text1);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-0.068,0.18,0.0);
+			glRotatef(80, 0.0, 0.0, 1.0);
+			cilindro(0.005,0.1,50, text1);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-0.16,0.145,0.0);
+			glRotatef(0, 0.0, 0.0, 1.0);
+			cono(0.05,0.05,30, text2);
+		glPopMatrix();
+	glPopMatrix();
+}
+void CFiguras::Laptop(GLfloat xLaptop, GLfloat yLaptop, GLfloat zLaptop, GLfloat text, GLfloat teclado, GLfloat pantalla)
+{
+		glPushMatrix();		
+		glScalef(xLaptop, yLaptop, zLaptop);
+			glPushMatrix();
+				glRotatef(90, 0.0, 1.0, 0.0);
+				glTranslatef(0.0, 0.01, 0.0);
+				CFiguras::prisma(0.25, 0.02, 0.38, text);
+				glTranslatef(0.0, 0.01, 0.0);
+				CFiguras::prisma(0.25, 0.0001, 0.38, teclado);
+			glPopMatrix();
+
+			glPushMatrix();		
+				glTranslatef(0.0, 0.21, 0.12);
+				CFiguras::prisma(0.38, 0.40, 0.02, text);
+				glTranslatef(0.0, 0.0, -0.01);
+				CFiguras::prisma(0.38, 0.40, 0.0001, pantalla);
+			glPopMatrix();
+
+		glPopMatrix();	
+}
