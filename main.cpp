@@ -35,8 +35,9 @@ CModel tina;
 GLuint currenttv;
 GLuint currentsky;
 #define COLOR_DEFAULT 0.4
-bool hatemusic = true,backwards=false,ejes=false,valak=false;
-float movX = 0, x = 0, x2 = 0, x3 = 0,x4=0,x5=0,x6=0,x7=0, defaultcolor = COLOR_DEFAULT, distortion = 0, cajon = 0.0;
+bool hatemusic = false,backwards=false,ejes=false,valak=false,beginpelota=false,reiniciar=false;
+float movX = 0, x = 0, x2 = 0, x3 = 0, x4 = 0, x5 = 0, x6 = 0, x7 = 0, esferaX = 0, esferaY = 0, posEsferaX = 0, Vinicial = 7,angulo=70*3.1415/180,t=0;
+float defaultcolor = COLOR_DEFAULT, distortion = 0, cajon = 0.0, limiteY = 0, inicialEsfera = 0;
 int cajon2=0;
 GLfloat m_amb1[] = { 0.5, 0.5, 0.5, 1.0 };				// Ambiental Light Values
 
@@ -280,7 +281,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	cama2.BuildGLTexture();
 	cama2.ReleaseImage();
 
-	almohada.LoadBMP("textures/almohada2.bmp");
+	almohada.LoadBMP("textures/almohada.bmp");
 	almohada.BuildGLTexture();
 	almohada.ReleaseImage();
 
@@ -498,7 +499,7 @@ void uno() {
 		glTranslatef(7.725+0.855+.2, 0, .15);
 		mi.prisma(.55,.8 , .4, metal.GLindex);
 
-		glTranslatef(0, .8, 0);
+		glTranslatef(0, 1.0, 0);
 		mi.prisma(.55, 1.15, .4, whitewall.GLindex);
 
 		glTranslatef(0, .1025-.075, -.125-.075-.002-.002);
@@ -803,11 +804,38 @@ void cuatro(){
 
 		glPushMatrix();
 			glTranslatef(-0.4, -1.4, 0.825);
+			glPushMatrix();
+				glTranslatef(-2, 0.5, 0.5);
+				glRotatef(90, 0, 1, 0);
+				glScalef(0.0005, 0.0011, 0.0008);
+				glDisable(GL_COLOR_MATERIAL);
+				glEnable(GL_LIGHTING);
+				toilet.GLrender(NULL, _SHADED, 1.0);
+				glDisable(GL_LIGHTING);
+				glEnable(GL_COLOR_MATERIAL);
+			glPopMatrix();
+			//sink
+			glPushMatrix();
+				glTranslatef(-1, 0.45, 0.4);
+				glScalef(.4225, .9, 0.64);
+				mi.alacena(wood1.GLindex, greyroof.GLindex, 0);
+
+				glTranslatef(0, 0.55, .5);
+				glPushMatrix();
+				glRotatef(180, 0, 1, 0);
+				sink();
+				glPopMatrix();
+
+				glTranslatef(.03125 - .002 - .002 - .002 - .002 - .002, -.05 + .002, -.25);
+				mi.cilindro(.35, .0075, 26, metal.GLindex);
+			glPopMatrix();
 			glRotatef(270, 0.0, 1.0, 0.0);
 			glScalef(0.000825, 0.002, 0.0007);
+			glDisable(GL_COLOR_MATERIAL);
 			glEnable(GL_LIGHTING);
 			tina.GLrender(NULL, _SHADED, 1.0);
 			glDisable(GL_LIGHTING);
+			glEnable(GL_COLOR_MATERIAL);
 		glPopMatrix();
 		
 		glPushMatrix();
@@ -1234,6 +1262,12 @@ void once(){
 		glTranslatef(-5,0,11);
 		mi.techo(10, 0.075, 40, 1, 2, 0.1, road.GLindex);
 	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(esferaX+10, esferaY+3.5, 8);
+		glColor3f(1-defaultcolor, 0, 0);
+		mi.esfera(0.3, 10, 10, 0);
+		glColor3f(defaultcolor, defaultcolor, defaultcolor);
+	glPopMatrix();
 }
 void doce(){
 	
@@ -1506,7 +1540,6 @@ void display ( void )   // Creamos la funcion donde se dibuja
 	
 	glLoadIdentity();
 
-
 	
 	glPushMatrix();
 
@@ -1617,6 +1650,7 @@ void animacion()
 	if (x > 3.1415*2) x = 0;
 	x += 0.01;
 	movX = cos((x-3.1415)*.5)+1;
+	/*	Geocercas*/
 	if (objCamera.mPos.x > 1 && objCamera.mPos.x<7 && objCamera.mPos.z>-4 && objCamera.mPos.z < 5) {
 		x2 += x2>3.14?0 : 0.2;
 	}
@@ -1629,25 +1663,48 @@ void animacion()
 	else {
 		x3 -= x3>0 ? 0.2 : 0;
 	}
-	if (objCamera.mPos.x > 3 && objCamera.mPos.x<7 && objCamera.mPos.z>16 && objCamera.mPos.z < 17.5) {
+	if (objCamera.mPos.x > 2 && objCamera.mPos.x<9 && objCamera.mPos.z>15 && objCamera.mPos.z < 18.5) {
 		x4 += x4>3.14 ? 0 : 0.2;
 	}
 	else {
 		x4 -= x4>0 ? 0.2 : 0;
 	}
 
-	if (objCamera.mPos.x > 3 && objCamera.mPos.x<7 && objCamera.mPos.z>17.5 && objCamera.mPos.z < 19.4) {
+	if (objCamera.mPos.x > 2 && objCamera.mPos.x<9 && objCamera.mPos.z>16.5 && objCamera.mPos.z < 22) {
 		x5 += x5>3.14 ? 0 : 0.2;
 	}
 	else {
 		x5 -= x5>0 ? 0.2 : 0;
 	}
 
-	if (objCamera.mPos.x > 3 && objCamera.mPos.x<7 && objCamera.mPos.z>19.4 && objCamera.mPos.z < 22) {
+	if (objCamera.mPos.x > 2 && objCamera.mPos.x<9 && objCamera.mPos.z>18.4 && objCamera.mPos.z < 22) {
 		x6 += x6>3.14 ? 0 : 0.2;
 	}
 	else {
 		x6 -= x6>0 ? 0.2 : 0;
+	}
+	if ((beginpelota && esferaY>-3.5) || (beginpelota && reiniciar)) {
+		if (reiniciar) {
+			esferaX = 0;
+			Vinicial = 7;
+			esferaY = 0;
+			posEsferaX = 0;
+			limiteY = 0;
+			reiniciar = false;
+		}
+		t += 0.01;
+		esferaX = posEsferaX + Vinicial*t*cos(angulo);
+		esferaY = Vinicial*t*sin(angulo) - 0.5*9.81*t*t;
+		if (esferaY < limiteY) {
+			t = 0;
+			limiteY = -3.5;
+			posEsferaX = esferaX;
+			Vinicial *= 0.8;
+		}
+	}
+	else if(beginpelota) {
+		if (inicialEsfera == 0)inicialEsfera = movX;
+		esferaX = movX+posEsferaX-inicialEsfera;
 	}
 
 	if (objCamera.mPos.x > 5 && objCamera.mPos.x<7 && objCamera.mPos.z>22 && objCamera.mPos.z < 28) {
@@ -1784,6 +1841,11 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 		case 'w':   //Movimientos de camara
 		case 'W':
 			objCamera.Move_Camera( CAMERASPEED+0.2 );
+			break;
+		case 'n':   //Movimientos de camara
+		case 'N':
+			beginpelota^=true;
+			if (esferaY < -3.5)	reiniciar = true;
 			break;
 
 		case 's':
