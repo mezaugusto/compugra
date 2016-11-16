@@ -15,37 +15,37 @@ Checklist del proyecto
 - [X] Alberca
 - [x] Techos
 - [X] Alrededores c/pasto y carretera
-- [ ] Muebles
+- [X] Muebles
     - [X] Estar-comedor (9-10)
         
     - [X] Cocina (1)
      
-    - [ ] Baños (6 y 7)
-        - [ ] tina
-        - [ ] espejo
-        - [ ] toalla
-        - [ ] bote 
+    - [X] Baños (6 y 7)
+        - [X] tina
+        - [X] espejo
+        - [X] toalla
+        - [X] bote 
         
-    - [ ] Escritorio (3)
-        - [ ] mesa de escritorio
-        - [ ] 2 asientos de escritorio
-        - [ ] un sofá
-        - [ ] librero y libros
-        - [ ] lámpara
-        - [ ] laptop
+    - [X] Escritorio (3)
+        - [X] mesa de escritorio
+        - [X] 2 asientos de escritorio
+        - [X] un sofá
+        - [X] librero y libros
+        - [X] lámpara
+        - [X] laptop
         - [x] plantas
         
-    - [ ] Dormitorio (5)
-        - [ ] cama con colcha y almohadas
-        - [ ] sofá
-        - [ ] 2 burós y lamparas
-        - [ ] mueble con espejo
-        - [ ] vestidor(6)
+    - [X] Dormitorio (5)
+        - [X] cama con colcha y almohadas
+        - [X] sofá
+        - [X] 2 burós y lamparas
+        - [X] mueble con espejo
+        - [X] vestidor(6)
     - [X] Garage (2) 
         
 - [X] Jardines
-- [ ] Animaciones
+- [X] Animaciones
 	- [X] 2 Animación normal(Agua y ventanas)
-	- [ ] 1 Animaciones normales
+	- [X] 1 Animaciones normales
 	- [x] 1 Animación por keyframe
-- [ ] Manual de Uso
+- [X] Manual de Uso
