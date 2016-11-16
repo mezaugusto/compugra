@@ -352,7 +352,7 @@ void chairkitch() {
 	mi.cilindro(.2, .025, 24, greyroof.GLindex);
 	glTranslatef(0,.0125-0.00625,0);
 	mi.cilindro(.025, .7, 16, greyroof.GLindex);
-	glTranslatef(0, .7+.025, 0);
+	glTranslatef(0, .725, 0);
 	mi.prisma(.3,0.075, .4, metal.GLindex);
 	glTranslatef(0, .0375, 0);
 	mi.prisma(.3, .0375, .4, puff.GLindex);
@@ -403,6 +403,8 @@ void car() {
 		glPopMatrix();
 
 }
+
+
 
 void sink() {
 	
@@ -755,6 +757,7 @@ void tres(){
 
 		glPushMatrix();
 			glTranslatef(-2.0, -0.55, 2.85);
+			mi.Laptop(1.0,1.2,1.0,aluminio.GLindex,teclado.GLindex, pantalla.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();
@@ -948,7 +951,14 @@ void siete() {
 			glTranslatef(-.075 - 2, 2.90 / 2 + .15, .15 + 0.875);
 			mi.techo(4.3, 0.30, 1.775, 5, 5, 1, greyroof.GLindex);
 		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-1.5, -1.45, 1.50);
+			glRotatef(180, 0.0, 1.0, 0.0);
+			mi.ropero(1.0,1.0,1.0,aluminio.GLindex);
+		glPopMatrix();
 	glPopMatrix();
+
+
 	
 	glPushMatrix();
 		glTranslatef(7.64, -0.0375, 15.225 + ((24.78) / 4) - 0.0750 + 0.04);	//Piso 5,6,7
@@ -1039,8 +1049,7 @@ void nuevediez() {
 			glPushMatrix();
 				glTranslatef(0.075, 2.90 / 2, 1.90 + 2.95 + (9.93 / 2) - 0.075);
 				mi.pared(0.15, 2.90, 9.93 + 0.15, 0, 4, 2, whitewall.GLindex, whitebrick.GLindex, 0, 0);
-			glPopMatrix();
-			
+			glPopMatrix();			
 
 			glPushMatrix();
 				glTranslatef(3.63/2, 2.90 / 2, 1.90 + 2.95 + 9.93-0.075);
